@@ -21,7 +21,9 @@ class IndexController extends Controller
         
         $this->assets['styles'][] = $this->tag->link(['css/highlight/tomorrow.min.css?v=8.3']);
         $this->assets['scripts'][] = $this->tag->script(['js/plugins/highlight.min.js?v=8.3']);
-        $this->assets['scripts'][] = $this->tag->script(['content' => '$(document).ready(function() { $("pre code").each(function(i, e) {hljs.highlightBlock(e)}); });']);
+        $this->assets['scripts'][] = $this->tag->script([
+            'content' => '$(document).ready(function() {$("pre code").each(function(i, e) {hljs.highlightBlock(e)});});'
+        ]);
     }
 
     /**

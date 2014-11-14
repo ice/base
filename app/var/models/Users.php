@@ -34,7 +34,7 @@ class Users extends AuthUsers
             'regex' => [
                 'pattern' => '/[a-z][a-z0-9_-]{3,}/i',
             ],
-            'notIn' => ['about', 'admin', 'blog', 'contact', 'help', 'index', 'info', 'lang', 'user', 'privacy', 'search', 'terms'],
+            'notIn' => ['about', 'admin', 'contact', 'help', 'index', 'info', 'lang', 'user', 'privacy', 'terms'],
             'unique' => [
                 'from' => 'users'
             ]
@@ -134,7 +134,12 @@ class Users extends AuthUsers
         if ($this->create($_POST, $extra) === true) {
             $hash = md5($this->id . $this->email . $this->password . $this->getDi()->getConfig()->auth->hash_key);
             $email = new Email();
-            $email->prepare(__('Activation'), $this->getDi()->getRequest()->getPost('email'), 'email/activation', ['username' => $this->getDi()->getRequest()->getPost('username'), 'hash' => $hash]);
+            $email->prepare(
+                __('Activation'),
+                $this->getDi()->getRequest()->getPost('email'),
+                'email/activation',
+                ['username' => $this->getDi()->getRequest()->getPost('username'), 'hash' => $hash]
+            );
 
             if ($email->Send() === true) {
                 unset($_POST);
