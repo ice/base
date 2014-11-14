@@ -1,0 +1,7 @@
+<div style="font: 13px/1.4 Helvetica, Arial; color: #333">
+    <h1 style="font-size: 15px; line-height: 20px">{{ link_to([this.url.getStatic(), this.config.app.name, 'local': false]) }}</h1>
+    <hr style="border: 0; margin: 0; border-bottom: 1px solid #ddd" />
+    {{ this.getContent() }}
+    <hr style="border: 0; margin: 0; border-bottom: 1px solid #ccc" />
+    <p style="color: #999">&copy; {{ this.config.app.name }} {{ date('Y') }}</p>
+</div>

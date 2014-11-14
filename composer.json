@@ -1,0 +1,23 @@
+{
+    "name": "iceframework/base",
+    "description": "The base application written in Ice framework",
+    "keywords": ["framework", "ice", "base"],
+    "homepage": "http://www.iceframework.org",
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Ice Team",
+            "email": "info@iceframework.org"
+        }
+    ],
+    "require": {
+        "php": ">=5.4",
+        "ext-ice": "~1.0",
+        "phpmailer/phpmailer": "*",
+        "erusev/parsedown-extra": "*"
+    },
+    "require-dev": {
+        "squizlabs/php_codesniffer": "*",
+        "phpunit/phpunit": "*"
+    }
+}

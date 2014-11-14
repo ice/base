@@ -1,0 +1,2 @@
+<h2>{{ __('Admin panel') }}</h2><hr />
+<p>{{ __('Use this application as a way to quick start any new project.') }}</p>

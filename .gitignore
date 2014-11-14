@@ -1,0 +1,10 @@
+.*
+*~
+!.gitignore
+!.travis.yml
+!.htaccess
+/nbproject/
+*.sublime-project
+*.sublime-workspace
+/vendor/
+/composer.lock

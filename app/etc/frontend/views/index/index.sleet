@@ -1,0 +1,3 @@
+<h2>{{ __('The base application written in Ice framework') }}</h2><hr />
+<p>{{ __('Use this application as a way to quick start any new project.') }}</p>
+<p>{{ link_to(['doc', __('Documentation')]) }}</p>

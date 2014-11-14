@@ -1,0 +1,32 @@
+{{ get_doc_type() }}
+<html lang="{{ substr(this.i18n.lang(), 0, 2) }}">
+    <head>
+        <meta charset="utf-8">
+        <title>{{ get_title() }}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="{{ siteDesc }}">
+        {% if assets['scripts'] %}
+            {% foreach assets['styles'] as style %}
+                {{ style }}
+            {% endforeach %}
+        {% endif %}
+        {{ link(['favicon.ico', "type": "image/x-icon", "rel": "icon"]) }}
+    </head>
+    <body>
+        <div id="main">
+            {{ header|isset ? partial(header) : '' }}
+            <div class="container">
+                {{ content() }}
+            </div>
+        </div>
+        {{ partial("footer") }}
+        {% if isset(assets['scripts']) %}
+            {% foreach assets['scripts'] as script %}
+                {{ script }}
+            {% endforeach %}
+        {% endif %}
+        <!--[if lt IE 9]>
+            {{ script(['js/respond.min.js?v=1.4.2']) }}
+        <![endif]-->
+    </body>
+</html>
