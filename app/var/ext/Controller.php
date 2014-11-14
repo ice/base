@@ -55,8 +55,10 @@ class Controller extends \Ice\Mvc\Controller
      */
     public function initialize()
     {
+        $lifetime = $this->config->session->lifetime;
+
         // Check the session lifetime
-        if ($this->session->has('last_active') && time() - $this->session->get('last_active') > $this->config->session->lifetime) {
+        if ($this->session->has('last_active') && time() - $this->session->get('last_active') > $lifetime) {
             $this->session->destroy();
         }
 

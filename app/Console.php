@@ -109,7 +109,11 @@ class Console extends \Ice\Cli\Console
         $this->di->i18n = new I18n($config->i18n->toArray());
 
         $this->di->set('db', function () use ($config) {
-            $driver = new Db\Driver\Pdo('mysql:host=' . $config->database->host . ';port=3306;dbname=' . $config->database->dbname, $config->database->username, $config->database->password);
+            $driver = new Db\Driver\Pdo(
+                'mysql:host=' . $config->database->host . ';port=3306;dbname=' . $config->database->dbname,
+                $config->database->username,
+                $config->database->password
+            );
             $driver->getClient()->setAttribute(\Pdo::ATTR_ERRMODE, \Pdo::ERRMODE_EXCEPTION);
 
             return new Db($driver);

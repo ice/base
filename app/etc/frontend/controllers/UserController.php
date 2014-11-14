@@ -26,20 +26,31 @@ class UserController extends IndexController
         $params = $this->router->getParams();
 
         if (isset($params['param']) && isset($params['param2'])) {
-            $user = Users::findOne(['username' => $params['param']]);
+            $username = $params['param'];
+            $hash = $params['param2'];
+            $user = Users::findOne(['username' => $username]);
 
-            if ($user && md5($user->id . $user->email . $user->password . $this->config->auth->hash_key) == $params['param2']) {
+            if ($user && md5($user->id . $user->email . $user->password . $this->config->auth->hash_key) == $hash) {
                 $activation = $user->activation();
 
                 if ($activation === null) {
-                    $this->flash->info('<strong>' . __('Information') . '!</strong> ' . __("Activation has already been completed."));
+                    $this->flash->info(
+                        '<strong>' . __('Information') . '!</strong> ' .
+                        __("Activation has already been completed.")
+                    );
                 } elseif ($activation === true) {
-                    $this->flash->success('<strong>' . __('Success') . '!</strong> ' . __("Activation completed. Please log in."));
+                    $this->flash->success(
+                        '<strong>' . __('Success') . '!</strong> ' .
+                        __("Activation completed. Please log in.")
+                    );
                     // Redirect to sign in
                     $this->view->setVar('redirect', 'user/signin');
                 }
             } else {
-                $this->flash->error('<strong>' . __('Error') . '!</strong> ' . __("Activation cannot be completed. Invalid username or hash."));
+                $this->flash->error(
+                    '<strong>' . __('Error') . '!</strong> ' .
+                    __("Activation cannot be completed. Invalid username or hash.")
+                );
             }
 
             $this->view->setContent($this->view->partial('message'));
@@ -74,8 +85,13 @@ class UserController extends IndexController
         $this->tag->setTitle(__('Sign in'));
         $this->siteDesc = __('Sign in');
 
-        if ($this->request->hasPost('submit_signin') && $this->request->hasPost('username') && $this->request->hasPost('password')) {
-            $login = $this->auth->login($this->request->getPost('username'), $this->request->getPost('password'), $this->request->getPost('rememberMe') ? true : false);
+        if ($this->request->hasPost('submit_signin') && $this->request->hasPost('username') &&
+            $this->request->hasPost('password')) {
+            $login = $this->auth->login(
+                $this->request->getPost('username'),
+                $this->request->getPost('password'),
+                $this->request->getPost('rememberMe') ? true : false
+            );
 
             if (!$login) {
                 $errors = [];
@@ -87,14 +103,20 @@ class UserController extends IndexController
                 }
 
                 $this->view->setVar('errors', new Arr($errors));
-                $this->flash->message('warning', '<strong>' . __('Warning') . '!</strong> ' . __('Please correct the errors.'));
+                $this->flash->warning('<strong>' . __('Warning') . '!</strong> ' . __('Please correct the errors.'));
             } else {
                 $referer = $this->request->getHTTPReferer();
+                $host = parse_url($referer, PHP_URL_HOST) . (parse_url($referer, PHP_URL_PORT));
+
+                if (parse_url($referer, PHP_URL_PORT)) {
+                    $host .= parse_url($referer, PHP_URL_PORT);
+                }
+
                 $back = !empty($referer) &&
                     strpos(parse_url($referer, PHP_URL_PATH), '/user/signin') !== 0 &&
                     strpos(parse_url($referer, PHP_URL_PATH), '/user/signup') !== 0 &&
                     strpos(parse_url($referer, PHP_URL_PATH), '/user/activation') !== 0 &&
-                    parse_url($referer, PHP_URL_HOST) . (parse_url($referer, PHP_URL_PORT) ? ':' . parse_url($referer, PHP_URL_PORT) : '') == $this->request->getServer("HTTP_HOST");
+                    $host == $this->request->getServer("HTTP_HOST");
 
                 if ($back) {
                     return $this->response->setHeader("Location", $referer);
@@ -127,7 +149,10 @@ class UserController extends IndexController
             $signup = $user->signup();
 
             if ($signup instanceof Users) {
-                $this->flash->notice('<strong>' . __('Success') . '!</strong> ' . __("Check Email to activate your account."));
+                $this->flash->notice(
+                    '<strong>' . __('Success') . '!</strong> ' .
+                    __("Check Email to activate your account.")
+                );
             } else {
                 $this->view->setVar('errors', new Arr($user->getMessages()));
                 $this->flash->warning('<strong>' . __('Warning') . '!</strong> ' . __("Please correct the errors."));
