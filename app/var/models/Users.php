@@ -136,9 +136,9 @@ class Users extends AuthUsers
             $email = new Email();
             $email->prepare(
                 __('Activation'),
-                $this->getDi()->getRequest()->getPost('email'),
+                $this->email,
                 'email/activation',
-                ['username' => $this->getDi()->getRequest()->getPost('username'), 'hash' => $hash]
+                ['username' => $this->username, 'id' => $this->id, 'hash' => $hash]
             );
 
             if ($email->Send() === true) {
