@@ -25,10 +25,10 @@ class UserController extends IndexController
 
         $params = $this->router->getParams();
 
-        if (isset($params['param']) && isset($params['param2'])) {
-            $username = $params['param'];
-            $hash = $params['param2'];
-            $user = Users::findOne(['username' => $username]);
+        if (isset($params['id']) && isset($params['param'])) {
+            $id = $params['id'];
+            $hash = $params['param'];
+            $user = Users::findOne($id);
 
             if ($user && md5($user->id . $user->email . $user->password . $this->config->auth->hash_key) == $hash) {
                 $activation = $user->activation();
