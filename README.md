@@ -9,7 +9,12 @@ Use this application as a way to quick start any new project.
 composer create-project iceframework/base --no-dev
 ```
 
-### Clone repository available on GitHub
+#### Clone repository available on GitHub
 ```sh
 git clone https://github.com/ice/base
+```
+
+##### You can use `install-extension` script to install ice framework
+```
+./tests/install-extension.sh
 ```
