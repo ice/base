@@ -9,7 +9,6 @@ use Ice\Tag;
  *
  * @package     Ice/Base
  * @category    Controller
- * @version     1.0
  */
 class Controller extends \Ice\Mvc\Controller
 {

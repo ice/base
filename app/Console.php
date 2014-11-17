@@ -15,7 +15,6 @@ use Ice\Cli\Dispatcher;
  *
  * @package     Ice/Base
  * @category    Bootstrap
- * @version     1.0
  */
 class Console extends \Ice\Cli\Console
 {

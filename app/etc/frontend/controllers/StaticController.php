@@ -13,7 +13,6 @@ use Ice\Validation;
  *
  * @package     Ice/Base
  * @category    Controller
- * @version     1.0
  */
 class StaticController extends Controller
 {

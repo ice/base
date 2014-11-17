@@ -30,7 +30,6 @@ use Ice\Mvc\View\Engine\Sleet\Compiler;
  *
  * @package     Ice/Base
  * @category    Bootstrap
- * @version     1.0
  */
 class Application extends App
 {
