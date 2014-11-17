@@ -10,7 +10,6 @@ use App\Models\Users;
  *
  * @package     Ice/Base
  * @category    Controller
- * @version     1.0
  */
 class UserController extends IndexController
 {

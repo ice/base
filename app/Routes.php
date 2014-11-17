@@ -7,7 +7,6 @@ namespace App;
  *
  * @package     Ice/Base
  * @category    Router
- * @version     1.0
  */
 class Routes
 {

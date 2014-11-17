@@ -13,7 +13,6 @@ use App\Libraries\Email;
  *
  * @package     Ice/Base
  * @category    Errors
- * @version     1.0
  */
 class Error extends Exception
 {

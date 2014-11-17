@@ -9,7 +9,6 @@ use App\Extensions\Controller;
  *
  * @package     Ice/Base
  * @category    Controller
- * @version     1.0
  */
 class IndexController extends Controller
 {

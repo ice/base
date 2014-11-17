@@ -11,7 +11,6 @@ use Ice\Mvc\ModuleInterface;
  *
  * @package     Ice/Base
  * @category    Module
- * @version     1.0
  */
 class Module implements ModuleInterface
 {

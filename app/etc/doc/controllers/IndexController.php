@@ -9,7 +9,6 @@ use App\Extensions\Controller;
  *
  * @package     Ice/Base
  * @category    Controller
- * @version     1.0
  */
 class IndexController extends Controller
 {
@@ -27,7 +26,7 @@ class IndexController extends Controller
     }
 
     /**
-     * Display admin's home page
+     * Display doc's home page
      */
     public function indexAction()
     {
