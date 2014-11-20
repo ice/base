@@ -1,4 +1,4 @@
 <h2>{{ title }}</h2><hr />
-<meta http-equiv="Refresh" content="5; url={{ url(redirect|isset ? redirect : null) }}" />
+<meta http-equiv="Refresh" content="5; url={{ this.url.get(redirect|isset ? redirect : null) }}" />
 {{ this.flash.getMessages() }}
 {{ content|isset ? content : '' }}
