@@ -96,9 +96,9 @@ class UserController extends IndexController
                 $errors = [];
 
                 if ($login === null) {
-                    $errors['username'] = __('Field :field is not valid', [':field' => __('Username')]);
+                    $errors['username'][] = __('Field :field is not valid', [':field' => __('Username')]);
                 } else {
-                    $errors['password'] = __('Field :field is not valid', [':field' => __('Password')]);
+                    $errors['password'][] = __('Field :field is not valid', [':field' => __('Password')]);
                 }
 
                 $this->view->setVar('errors', new Arr($errors));
