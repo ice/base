@@ -4,7 +4,7 @@ namespace App;
 
 use Ice\Config\Ini as Config;
 use Ice\Auth\Driver\Model as Auth;
-use Ice\Di\DiInterface;
+use Ice\Di;
 use Ice\Db;
 use Ice\I18n;
 use Ice\Dump;
@@ -37,9 +37,9 @@ class Application extends App
     /**
      * Application constructor
      *
-     * @param DiInterface $di
+     * @param Di $di
      */
-    public function __construct(DiInterface $di)
+    public function __construct(Di $di)
     {
         // Register the app itself as a service
         $di->app = $this;

@@ -6,7 +6,7 @@ use Ice\Db;
 use Ice\I18n;
 use Ice\Loader;
 use Ice\Config\Ini as Config;
-use Ice\Di\DiInterface;
+use Ice\Di;
 use Ice\Cli\Router;
 use Ice\Cli\Dispatcher;
 
@@ -22,9 +22,9 @@ class Console extends \Ice\Cli\Console
     /**
      * Application constructor
      *
-     * @param DiInterface $di
+     * @param Di $di
      */
-    public function __construct(DiInterface $di)
+    public function __construct(Di $di)
     {
         // Register the app itself as a service
         $di->app = $this;

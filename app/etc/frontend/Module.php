@@ -3,7 +3,7 @@
 namespace App\Modules\Frontend;
 
 use Ice\Loader;
-use Ice\Di\DiInterface;
+use Ice\Di;
 use Ice\Mvc\ModuleInterface;
 
 /**
@@ -33,7 +33,7 @@ class Module implements ModuleInterface
      * @param object $di Dependency injector
      * @return void
      */
-    public function registerServices(DiInterface $di)
+    public function registerServices(Di $di)
     {
         // Set default namespace
         $di->dispatcher->setDefaultNamespace(__NAMESPACE__ . '\Controllers');
