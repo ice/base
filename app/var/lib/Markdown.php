@@ -2,7 +2,7 @@
 
 namespace App\Libraries;
 
-use Ice\Di\DiInterface;
+use Ice\Di;
 use Ice\Mvc\View\ViewInterface;
 use Ice\Mvc\View\Engine;
 use Ice\Mvc\View\Engine\EngineInterface;
@@ -24,9 +24,9 @@ class Markdown extends Engine implements EngineInterface
      * Engine constructor
      *
      * @param ViewInterface $view
-     * @param DiInterface $di
+     * @param Di $di
      */
-    public function __construct(ViewInterface $view, DiInterface $di = null)
+    public function __construct(ViewInterface $view, Di $di = null)
     {
         $this->parser = new ParsedownExtra();
 
