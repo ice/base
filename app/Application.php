@@ -67,7 +67,7 @@ class Application extends App
 
         // Register modules
         $application = $config->modules->application;
-        $this->registerModules($config->{$application->modules}->toArray(), $application->default);
+        $this->setModules($config->{$application->modules}->toArray());
 
         // Register services
         $this->registerServices();
@@ -87,19 +87,6 @@ class Application extends App
                 ->addNamespace('App\Libraries', __ROOT__ . '/app/var/lib')
                 ->addNamespace('App\Extensions', __ROOT__ . '/app/var/ext')
                 ->register();
-    }
-
-    /**
-     * Set modules and the default module
-     *
-     * @param array $modules
-     * @param string $default
-     * @return void
-     */
-    public function registerModules($modules, $default)
-    {
-        $this->setModules($modules);
-        $this->setDefaultModule($default);
     }
 
     /**

@@ -2,13 +2,18 @@
 
 namespace app;
 
-use Ice\Db;
-use Ice\I18n;
-use Ice\Loader;
 use Ice\Config\Ini as Config;
 use Ice\Di;
+use Ice\Db;
+use Ice\Tag;
+use Ice\I18n;
+use Ice\Loader;
+use Ice\Mvc\Url;
+use Ice\Mvc\View;
 use Ice\Cli\Router;
 use Ice\Cli\Dispatcher;
+use Ice\Mvc\View\Engine\Sleet;
+use Ice\Mvc\View\Engine\Sleet\Compiler;
 
 /**
  * Console application
@@ -52,7 +57,7 @@ class Console extends \Ice\Cli\Console
 
         // Register modules
         $console = $config->modules->console;
-        $this->registerModules($config->{$console->modules}->toArray(), $console->default);
+        $this->setModules($config->{$console->modules}->toArray());
 
         // Register services
         $this->registerServices();
@@ -75,19 +80,6 @@ class Console extends \Ice\Cli\Console
     }
 
     /**
-     * Set modules and the default module
-     *
-     * @param  array  $modules
-     * @param  string $default
-     * @return void
-     */
-    public function registerModules($modules, $default)
-    {
-        $this->setModules($modules);
-        $this->setDefaultModule($default);
-    }
-
-    /**
      * Register services in the dependency injector
      *
      * @return void
@@ -95,7 +87,20 @@ class Console extends \Ice\Cli\Console
     public function registerServices()
     {
         $config = $this->config;
-        $this->di->set('config', $config);
+        $this->di->config = $config;
+
+        $this->di->i18n = new I18n($config->i18n->toArray());
+
+        // Set the url service
+        $this->di->set('url', function () use ($config) {
+            $url = new Url();
+            $url->setBaseUri($config->app->base_uri);
+            $url->setStaticUri($config->app->static_uri);
+            return $url;
+        });
+
+        $this->di->tag = new Tag();
+        $this->di->dispatcher = new Dispatcher();
 
         $this->di->set('router', function () {
             $router = new Router();
@@ -104,9 +109,7 @@ class Console extends \Ice\Cli\Console
             return $router;
         });
 
-        $this->di->dispatcher = new Dispatcher();
-        $this->di->i18n = new I18n($config->i18n->toArray());
-
+        // Set the db service
         $this->di->set('db', function () use ($config) {
             $driver = new Db\Driver\Pdo(
                 'mysql:host=' . $config->database->host . ';port=3306;dbname=' . $config->database->dbname,
@@ -114,8 +117,30 @@ class Console extends \Ice\Cli\Console
                 $config->database->password
             );
             $driver->getClient()->setAttribute(\Pdo::ATTR_ERRMODE, \Pdo::ERRMODE_EXCEPTION);
-
             return new Db($driver);
+        });
+
+        // Set the view service
+        $this->di->set('view', function () {
+            $view = new View();
+            $view->setViewsDir(__ROOT__ . '/app/var/views/');
+
+            // Options for Sleet template engine
+            $sleet = new Sleet($view, $this->di);
+            $sleet->setOptions([
+                'compileDir' => __ROOT__ . '/app/var/tmp/sleet/',
+                'trimPath' => __ROOT__,
+                'compile' => Compiler::IF_CHANGE
+            ]);
+
+            // Set template engines
+            $view->setEngines([
+                '.md' => 'App\Libraries\Markdown',
+                '.sleet' => $sleet,
+                '.phtml' => 'Ice\Mvc\View\Engine\Php'
+            ]);
+
+            return $view;
         });
     }
 
