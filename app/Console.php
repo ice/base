@@ -147,35 +147,39 @@ class Console extends \Ice\Cli\Console
     /**
      * HMVC request in the console
      *
-     * @param  array $location location to run the request
-     * @return mixed response
+     * @param array $location Location to run the request
+     * @param boolean $clear Clear current dispatcher data
+     * @return mixed
      */
-    public function request($location)
+    public function request($location, $clear = false)
     {
-        $dispatcher = clone $this->getDi()->get('dispatcher');
+        $dispatcher = clone $this->di->get('dispatcher');
+
+        if (isset($location['module'])) {
+            $dispatcher->setModule($location['module']);
+        } elseif ($clear) {
+            $dispatcher->setModule($this->di->router->getDefaultModule());
+        }
 
         if (isset($location['handler'])) {
             $dispatcher->setHandler($location['handler']);
-        } else {
-            $dispatcher->setHandler('main');
+        } elseif ($clear) {
+            $dispatcher->setHandler($this->di->router->getDefaultHandler());
         }
 
         if (isset($location['action'])) {
             $dispatcher->setAction($location['action']);
-        } else {
-            $dispatcher->setAction('main');
+        } elseif ($clear) {
+            $dispatcher->setAction($this->di->router->getDefaultActoin());
         }
 
         if (isset($location['params'])) {
-            if (is_array($location['params'])) {
-                $dispatcher->setParams($location['params']);
-            } else {
-                $dispatcher->setParams((array) $location['params']);
-            }
-        } else {
-            $dispatcher->setParams(array());
+            $dispatcher->setParams($location['params']);
+        } elseif ($clear) {
+            $dispatcher->setParams([]);
         }
 
-        return $dispatcher->dispatch();
+        $this->di->dispatcher = $dispatcher;
+        return $this->di->dispatcher->dispatch();
     }
 }
