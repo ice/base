@@ -7,10 +7,10 @@ return [
     "Field <em>:field</em> must contain only letters and numbers",
     /** alpha */
     "Field :field must contain only letters" =>
-    "Field <em>:field must contain only letters",
+    "Field <em>:field</em> must contain only letters",
     /** between */
     "Field :field must be within the range of :min to :max" =>
-    "Field <em>:field must be within the range of <em>:min</em> to <em>:max</em>",
+    "Field <em>:field</em> must be within the range of <em>:min</em> to <em>:max</em>",
     /** digit */
     "Field :field must be numeric" =>
     "Field <em>:field</em> must be numeric",
