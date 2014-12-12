@@ -36,8 +36,8 @@ salt = "secret_key"
 <br />
 Prepare the application for the first run:
 ```bash
-# go to /path/to/base/private
-php index.php shell prepare chmod
+cd /path/to/base/private
+php index.php --module=shell --handler=prepare --action=chmod
 ```
 ***
 
