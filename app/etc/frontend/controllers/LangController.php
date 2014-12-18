@@ -27,7 +27,7 @@ class LangController extends Controller
         }
         // Go to the last place
         $referer = $this->request->getServer("HTTP_REFERER");
-        if (strpos($referer, $this->request->getServer("HTTP_HOST") . "/") === false) {
+        if (strpos($referer, $this->request->getServer("HTTP_HOST") . "/") !== false) {
             return $this->response->setHeader("Location", $referer);
         } else {
             $this->response->redirect();
