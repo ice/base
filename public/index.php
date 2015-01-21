@@ -50,7 +50,7 @@ try {
 
     // Handle a MVC request and display the HTTP response body
     if (PHP_SAPI == 'cli') {
-        echo $app->handle("GET", isset($argv[1]) ? $argv[1] : null);
+        return $app->handle("GET", isset($argv[1]) ? $argv[1] : null);
     } else {
         echo $app->handle();
     }
