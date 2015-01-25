@@ -1,5 +1,9 @@
 language: php
 
+before_install:
+ - sudo apt-get update
+ - sudo apt-get -qq install gdb
+
 before_script:
   - ./tests/install-extension.sh
   - composer update --dev
