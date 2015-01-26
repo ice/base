@@ -4,6 +4,8 @@ namespace Tests;
 
 use PHPUnit_Framework_TestCase as PHPUnit;
 use Ice\Di;
+use Ice\Mvc\Router;
+use App\Routes;
 
 class RoutesTest extends PHPUnit
 {
@@ -15,7 +17,16 @@ class RoutesTest extends PHPUnit
      */
     public static function setUpBeforeClass()
     {
-        self::$di = Di::fetch();
+        $di = new Di();
+        $di->set('router', function () {
+            $router = new Router();
+            $router->setDefaultModule('frontend');
+            $router->setRoutes((new Routes())->universal());
+
+            return $router;
+        });
+        
+        self::$di = $di;
     }
 
     /**
