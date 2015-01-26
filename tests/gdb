@@ -1,4 +1,5 @@
 run ./vendor/bin/phpunit --debug --colors --configuration tests/phpunit.xml --testsuite=all
 bt full
 q
+q
 y
