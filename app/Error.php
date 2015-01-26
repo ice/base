@@ -97,10 +97,4 @@ class Error extends Exception
             }
         }
     }
-
-    public static function handler(\Exception $e)
-    {
-        parent::handler($e);
-        exit(1);
-    }
 }
