@@ -1,14 +1,20 @@
 language: php
 
-before_script:
-  - ./tests/install-extension.sh
-  - composer update --dev
-
 php:
   - 5.4
   - 5.5
   - 5.6
 
+before_script:
+  - ./tests/install-extension.sh
+  - composer update --dev
+  - phpenv config-rm xdebug.ini
+  - phpenv rehash
+
 script:
-  - php vendor/bin/phpcs --standard=PSR2 --encoding=utf-8 app/
-  - phpunit --configuration tests/phpunit.xml
+  - php vendor/bin/phpcs --standard=PSR2 --encoding=utf-8 --ignore=i18n app/
+  - php vendor/bin/phpunit --configuration tests/phpunit.xml --testsuite=all
+
+after_failure:
+  - sudo apt-get -qq install gdb
+  - gdb -quiet -command=framework/tests/ci/gdb --args $(phpenv which php) vendor/bin/phpunit --debug --colors --configuration tests/phpunit.xml --testsuite=all

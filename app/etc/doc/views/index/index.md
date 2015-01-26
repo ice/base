@@ -57,7 +57,7 @@ Easy translation with `__()` function:
 ```twig
 {% set username = this.auth.getUser().username %}
 {{ __('Hello :user', [':user' : username]) }}
-{{ __(['Hello %s', username]) }}
+{{ __('Hello %s', [username]) }}
 ```
 <br />
 Mixed usage:

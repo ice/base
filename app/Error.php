@@ -29,13 +29,20 @@ class Error extends Exception
         // Make sure everything is assigned properly
         parent::__construct($message, (int) $code, $previous);
 
-        $e = $this->getPrevious() ? $this->getPrevious() : $this;
+        $e = $previous ? $previous : $this;
         $error = get_class($e) . '[' . $e->getCode() . ']: ' . $e->getMessage();
         $info = $e->getFile() . '[' . $e->getLine() . ']';
         $debug = "Trace: \n" . $e->getTraceAsString() . "\n";
 
         // Get the error settings depending on environment
         $di = Di::fetch();
+
+        if ($di->has("dump")) {
+            $dump = $di->dump;
+        } else {
+            $dump = new Dump(true);
+        }
+
         $err = $di->config->env->error;
 
         if ($err->debug) {
@@ -43,11 +50,6 @@ class Error extends Exception
             if (PHP_SAPI == 'cli') {
                 var_dump($error, $info, $debug);
             } else {
-                if ($di->has("dump")) {
-                    $dump = $di->dump;
-                } else {
-                    $dump = new Dump(true);
-                }
                 echo $dump->vars($error, $info, $debug);
             }
         } else {
@@ -57,7 +59,12 @@ class Error extends Exception
             } else {
                 // Load and display error view
                 $view = $di->view;
-                $view->setVar('message', $error);
+
+                if ($err->hide) {
+                    unset($message, $code);
+                } else {
+                    $view->setVar('message', $error);
+                }
 
                 $assets['styles'] = [
                     $di->tag->link(['css/bootstrap.min.css?v=3.3.0']),
@@ -79,11 +86,6 @@ class Error extends Exception
 
         if ($err->email) {
             // Send email to admin
-            if ($di->has("dump")) {
-                $dump = $di->dump;
-            } else {
-                $dump = new Dump(true);
-            }
             $log = $dump->vars($error, $info, $debug);
 
             $email = new Email();

@@ -10,6 +10,33 @@ use App\Routes;
 class RoutesTest extends PHPUnit
 {
 
+    private static $di;
+
+    /**
+     * Run public/index.php and fetch Di
+     */
+    public static function setUpBeforeClass()
+    {
+        $di = new Di();
+        $di->set('router', function () {
+            $router = new Router();
+            $router->setDefaultModule('frontend');
+            $router->setRoutes((new Routes())->universal());
+
+            return $router;
+        });
+        
+        self::$di = $di;
+    }
+
+    /**
+     * Get service from Di
+     */
+    public function __get($service)
+    {
+        return self::$di->{$service};
+    }
+
     /**
      * Test route matching for universal routes and GET method
      *
@@ -17,16 +44,21 @@ class RoutesTest extends PHPUnit
      */
     public function testUniversalGET($pattern, $expected)
     {
-        $di = new Di();
-        $router = new Router();
-        $router->setDefaultModule('frontend');
-        $router->setRoutes((new Routes())->universal());
-        $return = $router->handle('GET', $pattern);
+        $return = $this->router->handle('GET', $pattern);
 
-        $this->assertEquals('GET', $router->getMethod());
+        $this->assertEquals('GET', $this->router->getMethod());
 
         if (is_array($return)) {
-            $this->assertEquals($expected, [$router->getModule(), $router->getHandler(), $router->getAction(), $router->getParams()], $pattern);
+            $this->assertEquals(
+                $expected,
+                [
+                    $this->router->getModule(),
+                    $this->router->getHandler(),
+                    $this->router->getAction(),
+                    $this->router->getParams()
+                ],
+                $pattern
+            );
         } else {
             $this->assertEquals($expected, null, "The route wasn't matched by any route");
         }
@@ -39,16 +71,21 @@ class RoutesTest extends PHPUnit
      */
     public function testUniversalPOST($pattern, $expected)
     {
-        $di = new Di();
-        $router = new Router();
-        $router->setDefaultModule('frontend');
-        $router->setRoutes((new Routes())->universal());
-        $return = $router->handle('POST', $pattern);
+        $return = $this->router->handle('POST', $pattern);
 
-        $this->assertEquals('POST', $router->getMethod());
+        $this->assertEquals('POST', $this->router->getMethod());
 
         if (is_array($return)) {
-            $this->assertEquals($expected, [$router->getModule(), $router->getHandler(), $router->getAction(), $router->getParams()], $pattern);
+            $this->assertEquals(
+                $expected,
+                [
+                    $this->router->getModule(),
+                    $this->router->getHandler(),
+                    $this->router->getAction(),
+                    $this->router->getParams()
+                ],
+                $pattern
+            );
         } else {
             $this->assertEquals($expected, null, "The route wasn't matched by any route");
         }
@@ -75,7 +112,8 @@ class RoutesTest extends PHPUnit
             ['/user/profile/1', ['frontend', 'user', 'profile', ['id' => 1]]],
             ['/user/profile/ice', ['frontend', 'user', 'profile', ['param' => 'ice']]],
 
-            ['/post/details/7/friendly-title', ['frontend', 'post', 'details', ['id' => 7, 'param' => 'friendly-title']]],
+            ['/post/details/7/friendly-title',
+                ['frontend', 'post', 'details', ['id' => 7, 'param' => 'friendly-title']]],
             
             ['/contact', ['frontend', 'static', 'contact', []]],
 
@@ -138,7 +176,8 @@ class RoutesTest extends PHPUnit
             ['/user/profile/1', ['frontend', 'user', 'profile', ['id' => 1]]],
             ['/user/profile/ice', ['frontend', 'user', 'profile', ['param' => 'ice']]],
             
-            ['/post/details/7/friendly-title', ['frontend', 'post', 'details', ['id' => 7, 'param' => 'friendly-title']]],
+            ['/post/details/7/friendly-title',
+                ['frontend', 'post', 'details', ['id' => 7, 'param' => 'friendly-title']]],
 
             ['/contact', ['frontend', 'static', 'contact', []]],
         ];
