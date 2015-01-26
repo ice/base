@@ -13,7 +13,7 @@ before_script:
 
 script:
   - php vendor/bin/phpcs --standard=PSR2 --encoding=utf-8 --ignore=i18n app/
-  - php vendor/bin/phpunit --configuration tests/phpunit.xml --testsuite=all
+  - ZEND_DONT_UNLOAD_MODULES=1 $(phpenv which php) vendor/bin/phpunit --configuration tests/phpunit.xml --testsuite=all
 
 after_failure:
   - sudo apt-get -qq install gdb
