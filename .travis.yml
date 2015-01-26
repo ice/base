@@ -13,8 +13,8 @@ before_script:
 
 script:
   - php vendor/bin/phpcs --standard=PSR2 --encoding=utf-8 --ignore=i18n app/
-  - ZEND_DONT_UNLOAD_MODULES=1 $(phpenv which php) vendor/bin/phpunit --configuration tests/phpunit.xml --testsuite=all
+  - php vendor/bin/phpunit --configuration tests/phpunit.xml --testsuite=all
 
 after_failure:
   - sudo apt-get -qq install gdb
-  - ./framework/tests/ci/failure.sh
+  - gdb -quiet -command=tests/gdb --args $(phpenv which php) vendor/bin/phpunit --debug --colors --configuration tests/phpunit.xml --testsuite=all
