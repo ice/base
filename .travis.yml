@@ -7,8 +7,8 @@ php:
 
 before_script:
   - ./tests/install-extension.sh
-  - phpenv config-rm xdebug.ini
   - composer update --dev
+  - phpenv config-rm xdebug.ini
   - phpenv rehash
 
 script:
@@ -17,4 +17,4 @@ script:
 
 after_failure:
   - sudo apt-get -qq install gdb
-  - gdb -quiet -command=tests/gdb --args $(phpenv which php) vendor/bin/phpunit --debug --colors --configuration tests/phpunit.xml --testsuite=all
+  - gdb -quiet -command=framework/tests/ci/gdb --args $(phpenv which php) vendor/bin/phpunit --debug --colors --configuration tests/phpunit.xml --testsuite=all
