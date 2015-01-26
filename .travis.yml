@@ -17,4 +17,4 @@ script:
 
 after_failure:
   - sudo apt-get -qq install gdb
-  - gdb $(phpenv which php) -quiet -command=tests/gdb
+  - gdb -quiet -command=tests/gdb --args $(phpenv which php) vendor/bin/phpunit --debug --colors --configuration tests/phpunit.xml --testsuite=all
