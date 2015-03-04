@@ -22,9 +22,9 @@ if (!function_exists('__')) {
      * Translation function
      * @see Ice\I18n translate()
      */
-    function __($string, array $values = null, $lang = null)
+    function __($string, array $values = null, $context = null, $lang = null)
     {
-        return \Ice\I18n::fetch()->translate($string, $values, $lang);
+        return \Ice\I18n::fetch()->translate($string, $values, $context, $lang);
     }
 
 }
