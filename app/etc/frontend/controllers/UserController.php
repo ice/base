@@ -3,6 +3,7 @@
 namespace App\Modules\Frontend\Controllers;
 
 use Ice\Arr;
+use Ice\Auth\Social;
 use App\Models\Users;
 
 /**
@@ -64,15 +65,9 @@ class UserController extends IndexController
     public function indexAction()
     {
         if ($this->auth->loggedIn()) {
-            
+            // Logged in
         } else {
-            $this->tag->setTitle(__('No access'));
-            $this->flash->error('<strong>' . __('Error') . '!</strong> ' . __("Please log in to access."));
-            $this->view->setVars([
-                'title' => __('No access'),
-                'redirect' => 'user/signin',
-            ]);
-            $this->view->setContent($this->view->partial('message'));
+            parent::noAccess('user/signin');
         }
     }
 
@@ -102,7 +97,7 @@ class UserController extends IndexController
                 }
 
                 $this->view->setVar('errors', new Arr($errors));
-                $this->flash->warning('<strong>' . __('Warning') . '!</strong> ' . __('Please correct the errors.'));
+                $this->flash->warning(__('flash/warning/errors'));
             } else {
                 $referer = $this->request->getHTTPReferer();
                 $host = parse_url($referer, PHP_URL_HOST) . (parse_url($referer, PHP_URL_PORT));
@@ -123,6 +118,152 @@ class UserController extends IndexController
                     return $this->dispatcher->forward(['handler' => 'index', 'action' => 'index']);
                 }
             }
+        }
+    }
+
+    /**
+     * Sign in the user through social network
+     */
+    public function signinbyAction()
+    {
+        if (!$this->auth ->loggedIn()) {
+            $this->tag->setTitle(__('signIn'));
+            $this->siteDesc = __('signIn');
+
+            $params = $this->router->getParams();
+            if (isset($params['param'])) {
+                $by = $params['param'];
+                $login = false;
+
+                switch ($by) {
+                    case 'facebook':
+                        $social = new Social(new Social\Facebook());
+
+                        if (!$this->request->hasGet($social->getResponseType())) {
+                            $this->view->setContent(false);
+                            return $this->response->redirect($social->getAuthUrl(), 302, true);
+                        } else {
+                            // Check if access token already exist in the session
+                            if ($this->session->has('access_token')) {
+                                $social->setAccessToken($this->session->get('access_token'));
+                            }
+
+                            if ($social->authenticate()) {
+                                // Store the access token in the session, it can be retrieved only once
+                                $this->session->set('access_token', $social->getAccessToken());
+                                
+                                // Try to login by social
+                                $login = $this->auth->loginBy($social);
+                            } else {
+                                parent::noAccess();
+                            }
+                        }
+                        break;
+                    case 'google':
+                        $social = new Social(new Social\Google());
+
+                        if (!$this->request->hasGet($social->getResponseType())) {
+                            $this->view->setContent(false);
+                            return $this->response->redirect($social->getAuthUrl(), 302, true);
+                        } else {
+                            // Check if access token already exist in the session
+                            if ($this->session->has('access_token')) {
+                                $social->setAccessToken($this->session->get('access_token'));
+                            }
+
+                            if ($social->authenticate()) {
+                                // Store the access token in the session, it can be retrieved only once
+                                $this->session->set('access_token', $social->getAccessToken());
+                                
+                                // Try to login by social
+                                $login = $this->auth->loginBy($social);
+                            } else {
+                                parent::noAccess();
+                            }
+                        }
+                        break;
+                    case 'twitter':
+                        $social = new Social(new Social\Twitter());
+
+                        if (!$this->request->hasGet($social->getResponseType())) {
+                            $this->view->setContent(false);
+                            return $this->response->redirect($social->getAuthUrl(), 302, true);
+                        } else {
+                            if ($social->authenticate()) {
+                                // Try to login by social
+                                $login = $this->auth->loginBy($social);
+                            } else {
+                                parent::noAccess();
+                            }
+                        }
+                        break;
+                    default:
+                        parent::notFound();
+                        break;
+                }
+
+                if ($login === null) {
+                    $this->view->setFile('user/signupby');
+                    $this->view->setVar('email', $social->getEmail());
+
+                    // Add social auth for existing account
+                    if ($user = Users::findOne(['email' => $social->getEmail()])) {
+                        // Update user's data from social network
+                        $user->socialUpdate($social);
+
+                        // Redirect to this action and sign in the user
+                        $this->response->redirect('user/signinby/' . $social->getProvider());
+                    }
+
+                    // Sign up new user by social network
+                    if ($this->request->isPost() == true) {
+                        // Try to signup new user
+                        $user = new Users();
+                        $signup = $user->signupby($social);
+
+                        if ($signup instanceof Users) {
+                            // Remove access token from the session
+                            $this->session->remove('access_token');
+                            
+                            // Redirect to this action and sign in the user
+                            $this->response->redirect('user/signinby/' . $social->getProvider());
+                        } else {
+                            $this->view->setVar('errors', $signup);
+                            $this->flash->warning(__('flash/warning/errors'));
+                        }
+                    }
+                } elseif ($login == false) {
+                    parent::noAccess();
+                } else {
+                    // Sign in the user by social network
+                    // Remove access token from the session
+                    $this->session->remove('access_token');
+
+                    // Back to last place
+                    $referer = $this->request->getHTTPReferer();
+                    $host = parse_url($referer, PHP_URL_HOST);
+
+                    if (parse_url($referer, PHP_URL_PORT)) {
+                        $host .= parse_url($referer, PHP_URL_PORT);
+                    }
+
+                    $back = !empty($referer) &&
+                        strpos(parse_url($referer, PHP_URL_PATH), '/user/signin') !== 0 &&
+                        strpos(parse_url($referer, PHP_URL_PATH), '/user/signinby') !== 0 &&
+                        strpos(parse_url($referer, PHP_URL_PATH), '/user/signup') !== 0 &&
+                        $host == $this->request->getServer("HTTP_HOST");
+
+                    if ($back) {
+                        return $this->response->setHeader("Location", $referer);
+                    } else {
+                        $this->response->redirect();
+                    }
+                }
+            } else {
+                parent::notFound();
+            }
+        } else {
+            $this->response->redirect();
         }
     }
 

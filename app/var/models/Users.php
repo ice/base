@@ -6,6 +6,7 @@ use Ice\Auth\Driver\Model\Users as AuthUsers;
 use Ice\Auth\Driver\Model\Roles;
 use Ice\Auth\Driver\Model\Roles\Users as AuthRolesUsers;
 use Ice\Validation;
+use App\Error;
 use App\Libraries\Email;
 
 class Users extends AuthUsers
@@ -47,10 +48,6 @@ class Users extends AuthUsers
         'password' => 'Password',
         'email' => 'Email',
     ];
-
-    const UNCONFIRMED = 0;
-    const ACTIVE = 1;
-    const REMOVED = 9;
 
     /**
      * Zephir issue #520
@@ -150,6 +147,72 @@ class Users extends AuthUsers
         } else {
             return false;
         }
+    }
+
+    /**
+     * Sign up by social network
+     */
+    public function signupby($social)
+    {
+        $validation = new Validation();
+
+        $validation->rules([
+            'username' => $this->rules['username']
+        ]);
+
+        if (!$social->getEmail()) {
+            $validation->rule('email', $this->rules['email']);
+        }
+        
+        $valid = $validation->validate($_POST);
+
+        if (!$valid) {
+            return $validation->getMessages();
+        } else {
+            $this->username = $this->request->getPost('username');
+            $this->email = $social->getEmail() ? $social->getEmail() : $this->request->getPost('email');
+
+            if ($this->create() === true) {
+                unset($_POST);
+
+                // Add social auth
+                $userSocial = new UserSocial();
+                $userSocial->social_id = $social->getSocialId();
+                $userSocial->type = $social->getProvider();
+                $userSocial->user_id = $this->id;
+
+                if ($userSocial->create() === true) {
+                    // Add login role
+                    $roleUser = new RolesUsers();
+                    $roleUser->user_id = $this->id;
+                    $roleUser->role_id = Roles::findOne(['name' => 'login'])->id;
+
+                    if ($roleUser->create() === true) {
+                        return $this;
+                    }
+                }
+                return false;
+            } else {
+                throw new Error($this->getError());
+            }
+        }
+    }
+
+    /**
+     * Update existing user, add social loggin
+     */
+    public function socialUpdate($social)
+    {
+        // Add social auth
+        $userSocial = new UserSocial();
+        $userSocial->social_id = $social->getSocialId();
+        $userSocial->type = $social->getProvider();
+        $userSocial->user_id = $this->id;
+
+        if ($userSocial->create() === true) {
+            return true;
+        }
+        return false;
     }
 
     /**
