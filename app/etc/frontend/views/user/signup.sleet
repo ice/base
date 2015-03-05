@@ -1,4 +1,8 @@
 <h2>{{ __('Sign up') }}</h2><hr />
+<p>
+    <strong>{{ __('Sign in by') }}: </strong>
+    {{ link_to(['user/signinby/facebook', 'Facebook', 'class': 'btn btn-primary']) }} {{ link_to(['user/signinby/google', 'Google', 'class': 'btn btn-danger']) }} {{ link_to(['user/signinby/twitter', 'Twitter', 'class': 'btn btn-info']) }}
+</p>
 {{ this.flash.getMessages() }}
 {{ form(['user/signup', 'class' : 'form-horizontal']) }}
 {% set field = 'username' %}
