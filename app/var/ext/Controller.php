@@ -82,7 +82,7 @@ class Controller extends \Ice\Mvc\Controller
 
     /**
      * After execute action
-     * 
+     *
      * @return void
      */
     public function after()
@@ -103,5 +103,31 @@ class Controller extends \Ice\Mvc\Controller
     {
         $this->response->setStatus(404);
         $this->view->setMainView('error');
+        $this->view->setContent(false);
+    }
+
+    /**
+     * Display no access message
+     */
+    public function noAccess($redirect = null)
+    {
+        $this->message('No access', 'danger', 'flash/danger/forbidden', $redirect);
+    }
+
+    /**
+     * Display some message
+     */
+    public function message($title, $type, $flash, $redirect = null)
+    {
+        $this->tag->setTitle(__($title));
+        $this->flash->{$type}(__($flash));
+        $this->view->setVar('title', __($title));
+
+        if ($redirect) {
+            $this->view->setVar('redirect', $redirect);
+        }
+
+        $tmp = $this->view->partial('message');
+        $this->view->setContent($tmp);
     }
 }

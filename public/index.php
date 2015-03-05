@@ -38,11 +38,4 @@ if (!function_exists('__')) {
 include_once __ROOT__ . '/vendor/autoload.php';
 
 // Initialize website, handle a MVC request and display the HTTP response body
-$app = (new App\Application((new Ice\Di())->errors('App\Error')))->initialize();
-
-// Handle a MVC request and display the HTTP response body
-if (PHP_SAPI == 'cli') {
-    return $app->handle("GET", isset($argv[1]) ? $argv[1] : null);
-} else {
-    echo $app->handle();
-}
+echo (new App\Application((new Ice\Di())->errors('App\Error')))->initialize()->handle();

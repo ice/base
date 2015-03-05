@@ -1,6 +1,9 @@
 <?php
 
 return [
+    // Flash
+    'flash/danger/forbidden' => "<b>Błąd!</b> Nie masz dostępu do tej strony.",
+    'flash/warning/errors' => '<b>Ostrzeżenie!</b> Proszę poprawić błędy.',
     // Ice validation
     /** alnum */
     "Field :field must contain only letters and numbers" =>
