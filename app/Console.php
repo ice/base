@@ -2,18 +2,18 @@
 
 namespace app;
 
+use Ice\Cli\Dispatcher;
+use Ice\Cli\Router;
 use Ice\Config\Ini as Config;
-use Ice\Di;
 use Ice\Db;
-use Ice\Tag;
+use Ice\Di;
 use Ice\I18n;
 use Ice\Loader;
 use Ice\Mvc\Url;
 use Ice\Mvc\View;
-use Ice\Cli\Router;
-use Ice\Cli\Dispatcher;
 use Ice\Mvc\View\Engine\Sleet;
 use Ice\Mvc\View\Engine\Sleet\Compiler;
+use Ice\Tag;
 
 /**
  * Console application

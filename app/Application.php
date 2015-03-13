@@ -2,28 +2,28 @@
 
 namespace App;
 
-use Ice\Config\Ini as Config;
 use Ice\Auth\Driver\Model as Auth;
-use Ice\Di;
-use Ice\Db;
-use Ice\I18n;
-use Ice\Dump;
+use Ice\Config\Ini as Config;
+use Ice\Cookies;
 use Ice\Crypt;
-use Ice\Flash;
-use Ice\Loader;
+use Ice\Db;
+use Ice\Di;
+use Ice\Dump;
 use Ice\Filter;
-use Ice\Session;
+use Ice\Flash;
 use Ice\Http\Request;
 use Ice\Http\Response;
-use Ice\Cookies;
-use Ice\Mvc\Url;
-use Ice\Mvc\Router;
-use Ice\Mvc\Dispatcher;
-use Ice\Tag;
+use Ice\I18n;
+use Ice\Loader;
 use Ice\Mvc\App;
+use Ice\Mvc\Dispatcher;
+use Ice\Mvc\Router;
+use Ice\Mvc\Url;
 use Ice\Mvc\View;
 use Ice\Mvc\View\Engine\Sleet;
 use Ice\Mvc\View\Engine\Sleet\Compiler;
+use Ice\Session;
+use Ice\Tag;
 
 /**
  * Mvc application

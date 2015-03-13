@@ -2,8 +2,8 @@
 
 namespace App\Modules\Frontend;
 
-use Ice\Loader;
 use Ice\Di;
+use Ice\Loader;
 use Ice\Mvc\ModuleInterface;
 
 /**
