@@ -2,8 +2,8 @@
 
 namespace App\Modules\Shell;
 
-use Ice\Loader;
 use Ice\Di;
+use Ice\Loader;
 use Ice\Mvc\ModuleInterface;
 
 /**

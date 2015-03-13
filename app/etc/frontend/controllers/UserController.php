@@ -2,9 +2,9 @@
 
 namespace App\Modules\Frontend\Controllers;
 
+use App\Models\Users;
 use Ice\Arr;
 use Ice\Auth\Social;
-use App\Models\Users;
 
 /**
  * Frontend User Controller

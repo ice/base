@@ -2,12 +2,12 @@
 
 namespace App\Models;
 
-use Ice\Auth\Driver\Model\Users as AuthUsers;
-use Ice\Auth\Driver\Model\Roles;
-use Ice\Auth\Driver\Model\Roles\Users as AuthRolesUsers;
-use Ice\Validation;
 use App\Error;
 use App\Libraries\Email;
+use Ice\Auth\Driver\Model\Roles;
+use Ice\Auth\Driver\Model\Roles\Users as AuthRolesUsers;
+use Ice\Auth\Driver\Model\Users as AuthUsers;
+use Ice\Validation;
 
 class Users extends AuthUsers
 {
