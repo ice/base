@@ -1,0 +1,32 @@
+<h2>{{ _t('Sign in') }}</h2><hr />
+{{ this.flash.getMessages() }}
+{{ form([false, 'class' : 'form-horizontal']) }}
+{% set field = 'username' %}
+<div class="form-group{{ errors|isset and errors.has(field) ? ' has-error' : (isset(_POST[field]) ? ' has-success' : '') }}">
+    <label class="control-label col-lg-2" for={{ field }}>{{ _t(field|capitalize) }}:</label>
+    <div class="col-lg-10">
+    {{ text_field([ field, 'class' : 'form-control', 'placeholder' : _t(field|capitalize) ]) }}
+    {% if errors|isset and errors.has(field) %}
+        <span class="help-block">{{ current(errors.get(field)) }}</span>
+    {% endif %}
+    </div>
+</div>
+{% set field = 'email' %}
+<div class="form-group{{ errors|isset and errors.has(field) ? ' has-error' : (isset(_POST[field]) ? ' has-success' : '') }}">
+    <label class="control-label col-lg-2" for={{ field }}>{{ _t(field|capitalize) }}:</label>
+    <div class="col-lg-10">
+    {{ text_field([ field, 'class' : 'form-control', 'placeholder' : _t(field|capitalize) ]) }}
+    {% if errors|isset and errors.has(field) %}
+        <span class="help-block">{{ current(errors.get(field)) }}</span>
+    {% endif %}
+    </div>
+</div>
+<hr />
+<div class="form-group">
+    <div class="col-lg-offset-2 col-lg-10">
+        <p>
+            {{ button(['submit_signupby', _t('save'), 'class': "btn btn-default"]) }}
+        </p>
+    </div>
+</div>
+{{ end_tag('form') }}

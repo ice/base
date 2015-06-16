@@ -1,0 +1,2 @@
+<h2>{{ _t('Admin panel') }}</h2><hr />
+<p>{{ _t('Use this application as a way to quick start any new project.') }}</p>
