@@ -1,0 +1,3 @@
+<p>{{ _t('Hello :user', [':user' : 'admin']) }}</p>
+<p><stron>{{ _t('Something is wrong!') }}</strong></p>
+{{ log }}

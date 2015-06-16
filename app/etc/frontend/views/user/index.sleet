@@ -1,5 +1,0 @@
-<h2>{{ __('Hello :user', [':user' : this.auth.getUser().username]) }}</h2><hr />
-<p class="muted">{{ __('Have a nice day!') }}</p>
-<p><strong>{{ __('Logins') }}:</strong> {{ this.auth.getUser().logins }}</p>
-<p><strong>{{ __('Last login') }}:</strong> {{ date('Y-m-d H:i:s', this.auth.getUser().lastlogin) }}</p>
-<p>{{ link_to(['user/signout', __('Sign out')]) }}</p>

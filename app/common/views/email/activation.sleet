@@ -1,0 +1,3 @@
+<p>{{ _t('Hello :user', [':user' : username]) }},</p>
+<p>{{ _t('Before you can log in, you first need to activate your account.') }}</p>
+<p>{{ _t('To activate your account, click on this link:') }} {{ link_to([this.url.getStatic('user/activation/' ~ id ~ '/' ~ hash), _t('Activation'), 'local': false]) }}.</p>

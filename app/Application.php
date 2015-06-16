@@ -35,20 +35,6 @@ class Application extends App
 {
 
     /**
-     * Application constructor
-     *
-     * @param Di $di
-     */
-    public function __construct(Di $di)
-    {
-        // Register the app itself as a service
-        $di->app = $this;
-
-        // Set the dependency injector
-        parent::__construct($di);
-    }
-
-    /**
      * Initialize the application
      *
      * @return Application
@@ -59,10 +45,10 @@ class Application extends App
         $this->registerLoader();
 
         // Load the config
-        $config = new Config(__ROOT__ . '/app/etc/config.ini');
+        $config = new Config(__ROOT__ . '/app/common/cfg/config.ini');
 
         // Set environment settings
-        $config->set('env', (new Config(__ROOT__ . '/app/etc/env.ini'))->{$config->app->env});
+        $config->set('env', (new Config(__ROOT__ . '/app/common/cfg/env.ini'))->{$config->app->env});
         $this->config = $config;
 
         // Register modules
@@ -83,9 +69,9 @@ class Application extends App
     public function registerLoader()
     {
         (new Loader())
-                ->addNamespace('App\Models', __ROOT__ . '/app/var/models')
-                ->addNamespace('App\Libraries', __ROOT__ . '/app/var/lib')
-                ->addNamespace('App\Extensions', __ROOT__ . '/app/var/ext')
+                ->addNamespace('App\Models', __ROOT__ . '/app/common/models')
+                ->addNamespace('App\Libraries', __ROOT__ . '/app/common/lib')
+                ->addNamespace('App\Extensions', __ROOT__ . '/app/common/ext')
                 ->register();
     }
 
@@ -150,12 +136,12 @@ class Application extends App
         // Set the view service
         $this->di->set('view', function () {
             $view = new View();
-            $view->setViewsDir(__ROOT__ . '/app/var/views/');
+            $view->setViewsDir(__ROOT__ . '/app/common/views/');
 
             // Options for Sleet template engine
             $sleet = new Sleet($view, $this->di);
             $sleet->setOptions([
-                'compileDir' => __ROOT__ . '/app/var/tmp/sleet/',
+                'compileDir' => __ROOT__ . '/app/common/tmp/sleet/',
                 'trimPath' => __ROOT__,
                 'compile' => Compiler::IF_CHANGE
             ]);
