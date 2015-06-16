@@ -2,11 +2,11 @@
 
 namespace App;
 
+use App\Libraries\Email;
 use Ice\Di;
 use Ice\Dump;
 use Ice\Exception;
 use Ice\Log\Driver\File as Logger;
-use App\Libraries\Email;
 
 /**
  * Handle exception, do something with it depending on the environment

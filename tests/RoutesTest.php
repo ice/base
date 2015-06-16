@@ -2,10 +2,10 @@
 
 namespace Tests;
 
-use PHPUnit_Framework_TestCase as PHPUnit;
+use App\Routes;
 use Ice\Di;
 use Ice\Mvc\Router;
-use App\Routes;
+use PHPUnit_Framework_TestCase as PHPUnit;
 
 class RoutesTest extends PHPUnit
 {

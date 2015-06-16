@@ -2,8 +2,8 @@
 
 namespace App\Modules\Shell\Tasks;
 
-use Ice\Cli\Task;
 use Ice\Cli\Console;
+use Ice\Cli\Task;
 
 /**
  * Main Shell Task
