@@ -7,7 +7,7 @@ php:
 
 before_script:
   - ./tests/install-extension.sh
-  - composer update --dev
+  - composer update
   - phpenv config-rm xdebug.ini
   - phpenv rehash
 
