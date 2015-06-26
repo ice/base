@@ -14,10 +14,8 @@ class Users extends AuthUsers
 
     /**
      * This fields are valid and only them will be saved
-     *
-     * Zephir issue #520
      */
-    protected $fields = [
+    protected $_fields = [
         'id',
         'email',
         'username',
@@ -25,7 +23,11 @@ class Users extends AuthUsers
         'logins',
         'lastlogin'
     ];
-    protected $rules = [
+
+    /**
+     * Rules to validate user during create
+     */
+    protected $_rules = [
         'username' => [
             'required',
             'length' => [
@@ -43,31 +45,15 @@ class Users extends AuthUsers
         'password' => 'required|length:5,32',
         'email' => 'required|email|unique:users',
     ];
-    protected $labels = [
-        'username' => 'Username',
-        'password' => 'Password',
-        'email' => 'Email',
-    ];
-
-    /**
-     * Zephir issue #520
-     * Can't overwrite the default array data if extends
-     */
-    public function onConstruct()
-    {
-        $this->setFields($this->fields);
-        $this->setRules($this->rules);
-        $this->setLabels($this->labels);
-    }
 
     /**
      * Add user relations
      *
-     * <code>
+     * <pre><code>
      *  $this->hasMany('id', __NAMESPACE__ . '\Posts', 'user_id', [
      *      'alias' => 'Posts'
      *  ]);
-     * </code>
+     * </code></pre>
      *
      * @return void
      */
@@ -87,14 +73,13 @@ class Users extends AuthUsers
         } else {
             // Add login role
             $roleUser = new AuthRolesUsers();
-            $roleUser->user_id = $this->id;
-            $roleUser->role_id = Roles::findOne(['name' => 'login'])->id;
+            $roleUser->user_id = $this->getId();
+            $roleUser->role_id = Roles::findOne(['name' => 'login'])->getId();
 
             if ($roleUser->create() === true) {
                 return true;
             } else {
-                //echo $this->getDi()->dump->vars($roleUser);
-                return false;
+                throw new Error($roleUser->getError());
             }
         }
     }
@@ -129,13 +114,13 @@ class Users extends AuthUsers
 
         // Only valid _fields are accepted from the _POST
         if ($this->create($_POST, $extra) === true) {
-            $hash = md5($this->id . $this->email . $this->password . $this->getDi()->getConfig()->auth->hash_key);
+            $hash = md5($this->getId() . $this->email . $this->password . $this->getDi()->getConfig()->auth->hash_key);
             $email = new Email();
             $email->prepare(
                 _t('Activation'),
                 $this->email,
                 'email/activation',
-                ['username' => $this->username, 'id' => $this->id, 'hash' => $hash]
+                ['username' => $this->username, 'id' => $this->getId(), 'hash' => $hash]
             );
 
             if ($email->Send() === true) {
@@ -145,7 +130,7 @@ class Users extends AuthUsers
                 return false;
             }
         } else {
-            return false;
+            return $this->getMessages();
         }
     }
 
@@ -179,13 +164,13 @@ class Users extends AuthUsers
                 $userSocial = new UserSocial();
                 $userSocial->social_id = $social->getSocialId();
                 $userSocial->type = $social->getProvider();
-                $userSocial->user_id = $this->id;
+                $userSocial->user_id = $this->getId();
 
                 if ($userSocial->create() === true) {
                     // Add login role
                     $roleUser = new RolesUsers();
-                    $roleUser->user_id = $this->id;
-                    $roleUser->role_id = Roles::findOne(['name' => 'login'])->id;
+                    $roleUser->user_id = $this->getId();
+                    $roleUser->role_id = Roles::findOne(['name' => 'login'])->getId();
 
                     if ($roleUser->create() === true) {
                         return $this;
@@ -207,7 +192,7 @@ class Users extends AuthUsers
         $userSocial = new UserSocial();
         $userSocial->social_id = $social->getSocialId();
         $userSocial->type = $social->getProvider();
-        $userSocial->user_id = $this->id;
+        $userSocial->user_id = $this->getId();
 
         if ($userSocial->create() === true) {
             return true;
