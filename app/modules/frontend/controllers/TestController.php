@@ -24,8 +24,10 @@ class TestController extends IndexController
             'username' => 'user',
             'password' => $this->auth->hash('user'),
         ]);
+        $errors = $user->getMessages();
+        $activation = $user->activation();
 
-        echo $this->dump->vars($create);
+        $this->view->setContent($this->dump->vars($create, $activation, $errors));
     }
 
     /**
@@ -36,5 +38,27 @@ class TestController extends IndexController
         $login = $this->auth->login('user', 'user', true);
 
         echo $this->dump->vars($login);
+    }
+
+    public function newAction()
+    {
+        $user = new \Ice\Auth\Driver\Model\Users(["username" => 'user']);
+
+        echo $this->dump->vars($user);
+    }
+
+    public function findAction()
+    {
+        //$user = \Ice\Auth\Driver\Model\Users::findOne(["username" => 'user']);
+        $user = Users::findOne('1');
+
+        echo $this->dump->vars($user);
+    }
+
+    public function loadAction()
+    {
+        $user = new \Ice\Auth\Driver\Model\Users();
+
+        echo $this->dump->vars($user->loadOne(["username" => 'user']));
     }
 }
