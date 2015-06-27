@@ -15,7 +15,7 @@ class Users extends AuthUsers
     /**
      * This fields are valid and only them will be saved
      */
-    protected $_fields = [
+    protected $fields = [
         'id',
         'email',
         'username',
@@ -27,7 +27,7 @@ class Users extends AuthUsers
     /**
      * Rules to validate user during create
      */
-    protected $_rules = [
+    protected $rules = [
         'username' => [
             'required',
             'length' => [
@@ -112,7 +112,7 @@ class Users extends AuthUsers
             'repeatEmail' => 'Repeat email',
         ]);
 
-        // Only valid _fields are accepted from the _POST
+        // Only valid fields are accepted from the _POST
         if ($this->create($_POST, $extra) === true) {
             $hash = md5($this->getId() . $this->email . $this->password . $this->getDi()->getConfig()->auth->hash_key);
             $email = new Email();
