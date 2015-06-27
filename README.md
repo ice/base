@@ -3,6 +3,7 @@
 Use this application as a way to quick start any new project.
 
 [![Build Status](https://travis-ci.org/ice/base.svg)](https://travis-ci.org/ice/base)
+[![Dependency Status](https://www.versioneye.com/user/projects/558e6020316338001a0000da/badge.svg?style=flat)](https://www.versioneye.com/user/projects/558e6020316338001a0000da)
 
 #### Install the composer package
 ```sh

@@ -12,12 +12,12 @@
     ],
     "require": {
         "php": ">=5.4",
-        "ext-ice": "~1.0",
+        "ext-ice": "1.0.15",
         "phpmailer/phpmailer": "~5.2.9",
-        "erusev/parsedown-extra": "~0.6.0"
+        "erusev/parsedown-extra": "~0.7.0"
     },
     "require-dev": {
-        "squizlabs/php_codesniffer": "~1.5.5",
-        "phpunit/phpunit": "~4.4.0"
+        "squizlabs/php_codesniffer": "~2.3.3",
+        "phpunit/phpunit": "~4.7.5"
     }
 }
