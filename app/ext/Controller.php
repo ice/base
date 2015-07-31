@@ -78,7 +78,8 @@ class Controller extends \Ice\Mvc\Controller
         // Set final title and description
         $this->tag->setTitleSeparator(' | ');
         $this->tag->appendTitle($this->config->app->name);
-        $this->app->description = mb_substr($this->filter->sanitize($this->app->description, 'string'), 0, 200, 'utf-8');
+        $this->app->description =
+            mb_substr($this->filter->sanitize($this->app->description, 'string'), 0, 200, 'utf-8');
     }
 
     /**
