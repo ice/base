@@ -10,7 +10,7 @@
     src:
         local('Open Sans Light'),
         local('OpenSans-Light'),
-        url('../fonts/OpenSans-Light.woff') format('woff');
+        url('../../fonts/OpenSans-Light.woff') format('woff');
 }
 @font-face {
     font-family: 'Open Sans';
@@ -19,7 +19,7 @@
     src: 
         local('Open Sans'),
         local('OpenSans'),
-        url('../fonts/OpenSans.woff') format('woff');
+        url('../../fonts/OpenSans.woff') format('woff');
 }
 @font-face {
     font-family: 'Open Sans';
@@ -28,7 +28,7 @@
     src: 
         local('Open Sans Italic'), 
         local('OpenSans-Italic'), 
-        url('../fonts/OpenSans-Italic.woff') format('woff');
+        url('../../fonts/OpenSans-Italic.woff') format('woff');
 }
 @font-face {
     font-family: 'Open Sans';
@@ -37,7 +37,7 @@
     src:
         local('Open Sans Semibold'),
         local('OpenSans-Semibold'), 
-        url('../fonts/OpenSans-Semibold.woff') format('woff');
+        url('../../fonts/OpenSans-Semibold.woff') format('woff');
 }
 
 /* Responsive fonts */

@@ -78,7 +78,7 @@ class Error extends Exception
 
         if ($err->log) {
             // Log error into the file
-            $logger = new Logger(__ROOT__ . '/app/common/log/' . date('Ymd') . '.log');
+            $logger = new Logger(__ROOT__ . '/app/log/' . date('Ymd') . '.log');
             $logger->error($error);
             $logger->info($info);
             $logger->debug($debug);
@@ -92,7 +92,7 @@ class Error extends Exception
             $email->prepare(_t('Something is wrong!'), $di->config->app->admin, 'email/error', ['log' => $log]);
 
             if ($email->Send() !== true) {
-                $logger = new Logger(__ROOT__ . '/app/common/log/' . date('Ymd') . '.log');
+                $logger = new Logger(__ROOT__ . '/app/log/' . date('Ymd') . '.log');
                 $logger->error($email->ErrorInfo);
             }
         }

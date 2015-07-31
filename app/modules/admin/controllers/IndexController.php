@@ -14,6 +14,17 @@ class IndexController extends Controller
 {
 
     /**
+     * Before execute action
+     */
+    public function before()
+    {
+        // Set admin header
+        $this->view->setVar('header', 'header_admin');
+        
+        parent::before();
+    }
+
+    /**
      * Check privileges
      */
     public function initialize()
@@ -29,9 +40,6 @@ class IndexController extends Controller
         }
 
         parent::initialize();
-
-        // Set admin header
-        $this->view->setVar('header', 'header_admin');
     }
 
     /**
@@ -40,6 +48,6 @@ class IndexController extends Controller
     public function indexAction()
     {
         $this->tag->setTitle(_t('Admin panel'));
-        $this->siteDesc = _t('Admin panel');
+        $this->app->description = _t('Admin panel');
     }
 }

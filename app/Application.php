@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Ice\Assets;
 use Ice\Auth\Driver\Model as Auth;
 use Ice\Config\Ini as Config;
 use Ice\Cookies;
@@ -35,6 +36,32 @@ class Application extends App
 {
 
     /**
+     * Meta description
+     * @var string
+     */
+    public $description;
+
+    /**
+     * Meta keywords
+     * @var string
+     */
+    public $keywords;
+
+    /**
+     * App constructor
+     *
+     * @param Di $di
+     */
+    public function __construct(Di $di)
+    {
+        // Register the app itself as a service
+        $di->app = $this;
+
+        // Set the dependency injector
+        parent::__construct($di);
+    }
+
+    /**
      * Initialize the application
      *
      * @return Application
@@ -45,10 +72,10 @@ class Application extends App
         $this->registerLoader();
 
         // Load the config
-        $config = new Config(__ROOT__ . '/app/common/cfg/config.ini');
+        $config = new Config(__ROOT__ . '/app/cfg/config.ini');
 
         // Set environment settings
-        $config->set('env', (new Config(__ROOT__ . '/app/common/cfg/env.ini'))->{$config->app->env});
+        $config->set('env', (new Config(__ROOT__ . '/app/cfg/env.ini'))->{$config->app->env});
         $this->config = $config;
 
         // Register modules
@@ -69,9 +96,9 @@ class Application extends App
     public function registerLoader()
     {
         (new Loader())
-                ->addNamespace('App\Models', __ROOT__ . '/app/common/models')
-                ->addNamespace('App\Libraries', __ROOT__ . '/app/common/lib')
-                ->addNamespace('App\Extensions', __ROOT__ . '/app/common/ext')
+                ->addNamespace('App\Models', __ROOT__ . '/app/models')
+                ->addNamespace('App\Libraries', __ROOT__ . '/app/lib')
+                ->addNamespace('App\Extensions', __ROOT__ . '/app/ext')
                 ->register();
     }
 
@@ -106,6 +133,17 @@ class Application extends App
         $this->di->tag = new Tag();
         $this->di->flash = new Flash();
 
+        // Set the assets service
+        $this->di->set('assets', function () use ($config) {
+            $assets = new Assets();
+            $assets->setOptions([
+                'source' => __ROOT__ . '/public/',
+                'target' => 'min/',
+                'minify' => $config->env->assets->minify
+            ]);
+            return $assets;
+        });
+
         // Set the dispatcher service
         $this->di->set('dispatcher', function () use ($config) {
             $dispatcher = new Dispatcher();
@@ -136,12 +174,12 @@ class Application extends App
         // Set the view service
         $this->di->set('view', function () {
             $view = new View();
-            $view->setViewsDir(__ROOT__ . '/app/common/views/');
+            $view->setViewsDir(__ROOT__ . '/app/views/');
 
             // Options for Sleet template engine
             $sleet = new Sleet($view, $this->di);
             $sleet->setOptions([
-                'compileDir' => __ROOT__ . '/app/common/tmp/sleet/',
+                'compileDir' => __ROOT__ . '/app/tmp/sleet/',
                 'trimPath' => __ROOT__,
                 'compile' => Compiler::IF_CHANGE
             ]);
