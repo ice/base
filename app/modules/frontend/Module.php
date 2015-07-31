@@ -40,7 +40,7 @@ class Module implements ModuleInterface
 
         // Overwrite views dirs
         $di->view->setViewsDir(__DIR__ . '/views/');
-        $di->view->setPartialsDir('../../../common/views/partials/');
-        $di->view->setLayoutsDir('../../../common/views/layouts/');
+        $di->view->setPartialsDir('../../../views/partials/');
+        $di->view->setLayoutsDir('../../../views/layouts/');
     }
 }

@@ -23,7 +23,7 @@ class StaticController extends Controller
     public function contactAction()
     {
         $this->tag->setTitle(_t('Contact'));
-        $this->siteDesc = _t('Contact');
+        $this->app->description = _t('Contact');
     }
 
     /**

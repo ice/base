@@ -77,7 +77,7 @@ class UserController extends IndexController
     public function signinAction()
     {
         $this->tag->setTitle(_t('Sign in'));
-        $this->siteDesc = _t('Sign in');
+        $this->app->description = _t('Sign in');
 
         if ($this->request->hasPost('submit_signin') && $this->request->hasPost('username') &&
             $this->request->hasPost('password')) {
@@ -128,7 +128,7 @@ class UserController extends IndexController
     {
         if (!$this->auth ->loggedIn()) {
             $this->tag->setTitle(_t('signIn'));
-            $this->siteDesc = _t('signIn');
+            $this->app->description = _t('signIn');
 
             $params = $this->router->getParams();
             if (isset($params['param'])) {
@@ -282,7 +282,7 @@ class UserController extends IndexController
     public function signupAction()
     {
         $this->tag->setTitle(_t('Sign up'));
-        $this->siteDesc = _t('Sign up');
+        $this->app->description = _t('Sign up');
 
         if ($this->request->isPost() == true) {
             $user = new Users();

@@ -43,7 +43,7 @@ class Markdown extends Engine implements EngineInterface
     public function render($path, array $data = [])
     {
         $content = $this->parser->text(file_get_contents($path));
-        $this->_view->setContent($content);
+        $this->view->setContent($content);
         return $content;
     }
 }

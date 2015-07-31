@@ -3,7 +3,7 @@
 
 ### Configuration:
 1. Use `ice/framework/auth-mysql.sql` file to create required tables
-2. Set *base_uri* and other settings in the `/app/common/cfg/config.ini` file:
+2. Set *base_uri* and other settings in the `/app/cfg/config.ini` file:
 
 ```ini
 [app]

@@ -18,9 +18,9 @@ class IndexController extends Controller
     {
         parent::before();
         
-        $this->assets['styles'][] = $this->tag->link(['css/highlight/tomorrow.min.css?v=8.3']);
-        $this->assets['scripts'][] = $this->tag->script(['js/plugins/highlight.min.js?v=8.3']);
-        $this->assets['scripts'][] = $this->tag->script([
+        $this->assets->add('css/highlight/tomorrow.min.css', '8.3');
+        $this->assets->add('js/plugins/highlight.min.js', '8.3');
+        $this->assets->addJs([
             'content' => '$(document).ready(function() {$("pre code").each(function(i, e) {hljs.highlightBlock(e)});});'
         ]);
     }
@@ -31,6 +31,6 @@ class IndexController extends Controller
     public function indexAction()
     {
         $this->tag->setTitle(_t('Documentation'));
-        $this->siteDesc = _t('Documentation');
+        $this->app->description = _t('Documentation');
     }
 }

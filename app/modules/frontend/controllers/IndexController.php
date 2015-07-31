@@ -19,6 +19,6 @@ class IndexController extends Controller
     public function indexAction()
     {
         $this->tag->setTitle(_t('Home'));
-        $this->siteDesc = _t('Home');
+        $this->app->description = _t('Home');
     }
 }

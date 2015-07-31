@@ -48,13 +48,13 @@ class Email extends PHPMailer
     {
         // Prepare view service
         $view = new View();
-        $view->setViewsDir(__ROOT__ . '/app/common/views/');
+        $view->setViewsDir(__ROOT__ . '/app/views/');
         $view->setMainView('email');
 
         // Options for Sleet template engine
         $sleet = new Sleet($view, Di::fetch());
         $sleet->setOptions([
-            'compileDir' => __ROOT__ . '/app/common/tmp/sleet/',
+            'compileDir' => __ROOT__ . '/app/tmp/sleet/',
             'trimPath' => __ROOT__,
             'compile' => Compiler::IF_CHANGE
         ]);

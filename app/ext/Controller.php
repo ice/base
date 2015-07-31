@@ -14,18 +14,6 @@ class Controller extends \Ice\Mvc\Controller
 {
 
     /**
-     * Meta description
-     * @var string
-     */
-    public $siteDesc;
-
-    /**
-     * Assets container
-     * @var array
-     */
-    public $assets = [];
-
-    /**
      * Before execute action
      *
      * @return void
@@ -34,17 +22,18 @@ class Controller extends \Ice\Mvc\Controller
     {
         // Set default title and description
         $this->tag->setDocType(Tag::XHTML5);
-        $this->tag->setTitle('Default');
-        $this->siteDesc = 'Default';
+        $this->tag->setTitle($this->config->app->title);
+        $this->app->description = $this->config->app->description;
+        $this->app->keywords = $this->config->app->keywords;
 
         // Add css and js to assets collection
-        $this->assets['styles'][] = $this->tag->link(['css/bootstrap.min.css?v=3.3.1']);
-        $this->assets['styles'][] = $this->tag->link(['css/fonts.css']);
-        $this->assets['styles'][] = $this->tag->link(['css/app.css']);
+        $this->assets->add('css/bootstrap.min.css', '3.3.1');
+        $this->assets->add('css/fonts.css');
+        $this->assets->add('css/app.css');
 
-        $this->assets['scripts'][] = $this->tag->script(['js/jquery.min.js?v=1.11.1']);
-        $this->assets['scripts'][] = $this->tag->script(['js/bootstrap.min.js?v=3.3.1']);
-        $this->assets['scripts'][] = $this->tag->script(['js/plugins.js']);
+        $this->assets->add('js/jquery.min.js', '1.11.1');
+        $this->assets->add('js/bootstrap.min.js', '3.3.1');
+        $this->assets->add('js/plugins.js');
     }
 
     /**
@@ -75,8 +64,7 @@ class Controller extends \Ice\Mvc\Controller
         // Send langs to the view
         $this->view->setVars([
             // Translate langs before send
-            'siteLangs' => array_map('_t', $this->config->i18n->langs->toArray()),
-            'header' => 'header'
+            'siteLangs' => array_map('_t', $this->config->i18n->langs->toArray())
         ]);
     }
 
@@ -90,10 +78,8 @@ class Controller extends \Ice\Mvc\Controller
         // Set final title and description
         $this->tag->setTitleSeparator(' | ');
         $this->tag->appendTitle($this->config->app->name);
-        $this->view->setVars([
-            'siteDesc' => mb_substr($this->filter->sanitize($this->siteDesc, 'string'), 0, 200, 'utf-8'),
-            'assets' => $this->assets,
-        ]);
+        $this->app->description =
+            mb_substr($this->filter->sanitize($this->app->description, 'string'), 0, 200, 'utf-8');
     }
 
     /**
