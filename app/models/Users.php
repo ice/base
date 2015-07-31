@@ -28,20 +28,7 @@ class Users extends AuthUsers
      * Rules to validate user during create
      */
     protected $rules = [
-        'username' => [
-            'required',
-            'length' => [
-                'min' => 4,
-                'max' => 24
-            ],
-            'regex' => [
-                'pattern' => '/[a-z][a-z0-9_-]{3,}/i',
-            ],
-            'notIn' => ['about', 'admin', 'contact', 'help', 'index', 'info', 'lang', 'user', 'privacy', 'terms'],
-            'unique' => [
-                'from' => 'users'
-            ]
-        ],
+        'username' => 'required|length:4,24|regex:/[a-z][a-z0-9_-]{3,}/i|notIn:admin,index,user,root|unique:users',
         'password' => 'required|length:5,32',
         'email' => 'required|email|unique:users',
     ];
@@ -63,18 +50,18 @@ class Users extends AuthUsers
     }
 
     /**
-     * Activation user
+     * Add role to user
      */
-    public function activation()
+    public function addRole($role = 'login')
     {
-        if ($this->getRole()) {
-            // This user has login role, activation has already been completed
+        if ($this->getRole($role)) {
+            // This user has this role
             return null;
         } else {
             // Add login role
             $roleUser = new AuthRolesUsers();
             $roleUser->user_id = $this->getId();
-            $roleUser->role_id = Roles::findOne(['name' => 'login'])->getId();
+            $roleUser->role_id = Roles::findOne(['name' => $role])->getId();
 
             if ($roleUser->create() === true) {
                 return true;

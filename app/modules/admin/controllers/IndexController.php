@@ -18,17 +18,7 @@ class IndexController extends Controller
      */
     public function before()
     {
-        // Set admin header
-        $this->view->setVar('header', 'header_admin');
-        
-        parent::before();
-    }
-
-    /**
-     * Check privileges
-     */
-    public function initialize()
-    {
+        // Check privileges
         if (!$this->auth->loggedIn()) {
             // 401 Unauthorized
             $this->response->setStatus(401);
@@ -39,7 +29,10 @@ class IndexController extends Controller
             return $this->response;
         }
 
-        parent::initialize();
+        // Set admin header
+        $this->view->setVar('header', 'header_admin');
+        
+        parent::before();
     }
 
     /**

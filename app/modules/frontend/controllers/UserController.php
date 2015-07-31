@@ -31,7 +31,7 @@ class UserController extends IndexController
             $user = Users::findOne($id);
 
             if ($user && md5($user->id . $user->email . $user->password . $this->config->auth->hash_key) == $hash) {
-                $activation = $user->activation();
+                $activation = $user->addRole();
 
                 if ($activation === null) {
                     $this->flash->info(
