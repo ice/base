@@ -4,7 +4,8 @@ namespace App;
 
 use Ice\Assets;
 use Ice\Auth\Driver\Model as Auth;
-use Ice\Config\Ini as Config;
+use Ice\Config\Ini;
+use Ice\Config\Json;
 use Ice\Cookies;
 use Ice\Crypt;
 use Ice\Db;
@@ -72,10 +73,11 @@ class Application extends App
         $this->registerLoader();
 
         // Load the config
-        $config = new Config(__ROOT__ . '/app/cfg/config.ini');
+        $config = new Ini(__ROOT__ . '/app/cfg/config.ini');
 
         // Set environment settings
-        $config->set('env', (new Config(__ROOT__ . '/app/cfg/env.ini'))->{$config->app->env});
+        $config->set('env', (new Ini(__ROOT__ . '/app/cfg/env.ini'))->{$config->app->env});
+        $config->set('assets', new Json(__ROOT__ . '/app/cfg/assets.json'));
         $this->config = $config;
 
         // Register modules

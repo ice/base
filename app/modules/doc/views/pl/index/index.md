@@ -1,9 +1,9 @@
-# Documentation
+# Dokumentacja
 ***
 
-### Configuration:
-1. Use `ice/framework/auth-mysql.sql` file to create required tables
-2. Set *base_uri* and other settings in the `/app/cfg/config.ini` file:
+### Konfiguracja:
+1. Użyj `auth.sql` do stworzenia wymaganych tabel.
+2. Ustaw *base_uri* i inne opcje w pliku `/app/cfg/config.ini`:
 
 ```ini
 [app]
@@ -13,7 +13,7 @@ static_uri = "http://www.example.com/"
 admin = "admin@example.com"
 ```
 <br />
-Enter the settings to connect to the database:
+Podaj ustawienia do połączenia do bazy danych:
 ```ini
 [database]
 host     = "localhost"
@@ -22,7 +22,7 @@ password = "password"
 dbname   = "base"
 ```
 <br />
-Change default hash keys. It is **very important** for safety reasons:
+Zmień domyślne klucze. To jest **bardzo ważne** ze względów bezpieczeństwa:
 ```ini
 [auth]
 hash_key = "secret_key"
@@ -34,33 +34,33 @@ key = "secret_key"
 salt = "secret_key"
 ```
 <br />
-Prepare the application for the first run:
+Przygotuj aplikację do pierwszego użycia:
 ```bash
 cd /path/to/base/private
 php index.php --module=shell --handler=prepare --action=chmod
 ```
 ***
 
-### Requirements:
+### Wymagania:
 * Ice framework
 
 ***
-### Example sleet usage:
-Access to `auth` service in the views:
+### Przykład użycia sleet:
+Dostęp do usługi `auth` w widokach:
 ```twig
 {% if this.auth.loggedIn() %}
     {{ this.auth.getUser().username }}
 {% endif %}
 ```
 <br />
-Easy translation with `_t()` function:
+Łatwe tłumaczenie z funkcją `_t()`:
 ```twig
 {% set username = this.auth.getUser().username %}
 {{ _t('Hello :user', [':user' : username]) }}
 {{ _t('Hello %s', [username]) }}
 ```
 <br />
-Mixed usage:
+Różne:
 ```twig
 {% if this.auth.loggedIn('admin') %}
     {{ _t('Hello :user', [':user' : this.auth.getUser().username]) }}
@@ -68,7 +68,7 @@ Mixed usage:
 {% endif %}
 ```
 <br />
-Use class in the view:
+Używaj klasy w widokach:
 ```twig
 {% use App\Models\Users %}
 
@@ -76,7 +76,7 @@ Use class in the view:
 {{ user.username }}
 ```
 <br />
-Debug variables:
+Debuguj zmienne:
 ```php
 {{ dump('string', 1, 2.5, true, null, ['key': 'value']) }}
 ```

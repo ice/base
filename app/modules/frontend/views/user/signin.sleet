@@ -1,15 +1,15 @@
-<h2>{{ _t('Sign in') }}</h2><hr />
+<h2>{{ _t('signIn') }}</h2><hr />
 <p>
-    <strong>{{ _t('Sign in by') }}: </strong>
+    <strong>{{ _t('signInBy') }}: </strong>
     {{ link_to(['user/signinby/facebook', 'Facebook', 'class': 'btn btn-primary']) }} {{ link_to(['user/signinby/google', 'Google', 'class': 'btn btn-danger']) }} {{ link_to(['user/signinby/twitter', 'Twitter', 'class': 'btn btn-info']) }}
 </p>
 {{ this.flash.getMessages() }}
 {{ form(['user/signin', 'class' : 'form-horizontal']) }}
 {% set field = 'username' %}
 <div class="form-group{{ errors|isset and errors.has(field) ? ' has-error' : (isset(_POST[field]) ? ' has-success' : '') }}">
-    <label class="control-label col-lg-2" for={{ field }}>{{ _t(field|capitalize) }}:</label>
+    <label class="control-label col-lg-2" for={{ field }}>{{ _t(field) }}:</label>
     <div class="col-lg-10">
-    {{ text_field([ field, 'class' : 'form-control', 'placeholder' : _t(field|capitalize) ]) }}
+    {{ text_field([ field, 'class' : 'form-control', 'placeholder' : _t(field) ]) }}
     {% if errors|isset and errors.has(field) %}
         <span class="help-block">{{ current(errors.get(field)) }}</span>
     {% endif %}
@@ -17,9 +17,9 @@
 </div>
 {% set field = 'password' %}
 <div class="form-group{{ errors|isset and errors.has(field) ? ' has-error' : (isset(_POST[field]) ? ' has-success' : '') }}">
-    <label class="control-label col-lg-2" for={{ field }}>{{ _t(field|capitalize) }}:</label>
+    <label class="control-label col-lg-2" for={{ field }}>{{ _t(field) }}:</label>
     <div class="col-lg-10">
-    {{ password_field([ field, 'class' : 'form-control', 'placeholder' : _t(field|capitalize) ]) }}
+    {{ password_field([ field, 'class' : 'form-control', 'placeholder' : _t(field) ]) }}
     {% if errors|isset and errors.has(field) %}
         <span class="help-block">{{ current(errors.get(field)) }}</span>
     {% endif %}
@@ -30,7 +30,7 @@
     <div class="col-lg-offset-2 col-lg-10">
         <div class="checkbox">
             <label>
-                {{ check_field([field, 'value': 'on']) }} {{ _t(field|human) }}
+                {{ check_field([field, 'value': 'on']) }} {{ _t(field) }}
             </label>
         </div>
     </div>
@@ -39,10 +39,10 @@
 <div class="form-group">
     <div class="col-lg-offset-2 col-lg-10">
         <p>
-            {{ button(['submit_signin', '<span class="glyphicon glyphicon-log-in"></span> ' ~ _t('Sign in'), 'class': "btn btn-default"]) }}
+            {{ button(['submit_signin', '<span class="glyphicon glyphicon-log-in"></span> ' ~ _t('signIn'), 'class': "btn btn-default"]) }}
         </p>
         <p class="text-muted">
-            {{  _t("Don't have an account?") }} {{ link_to([ 'user/signup', _t('Sign up') ~ ' »' ]) }}
+            {{  _t("noAccount?") }} {{ link_to([ 'user/signup', _t('signUp') ~ ' »' ]) }}
         </p>
     </div>
 </div>

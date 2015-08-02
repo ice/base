@@ -1,11 +1,11 @@
-<h1>{{ _t('Contact') }}</h1><hr />
+<h1>{{ _t('contact') }}</h1><hr />
 {{ this.flash.getMessages() }}
 {{ form(['contact', 'class' : 'form-horizontal']) }}
 {% set field = 'fullName' %}
 <div class="form-group{{ errors|isset and errors.has(field) ? ' has-error' : (isset(_POST[field]) ? ' has-success' : '') }}">
-    <label class="control-label col-lg-2" for={{ field }}>{{ _t(field|human) }}:</label>
+    <label class="control-label col-lg-2" for={{ field }}>{{ _t(field) }}:</label>
     <div class="col-lg-10">
-    {{ text_field([ field, 'class' : 'form-control', 'placeholder' : _t(field|human) ]) }}
+    {{ text_field([ field, 'class' : 'form-control', 'placeholder' : _t(field) ]) }}
     {% if errors|isset and errors.has(field) %}
         <span class="help-block">{{ current(errors.get(field)) }}</span>
     {% endif %}
@@ -13,9 +13,9 @@
 </div>
 {% set field = 'email' %}
 <div class="form-group{{ errors|isset and errors.has(field) ? ' has-error' : (isset(_POST[field]) ? ' has-success' : '') }}">
-    <label class="control-label col-lg-2" for={{ field }}>{{ _t(field|capitalize) }}:</label>
+    <label class="control-label col-lg-2" for={{ field }}>{{ _t(field) }}:</label>
     <div class="col-lg-10">
-    {{ text_field([ field, 'class' : 'form-control', 'placeholder' : _t(field|capitalize) ]) }}
+    {{ text_field([ field, 'class' : 'form-control', 'placeholder' : _t(field) ]) }}
     {% if errors|isset and errors.has(field) %}
         <span class="help-block">{{ current(errors.get(field)) }}</span>
     {% endif %}
@@ -23,9 +23,9 @@
 </div>
 {% set field = 'repeatEmail' %}
 <div class="form-group{{ errors|isset and errors.has(field) ? ' has-error' : (isset(_POST[field]) ? ' has-success' : '') }}">
-    <label class="control-label col-lg-2" for={{ field }}>{{ _t(field|human) }}:</label>
+    <label class="control-label col-lg-2" for={{ field }}>{{ _t(field) }}:</label>
     <div class="col-lg-10">
-    {{ text_field([ field, 'class' : 'form-control', 'placeholder' : _t(field|human) ]) }}
+    {{ text_field([ field, 'class' : 'form-control', 'placeholder' : _t(field) ]) }}
     {% if errors|isset and errors.has(field) %}
         <span class="help-block">{{ current(errors.get(field)) }}</span>
     {% endif %}
@@ -33,9 +33,9 @@
 </div>
 {% set field = 'content' %}
 <div class="form-group{{ errors|isset and errors.has(field) ? ' has-error' : (isset(_POST[field]) ? ' has-success' : '') }}">
-    <label class="control-label col-lg-2" for={{ field }}>{{ _t(field|capitalize) }}:</label>
+    <label class="control-label col-lg-2" for={{ field }}>{{ _t(field) }}:</label>
     <div class="col-lg-10">
-    {{ text_area([field, 'class' : 'form-control', 'placeholder' : _t(field|capitalize), 'rows': '5', 'onclick': "this.rows='10'" ]) }}
+    {{ text_area([field, 'class' : 'form-control', 'placeholder' : _t(field), 'rows': '5', 'onclick': "this.rows='10'" ]) }}
     {% if errors|isset and errors.has(field) %}
         <span class="help-block">{{ current(errors.get(field)) }}</span>
     {% endif %}
@@ -45,7 +45,7 @@
 <div class="form-group">
     <div class="col-lg-offset-2 col-lg-10">
         <p>
-            {{ button(['submit', '<span class="glyphicon glyphicon-envelope"></span> ' ~ _t('Send'), 'class': "btn btn-default"]) }}
+            {{ button(['submit', '<span class="glyphicon glyphicon-envelope"></span> ' ~ _t('send'), 'class': "btn btn-default"]) }}
         </p>
     </div>
 </div>

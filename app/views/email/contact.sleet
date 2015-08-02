@@ -1,6 +1,6 @@
 <p>
-    {{ _t('Welcome') }},<br />
+    {{ _t('hi') }},<br />
     {{ fullName ~ ' ' ~ _t('wrote') }}:
 </p>
 <p>{{ content|nl2br }}</p>
-<p>{{ _t('Sender') ~ ': ' ~ email }}</p>
+<p>{{ _t('sender') ~ ': ' ~ email }}</p>

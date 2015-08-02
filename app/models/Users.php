@@ -104,7 +104,7 @@ class Users extends AuthUsers
             $hash = md5($this->getId() . $this->email . $this->password . $this->getDi()->getConfig()->auth->hash_key);
             $email = new Email();
             $email->prepare(
-                _t('Activation'),
+                _t('activation'),
                 $this->email,
                 'email/activation',
                 ['username' => $this->username, 'id' => $this->getId(), 'hash' => $hash]

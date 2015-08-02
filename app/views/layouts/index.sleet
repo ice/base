@@ -23,7 +23,7 @@
             {{ script }}
         {% endforeach %}
         <!--[if lt IE 9]>
-            {{ script(['js/respond.min.js?v=1.4.2']) }}
+            {{ script(['js/respond.min.js?v=' ~ this.config.assets.respond]) }}
         <![endif]-->
     </body>
 </html>

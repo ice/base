@@ -1,7 +1,9 @@
 .*
+_*
 *~
 !.gitignore
 !.travis.yml
 !.htaccess
 /vendor/
 /composer.lock
+/app/modules/frontend/controllers/TestController.php
