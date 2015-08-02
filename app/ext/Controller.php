@@ -26,14 +26,14 @@ class Controller extends \Ice\Mvc\Controller
         $this->app->description = $this->config->app->description;
         $this->app->keywords = $this->config->app->keywords;
 
-        // Add css and js to assets collection
-        $this->assets->add('css/bootstrap.min.css', '3.3.1');
+        // Add styles to assets
+        $this->assets->add('css/bootstrap.min.css', $this->config->assets->bootstrap);
         $this->assets->add('css/fonts.css');
-        $this->assets->add('css/app.css');
-
-        $this->assets->add('js/jquery.min.js', '1.11.1');
-        $this->assets->add('js/bootstrap.min.js', '3.3.1');
-        $this->assets->add('js/plugins.js');
+        $this->assets->add('css/styles.css', $this->config->assets->styles);
+        // Add scripts to assets
+        $this->assets->add('js/jquery.min.js', $this->config->assets->jquery);
+        $this->assets->add('js/bootstrap.min.js', $this->config->assets->bootstrap);
+        $this->assets->add('js/plugins.js', $this->config->assets->plugins);
     }
 
     /**

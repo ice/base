@@ -1,0 +1,8 @@
+{
+    "jquery": "1.11.3",
+    "respond": "1.4.2",
+    "bootstrap": "3.3.5",
+    "highlight": "8.7",
+    "plugins": "1.0.0",
+    "styles": "1.0.0"
+}
