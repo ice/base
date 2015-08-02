@@ -40,7 +40,7 @@ class IndexController extends Controller
      */
     public function indexAction()
     {
-        $this->tag->setTitle(_t('Admin panel'));
-        $this->app->description = _t('Admin panel');
+        $this->tag->setTitle(_t('adminPanel'));
+        $this->app->description = _t('adminPanel');
     }
 }

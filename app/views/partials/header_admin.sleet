@@ -1,22 +1,22 @@
 <header class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
-            {{ button(['togle_header', '<span class="sr-only">' ~ _t('Toggle') ~ '</span>' ~ str_repeat('<span class="icon-bar"></span>', 3), 'type': 'button', 'class': "navbar-toggle", 'data-toggle': 'collapse', 'data-target': '#header-collapse']) }}
+            {{ button(['togle_header', '<span class="sr-only">' ~ _t('toggle') ~ '</span>' ~ str_repeat('<span class="icon-bar"></span>', 3), 'type': 'button', 'class': "navbar-toggle", 'data-toggle': 'collapse', 'data-target': '#header-collapse']) }}
             {{ link_to(['admin', this.config.app.name, 'class' : 'navbar-brand']) }}
         </div>
         <div class="collapse navbar-collapse" id="header-collapse">
             <ul class="nav navbar-nav">
-                <li>{{ link_to([null, '<span class="glyphicon glyphicon-home"></span>', 'title': _t('Home')]) }}</li>
-                <li>{{ link_to(['user/signout', '<span class="glyphicon glyphicon-log-out"></span>', 'title': _t('Sign out')]) }}</li>
+                <li>{{ link_to([null, '<span class="glyphicon glyphicon-home"></span>', 'title': _t('home')]) }}</li>
+                <li>{{ link_to(['user/signout', '<span class="glyphicon glyphicon-log-out"></span>', 'title': _t('signOut')]) }}</li>
             </ul>
             <ul class="nav navbar-nav pull-right pull-none">
                 <li class="dropdown">
                     {{ link_to([ '#', 'class' : 'dropdown-togle', 'data-toggle' : 'dropdown', this.auth.getUser().username ~ '<b class="caret"></b>' ]) }}
                     <ul class="dropdown-menu">
                         <li class="dropdown-header">{{ this.auth.getUser().email }}</li>
-                        <li>{{ link_to(['user', '<span class="glyphicon glyphicon-user"></span> ' ~ _t('Account')]) }}</li>
+                        <li>{{ link_to(['user', '<span class="glyphicon glyphicon-user"></span> ' ~ _t('account')]) }}</li>
                         <li class="divider"></li>
-                        <li>{{ link_to(['user/signout', '<span class="glyphicon glyphicon-log-out"></span> ' ~ _t('Sign out')]) }}</li>
+                        <li>{{ link_to(['user/signout', '<span class="glyphicon glyphicon-log-out"></span> ' ~ _t('signOut')]) }}</li>
                     </ul>
                 </li>
             </ul>

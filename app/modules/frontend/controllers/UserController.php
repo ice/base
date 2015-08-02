@@ -20,8 +20,8 @@ class UserController extends IndexController
      */
     public function activationAction()
     {
-        $this->tag->setTitle(_t('Activation'));
-        $this->view->setVar('title', _t('Activation'));
+        $this->tag->setTitle(_t('activation'));
+        $this->view->setVar('title', _t('activation'));
 
         $params = $this->router->getParams();
 
@@ -34,23 +34,14 @@ class UserController extends IndexController
                 $activation = $user->addRole();
 
                 if ($activation === null) {
-                    $this->flash->info(
-                        '<strong>' . _t('Information') . '!</strong> ' .
-                        _t("Activation has already been completed.")
-                    );
+                    $this->flash->info(_t('flash/notice/activation'));
                 } elseif ($activation === true) {
-                    $this->flash->success(
-                        '<strong>' . _t('Success') . '!</strong> ' .
-                        _t("Activation completed. Please log in.")
-                    );
+                    $this->flash->success(_t('flash/success/activation'));
                     // Redirect to sign in
                     $this->view->setVar('redirect', 'user/signin');
                 }
             } else {
-                $this->flash->error(
-                    '<strong>' . _t('Error') . '!</strong> ' .
-                    _t("Activation cannot be completed. Invalid username or hash.")
-                );
+                $this->flash->error(_t('flash/danger/activation'));
             }
 
             $this->view->setContent($this->view->partial('message'));
@@ -76,8 +67,8 @@ class UserController extends IndexController
      */
     public function signinAction()
     {
-        $this->tag->setTitle(_t('Sign in'));
-        $this->app->description = _t('Sign in');
+        $this->tag->setTitle(_t('signIn'));
+        $this->app->description = _t('signIn');
 
         if ($this->request->hasPost('submit_signin') && $this->request->hasPost('username') &&
             $this->request->hasPost('password')) {
@@ -91,9 +82,9 @@ class UserController extends IndexController
                 $errors = [];
 
                 if ($login === null) {
-                    $errors['username'][] = _t('Field :field is not valid', [':field' => _t('Username')]);
+                    $errors['username'][] = _t('Field :field is not valid', [':field' => _t('username')]);
                 } else {
-                    $errors['password'][] = _t('Field :field is not valid', [':field' => _t('Password')]);
+                    $errors['password'][] = _t('Field :field is not valid', [':field' => _t('password')]);
                 }
 
                 $this->view->setVar('errors', new Arr($errors));
@@ -281,21 +272,18 @@ class UserController extends IndexController
      */
     public function signupAction()
     {
-        $this->tag->setTitle(_t('Sign up'));
-        $this->app->description = _t('Sign up');
+        $this->tag->setTitle(_t('signUp'));
+        $this->app->description = _t('signUp');
 
         if ($this->request->isPost() == true) {
             $user = new Users();
             $signup = $user->signup();
 
             if ($signup instanceof Users) {
-                $this->flash->notice(
-                    '<strong>' . _t('Success') . '!</strong> ' .
-                    _t("Check Email to activate your account.")
-                );
+                $this->flash->notice(_t('flash/notice/checkEmail'));
             } else {
                 $this->view->setVar('errors', new Arr($user->getMessages()));
-                $this->flash->warning('<strong>' . _t('Warning') . '!</strong> ' . _t("Please correct the errors."));
+                $this->flash->warning(_t('flash/warning/errors'));
             }
         }
     }

@@ -30,7 +30,7 @@ class IndexController extends Controller
      */
     public function indexAction()
     {
-        $this->tag->setTitle(_t('Documentation'));
-        $this->app->description = _t('Documentation');
+        $this->tag->setTitle(_t('documentation'));
+        $this->app->description = _t('documentation');
     }
 }

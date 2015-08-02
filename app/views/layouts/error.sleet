@@ -2,9 +2,9 @@
 <html lang="{{ substr(this.i18n.lang(), 0, 2) }}">
     <head>
         <meta charset="utf-8">
-        <title>{{ _t('Status :code', [':code' : code]) ~ ' | ' ~ this.config.app.name }}</title>
+        <title>{{ _t('status :code', [':code' : code]) ~ ' | ' ~ this.config.app.name }}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="{{ _t('Status :code', [':code' : code]) }} - {{ _t(message) }}">
+        <meta name="description" content="{{ _t('status :code', [':code' : code]) }} - {{ _t(message) }}">
         {% if isset(assets['styles']) %}
             {% foreach assets['styles'] as style %}
                 {{ style }}
@@ -16,7 +16,7 @@
     <body class="text-center">
         <div id="main" class="text-center">
             <div class="container">
-                <h1>{{ _t('Status :code', [':code' : code]) }}</h1>
+                <h1>{{ _t('status :code', [':code' : code]) }}</h1>
                 <h1 class="text-muted"><span class="glyphicon glyphicon-{{ icon|isset ? icon : 'remove' }}"></span></h1>
                 <h4 class="text-muted">{{ _t(message|isset ? message : 'Something is wrong') }}</h4>
             </div>
