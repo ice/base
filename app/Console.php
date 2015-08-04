@@ -25,6 +25,20 @@ class Console extends \Ice\Cli\Console
 {
 
     /**
+     * Console constructor
+     *
+     * @param Di $di
+     */
+    public function __construct(Di $di)
+    {
+        // Register the app itself as a service
+        $di->app = $this;
+
+        // Set the dependency injector
+        parent::__construct($di);
+    }
+
+    /**
      * Initialize the application
      *
      * @return Console
