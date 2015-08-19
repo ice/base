@@ -21,19 +21,27 @@ class Controller extends \Ice\Mvc\Controller
     public function before()
     {
         // Set default title and description
-        $this->tag->setDocType(Tag::XHTML5);
-        $this->tag->setTitle($this->config->app->title);
         $this->app->description = $this->config->app->description;
         $this->app->keywords = $this->config->app->keywords;
 
-        // Add styles to assets
-        $this->assets->add('css/bootstrap.min.css', $this->config->assets->bootstrap);
-        $this->assets->add('css/fonts.css');
-        $this->assets->add('css/styles.css', $this->config->assets->styles);
-        // Add scripts to assets
-        $this->assets->add('js/jquery.min.js', $this->config->assets->jquery);
-        $this->assets->add('js/bootstrap.min.js', $this->config->assets->bootstrap);
-        $this->assets->add('js/plugins.js', $this->config->assets->plugins);
+        $this->tag->setDocType(Tag::XHTML5);
+        $this->tag->setTitle($this->config->app->title);
+
+        // Add meta tags
+        $this->tag
+            ->addMeta(['charset' => 'utf-8'])
+            ->addMeta(['IE=edge', 'http-equiv' => 'X-UA-Compatible'])
+            ->addMeta(['width=device-width, initial-scale=1.0', 'viewport']);
+
+        $this->assets
+            // Add styles to assets
+            ->add('css/bootstrap.min.css', $this->config->assets->bootstrap)
+            ->add('css/fonts.css')
+            ->add('css/styles.css', $this->config->assets->styles)
+            // Add scripts to assets
+            ->add('js/jquery.min.js', $this->config->assets->jquery)
+            ->add('js/bootstrap.min.js', $this->config->assets->bootstrap)
+            ->add('js/plugins.js', $this->config->assets->plugins);
     }
 
     /**
@@ -76,10 +84,16 @@ class Controller extends \Ice\Mvc\Controller
     public function after()
     {
         // Set final title and description
-        $this->tag->setTitleSeparator(' | ');
-        $this->tag->appendTitle($this->config->app->name);
         $this->app->description =
             mb_substr($this->filter->sanitize($this->app->description, 'string'), 0, 200, 'utf-8');
+
+        $this->tag->setTitleSeparator(' | ');
+        $this->tag->appendTitle($this->config->app->name);
+
+        // Add meta tags
+        $this->tag
+            ->addMeta([$this->app->description, 'description', 'property' => 'og:description'])
+            ->addMeta([$this->app->keywords, 'keywords']);
     }
 
     /**
