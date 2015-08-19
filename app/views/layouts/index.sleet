@@ -1,11 +1,10 @@
 {{ get_doc_type() }}
 <html lang="{{ this.i18n.iso() }}">
     <head>
-        <meta charset="utf-8">
+        {% foreach get_meta() as meta %}
+            {{ meta }}
+        {% endforeach %}
         <title>{{ get_title() }}</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="{{ this.app.description }}">
-        <meta name="keywords" content="{{ this.app.keywords }}">
         {% foreach this.assets.getCss() as style %}
             {{ style }}
         {% endforeach %}
@@ -23,6 +22,7 @@
             {{ script }}
         {% endforeach %}
         <!--[if lt IE 9]>
+            {{ script(['js/html5shiv.min.js?v=' ~ this.config.assets.html5shiv]) }}
             {{ script(['js/respond.min.js?v=' ~ this.config.assets.respond]) }}
         <![endif]-->
     </body>

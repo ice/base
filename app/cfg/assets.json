@@ -1,6 +1,7 @@
 {
     "jquery": "1.11.3",
     "respond": "1.4.2",
+    "html5shiv": "3.7.3",
     "bootstrap": "3.3.5",
     "highlight": "8.7",
     "plugins": "1.0.0",
