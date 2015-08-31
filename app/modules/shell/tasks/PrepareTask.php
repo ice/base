@@ -104,7 +104,7 @@ class PrepareTask extends MainTask
         
         $sleet = new Sleet($this->view, $this->di);
         $sleet->setOptions([
-            'compileDir' => __ROOT__ . '/app/common/tmp/sleet/',
+            'compileDir' => __ROOT__ . '/app/tmp/sleet/',
             'trimPath' => __ROOT__,
             'compile' => Compiler::ALWAYS
         ]);
