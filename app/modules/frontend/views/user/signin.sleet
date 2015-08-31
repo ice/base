@@ -1,49 +1,49 @@
 <h2>{{ _t('signIn') }}</h2><hr />
-<p>
-    <strong>{{ _t('signInBy') }}: </strong>
-    {{ link_to(['user/signinby/facebook', 'Facebook', 'class': 'btn btn-primary']) }} {{ link_to(['user/signinby/google', 'Google', 'class': 'btn btn-danger']) }} {{ link_to(['user/signinby/twitter', 'Twitter', 'class': 'btn btn-info']) }}
-</p>
-{{ this.flash.getMessages() }}
-{{ form(['user/signin', 'class' : 'form-horizontal']) }}
-{% set field = 'username' %}
-<div class="form-group{{ errors|isset and errors.has(field) ? ' has-error' : (isset(_POST[field]) ? ' has-success' : '') }}">
-    <label class="control-label col-lg-2" for={{ field }}>{{ _t(field) }}:</label>
-    <div class="col-lg-10">
-    {{ text_field([ field, 'class' : 'form-control', 'placeholder' : _t(field) ]) }}
-    {% if errors|isset and errors.has(field) %}
-        <span class="help-block">{{ current(errors.get(field)) }}</span>
-    {% endif %}
-    </div>
-</div>
-{% set field = 'password' %}
-<div class="form-group{{ errors|isset and errors.has(field) ? ' has-error' : (isset(_POST[field]) ? ' has-success' : '') }}">
-    <label class="control-label col-lg-2" for={{ field }}>{{ _t(field) }}:</label>
-    <div class="col-lg-10">
-    {{ password_field([ field, 'class' : 'form-control', 'placeholder' : _t(field) ]) }}
-    {% if errors|isset and errors.has(field) %}
-        <span class="help-block">{{ current(errors.get(field)) }}</span>
-    {% endif %}
-    </div>
-</div>
-{% set field = 'rememberMe' %}
-<div class="form-group">
-    <div class="col-lg-offset-2 col-lg-10">
-        <div class="checkbox">
-            <label>
-                {{ check_field([field, 'value': 'on']) }} {{ _t(field) }}
+<div class="col-md-6 col-md-offset-3">
+    {{ form([false]) }}
+        <fieldset class="form-group text-center">
+            <p>{{ _t('signInBy') }}</p>
+            {{ link_to(['user/signinby/facebook', '<i class="icon-social-facebook"></i>', 'Facebook', 'class': 'btn btn-primary-outline']) }}
+            {{ link_to(['user/signinby/google', '<i class="icon-social-gplus"></i>','Google', 'class': 'btn btn-danger-outline']) }}
+            {{ link_to(['user/signinby/twitter', '<i class="icon-social-twitter"></i>','Twitter', 'class': 'btn btn-info-outline']) }}
+        </fieldset>
+        <p class="text-center">{{ _t('or') }}</p>
+        {{ this.flash.getMessages() }}
+        {% set field = 'username' %}    
+        <fieldset class="form-group{{ errors|isset and errors.has(field) ? ' has-warning' : (this.request.hasPost(field) ? ' has-success' : '') }}">
+            <div class="input-group">
+                <i class="input-group-addon icon-user"></i>
+                {{ text_field([ field, 'class': 'form-control form-control-success form-control-warning', 'placeholder': _t(field) ]) }}
+            </div>
+            {% if errors|isset and errors.has(field) %}
+                <small class="help-block">{{ current(errors.get(field)) }}</small>
+            {% endif %}
+        </fieldset>
+        {% set field = 'password' %}
+        <fieldset class="form-group{{ errors|isset and errors.has(field) ? ' has-warning' : (isset(_POST[field]) ? ' has-success' : '') }}">
+            <div class="input-group">
+                <i class="input-group-addon icon-key"></i>
+                {{ password_field([ field, 'class': 'form-control form-control-success form-control-warning', 'placeholder': _t(field) ]) }}
+            </div>
+            {% if errors|isset and errors.has(field) %}
+                <small class="help-block">{{ current(errors.get(field)) }}</small>
+            {% endif %}
+        </fieldset>
+        {% set field = 'rememberMe' %}
+        <fieldset class="form-group">
+            <label class="c-input c-checkbox">
+                {{ check_field([field, 'value': 'on']) }}
+                <span class="c-indicator"></span>
+                {{ _t(field) }}
             </label>
-        </div>
-    </div>
+        </fieldset>
+        <fieldset class="form-group text-center">
+            <p>
+                {{ button(['submit_signin', '<span class="icon-login"></span> ' ~ _t('signIn'), 'class': "btn btn-block btn-secondary"]) }}
+            </p>
+            <small class="text-muted">
+                {{  _t("noAccount?") }} {{ link_to([ 'user/signup', _t('signUp') ~ ' »' ]) }}
+            </small>
+        </fieldset>
+    {{ end_tag('form') }}
 </div>
-<hr />
-<div class="form-group">
-    <div class="col-lg-offset-2 col-lg-10">
-        <p>
-            {{ button(['submit_signin', '<span class="glyphicon glyphicon-log-in"></span> ' ~ _t('signIn'), 'class': "btn btn-default"]) }}
-        </p>
-        <p class="text-muted">
-            {{  _t("noAccount?") }} {{ link_to([ 'user/signup', _t('signUp') ~ ' »' ]) }}
-        </p>
-    </div>
-</div>
-{{ end_tag('form') }}

@@ -21,9 +21,5 @@
         {% foreach this.assets.getJs() as script %}
             {{ script }}
         {% endforeach %}
-        <!--[if lt IE 9]>
-            {{ script(['js/html5shiv.min.js?v=' ~ this.config.assets.html5shiv]) }}
-            {{ script(['js/respond.min.js?v=' ~ this.config.assets.respond]) }}
-        <![endif]-->
     </body>
 </html>

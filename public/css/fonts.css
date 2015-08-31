@@ -1,100 +1,99 @@
-/*!
+/**
  * fonts.css
  * Open Sans font family
  */
-
+/* open-sans-300 - latin_latin-ext */
 @font-face {
-    font-family: 'Open Sans';
-    font-style: normal;
-    font-weight: 300;
-    src:
-        local('Open Sans Light'),
-        local('OpenSans-Light'),
-        url('../../fonts/OpenSans-Light.woff') format('woff');
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Open Sans Light'), local('OpenSans-Light'),
+       url('../../fonts/open-sans-v13-latin_latin-ext/300.woff2') format('woff2'), /* Chrome 26+, Opera 23+ */
+       url('../../fonts/open-sans-v13-latin_latin-ext/300.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
 }
+/* open-sans-regular - latin_latin-ext */
 @font-face {
-    font-family: 'Open Sans';
-    font-style: normal;
-    font-weight: 400;
-    src: 
-        local('Open Sans'),
-        local('OpenSans'),
-        url('../../fonts/OpenSans.woff') format('woff');
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Open Sans'), local('OpenSans'),
+       url('../../fonts/open-sans-v13-latin_latin-ext/regular.woff2') format('woff2'), /* Chrome 26+, Opera 23+ */
+       url('../../fonts/open-sans-v13-latin_latin-ext/regular.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
 }
+/* open-sans-italic - latin_latin-ext */
 @font-face {
-    font-family: 'Open Sans';
-    font-style: italic;
-    font-weight: 400;
-    src: 
-        local('Open Sans Italic'), 
-        local('OpenSans-Italic'), 
-        url('../../fonts/OpenSans-Italic.woff') format('woff');
+  font-family: 'Open Sans';
+  font-style: italic;
+  font-weight: 400;
+  src: local('Open Sans Italic'), local('OpenSans-Italic'),
+       url('../../fonts/open-sans-v13-latin_latin-ext/italic.woff2') format('woff2'), /* Chrome 26+, Opera 23+ */
+       url('../../fonts/open-sans-v13-latin_latin-ext/italic.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
 }
+/* open-sans-600 - latin_latin-ext */
 @font-face {
-    font-family: 'Open Sans';
-    font-style: normal;
-    font-weight: 700;
-    src:
-        local('Open Sans Semibold'),
-        local('OpenSans-Semibold'), 
-        url('../../fonts/OpenSans-Semibold.woff') format('woff');
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 600;
+  src: local('Open Sans Semibold'), local('OpenSans-Semibold'),
+       url('../../fonts/open-sans-v13-latin_latin-ext/600.woff2') format('woff2'), /* Chrome 26+, Opera 23+ */
+       url('../../fonts/open-sans-v13-latin_latin-ext/600.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
 }
 
 /* Responsive fonts */
-/* Extra small devices (phones, up to 767px) */
+/* xs-up Extra small devices (portrait phones, less than ???px) */
 /* No media query since this is the default in Bootstrap */
 body {
-    font-size: 14px;
-    line-height: 1.4em;
-    font-family: 'Open Sans', Helvetica, Arial;
-    font-weight: 300;
+    font: 300 16px/1.4 'Open Sans', Helvetica, Arial;
 }
+
 h1, h2, h3, h4, h5, h6 {
-    font-family: 'Open Sans', Helvetica, Arial;
-    font-weight: 300;
-    line-height: 1.4;
+    font: 300 16px/1.4 'Open Sans', Helvetica, Arial;
     margin: 10px 0 0;
 }
 
-h1 small, h2 small, h3 small, h4 small, h5 small, h6 small, h1 .small, h2 .small, h3 .small, h4 .small, h5 .small, h6 .small {
-    font-weight: 300;
+h1 { font-size: 1.8rem; }
+h2 { font-size: 1.6rem; }
+h3, .lead { font-size: 1.4rem; }
+h4 { font-size: 1.2rem; }
+h5 { font-size: 1.1rem; }
+h6 { font-size: 1rem; }
+
+/* sm-up Small devices (landscape phones, 34em and up) */
+@media (min-width: 34em) {
+    h1 { font-size: 2.0rem; }
+    h2 { font-size: 1.8rem; }
+    h3, .lead { font-size: 1.6rem; }
+    h4 { font-size: 1.4rem; }
+    h5 { font-size: 1.2rem; }
+    h6 { font-size: 1.1rem; }
 }
 
-h1 { font-size: 1.8em; }
-h2 { font-size: 1.6em; }
-h3, .lead { font-size: 1.4em; }
-h4 { font-size: 1.2em; }
-h5 { font-size: 1.1em; }
-h6 { font-size: 1em; }
-
-/* Small devices (tablets, 768px and up) */
-@media (min-width: 768px) {
-    h1 { font-size: 2.0em; }
-    h2 { font-size: 1.8em; }
-    h3, .lead { font-size: 1.6em; }
-    h4 { font-size: 1.4em; }
-    h5 { font-size: 1.2em; }
-    h6 { font-size: 1.1em; }
+/* md-up Medium devices (tablets, 48em and up) */
+@media (min-width: 48em) {
+    h1 { font-size: 2.0rem; }
+    h2 { font-size: 1.8rem; }
+    h3, .lead { font-size: 1.6rem; }
+    h4 { font-size: 1.4rem; }
+    h5 { font-size: 1.2rem; }
+    h6 { font-size: 1.1rem; }
 }
 
-/* Medium devices (desktops, 992px and up) */
-@media (min-width: 992px) {
-    body { font-size: 15px; line-height: 1.4; }
-    h1, h2, h3, h4, h5, h6 { line-height: 1.5; }
-    h1 { font-size: 2.2em; }
-    h2 { font-size: 2.0em; }
-    h3, .lead { font-size: 1.8em; }
-    h4 { font-size: 1.4em; }
-    h5 { font-size: 1.2em; }
-    h6 { font-size: 1.1em; }
+/* lg-up Large devices (desktops, 62em and up) */
+@media (min-width: 62em) {
+    h1 { font-size: 2.2rem; }
+    h2 { font-size: 2.0rem; }
+    h3, .lead { font-size: 1.8rem; }
+    h4 { font-size: 1.4rem; }
+    h5 { font-size: 1.2rem; }
+    h6 { font-size: 1.1rem; }
 }
 
-/* Large devices (large desktops, 1200px and up) */
-@media (min-width: 1200px) {
-    h1 { font-size: 2.4em; }
-    h2 { font-size: 2.2em; }
-    h3, .lead { font-size: 2.0em; }
-    h4 { font-size: 1.8em; }
-    h5 { font-size: 1.4em; }
-    h6 { font-size: 1.2em; }
+/* xl-up Extra large devices (large desktops, 75em and up) */
+@media (min-width: 75em) {
+    h1 { font-size: 2.4rem; }
+    h2 { font-size: 2.2rem; }
+    h3, .lead { font-size: 2.0rem; }
+    h4 { font-size: 1.8rem; }
+    h5 { font-size: 1.4rem; }
+    h6 { font-size: 1.2rem; }
 }

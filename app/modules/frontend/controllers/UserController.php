@@ -282,7 +282,7 @@ class UserController extends IndexController
             if ($signup instanceof Users) {
                 $this->flash->notice(_t('flash/notice/checkEmail'));
             } else {
-                $this->view->setVar('errors', new Arr($user->getMessages()));
+                $this->view->setVar('errors', new Arr($signup));
                 $this->flash->warning(_t('flash/warning/errors'));
             }
         }

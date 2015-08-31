@@ -94,10 +94,6 @@ class Users extends AuthUsers
             'repeatPassword' => 'same:password',
             'repeatEmail' => 'same:email',
         ]);
-        $extra->setLabels([
-            'repeatPassword' => 'Repeat password',
-            'repeatEmail' => 'Repeat email',
-        ]);
 
         // Only valid fields are accepted from the _POST
         if ($this->create($_POST, $extra) === true) {

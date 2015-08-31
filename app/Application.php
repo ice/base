@@ -141,7 +141,7 @@ class Application extends App
             $assets->setOptions([
                 'source' => __ROOT__ . '/public/',
                 'target' => 'min/',
-                'minify' => $config->env->assets->minify
+                'minify' => Assets::NEVER //$config->env->assets->minify
             ]);
             return $assets;
         });
@@ -164,13 +164,20 @@ class Application extends App
 
         // Set the db service
         $this->di->set('db', function () use ($config) {
-            $driver = new Db\Driver\Pdo(
-                'mysql:host=' . $config->database->host . ';port=3306;dbname=' . $config->database->dbname,
-                $config->database->username,
+            $db = new Db(
+                $config->database->type,
+                $config->database->host,
+                $config->database->port,
+                $config->database->name,
+                $config->database->user,
                 $config->database->password
             );
-            //$driver->getClient()->setAttribute(\Pdo::ATTR_ERRMODE, \Pdo::ERRMODE_EXCEPTION);
-            return new Db($driver);
+
+            if ($config->database->type !== "mongodb" && $config->app->env == "development") {
+                $db->getDriver()->getClient()->setAttribute(\Pdo::ATTR_ERRMODE, \Pdo::ERRMODE_EXCEPTION);
+            }
+
+            return $db;
         });
 
         // Set the view service
