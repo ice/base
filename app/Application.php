@@ -141,7 +141,7 @@ class Application extends App
             $assets->setOptions([
                 'source' => __ROOT__ . '/public/',
                 'target' => 'min/',
-                'minify' => Assets::NEVER //$config->env->assets->minify
+                'minify' => $config->env->assets->minify
             ]);
             return $assets;
         });
