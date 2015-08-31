@@ -23,7 +23,7 @@ class PrepareTask extends MainTask
             '/app/tmp',
             '/app/log',
             '/public/min',
-            '/public/upload/tmp',
+            '/public/upload',
         ];
 
         foreach ($dirs as $dir) {
@@ -40,20 +40,57 @@ class PrepareTask extends MainTask
     }
 
     /**
-     * Remove data from public folder
+     * Remove data from directories
+     * Parameters:
+     *  recursive: yes
+     *  all: no
      */
     public function rmAction()
     {
         if ($this->config->app->env == 'development' || $this->config->app->env == 'testing') {
-            $dirs = array(
-                '/app/tmp/*',
-                '/app/log/*',
-                '/public/min/*',
-                '/public/upload/tmp/*',
-            );
+            $params = $this->dispatcher->getParams();
+
+            if (isset($params["dirs"])) {
+                $dirs = explode('|', $params["dirs"]);
+            } else {
+                $dirs = [
+                    '/app/tmp/',
+                    '/app/log/',
+                    '/public/min/',
+                ];
+
+                if ($this->config->app->env == 'development' &&
+                    isset($params["upload"]) && $params["upload"] == 'yes') {
+                    $dirs[] = '/public/upload/';
+                }
+            }
+
+            if (isset($params["recursive"])) {
+                $recursive = $params["recursive"] = 'no' ? false : true;
+            } else {
+                $recursive = true;
+            }
+
             foreach ($dirs as $dir) {
+                // Make sure if directory exist
+                if (!is_dir(__ROOT__ . $dir)) {
+                    continue;
+                }
+
                 echo $dir . "\n";
-                exec('rm -f -R ' . __ROOT__ . $dir);
+
+                if (isset($params["all"]) && $params["all"] == "yes") {
+                    exec('rm -f ' . ($recursive ? '-r ' : '')  . __ROOT__ . $dir . '*');
+                } else {
+                    $command = 'find ' . __ROOT__ . $dir . ' -not -name .gitignore -type f';
+
+                    exec($command . (!$recursive ? ' -maxdepth 1' : '') . ' | xargs rm -f');
+
+                    if (isset($params["all"]) && $params["all"] == "dir") {
+                        exec('find ' . __ROOT__ . $dir .
+                            ' -type d -not -path ' . __ROOT__ . $dir . ' | xargs rm -frd');
+                    }
+                }
             }
         }
     }
@@ -63,6 +100,8 @@ class PrepareTask extends MainTask
      */
     public function sleetAction()
     {
+        error_reporting(E_ALL ^ E_NOTICE);
+        
         $sleet = new Sleet($this->view, $this->di);
         $sleet->setOptions([
             'compileDir' => __ROOT__ . '/app/tmp/sleet/',
@@ -71,9 +110,9 @@ class PrepareTask extends MainTask
         ]);
 
         $dirs = [
-            '/app/modules/frontend/views/',
             '/app/modules/admin/views/',
             '/app/modules/doc/views/',
+            '/app/modules/frontend/views/',
             '/app/views/',
         ];
         foreach ($dirs as $dir) {
@@ -83,6 +122,34 @@ class PrepareTask extends MainTask
             ) as $item) {
                 if (!$item->isDir() && $item->getExtension() == 'sleet') {
                     echo $sleet->compile(__ROOT__ . $dir . $iterator->getSubPathName()) . "\n";
+                }
+            }
+        }
+    }
+
+    /**
+     * Minify assets (css & js) files
+     */
+    public function assetsAction()
+    {
+        // Set the assets service
+        $assets = new Assets();
+        $assets->setOptions([
+            'source' => __ROOT__ . '/public/',
+            'target' => 'min/',
+            'minify' => Assets::ALWAYS
+        ]);
+
+        foreach (['css', 'js'] as $type) {
+            $path = __ROOT__ . '/public/' . $type . '/';
+
+            foreach ($iterator = new \RecursiveIteratorIterator(
+                new \RecursiveDirectoryIterator($path, \RecursiveDirectoryIterator::SKIP_DOTS),
+                \RecursiveIteratorIterator::SELF_FIRST
+            ) as $item) {
+                if (!$item->isDir() && $item->getExtension() == $type) {
+                    echo $type . '/' . $iterator->getSubPathName() . "\n";
+                    $assets->add($type . '/' . $iterator->getSubPathName());
                 }
             }
         }

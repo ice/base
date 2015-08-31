@@ -1,33 +1,34 @@
-<header class="navbar navbar-default navbar-fixed-top">
+<header class="navbar navbar-light bg-faded navbar-fixed-top">
+    <div class="container clearfix">
+        {{ button(['toggle_header', '&#9776;','type': 'button', 'class': "navbar-toggler hidden-sm-up pull-right", 'data-toggle': 'collapse', 'data-target': '#header-collapse']) }}
+        {{ link_to([null, this.config.app.name, 'class': 'navbar-brand hidden-sm-up']) }}
+    </div>
     <div class="container">
-        <div class="navbar-header">
-            {{ button(['togle_header', '<span class="sr-only">' ~ _t('toggle') ~ '</span>' ~ str_repeat('<span class="icon-bar"></span>', 3), 'type': 'button', 'class': "navbar-toggle", 'data-toggle': 'collapse', 'data-target': '#header-collapse']) }}
-            {{ link_to([null, this.config.app.name, 'class' : 'navbar-brand']) }}
-        </div>
-        <div class="collapse navbar-collapse" id="header-collapse">
+        {{ link_to([null, this.config.app.name, 'class': 'navbar-brand hidden-xs-down']) }}
+        <div class="collapse navbar-toggleable-xs" id="header-collapse">
             {% if not this.auth.loggedIn() %}
-                {{ form(['user/signin', 'class' : 'navbar-form form-inline pull-right pull-none']) }}
-                    <div class="form-group">{{ text_field([ 'username', 'class' : 'form-control', 'placeholder' : _t('username') ]) }}</div>
-                    <div class="form-group">{{ password_field([ 'password', 'class' : 'form-control', 'placeholder' : _t('password') ]) }}</div>
-                    {{ button(['submit_signin', '<span class="glyphicon glyphicon-log-in"></span> ' ~ _t('signIn'), 'class': "btn btn-default"]) }}
+                {{ form(['user/signin', 'class': 'form-inline navbar-form pull-right pull-none']) }}
+                    {{ text_field([ 'username', 'class': 'form-control', 'placeholder': _t('username') ]) }}
+                    {{ password_field([ 'password', 'class': 'form-control', 'placeholder': _t('password') ]) }}
+                    {{ button(['submit_signin', '<span class="icon-login"></span> ' ~ _t('signIn'), 'class': "btn btn-secondary"]) }}
                 {{ end_tag('form') }}
             {% else %}
                 {% if this.auth.loggedIn('admin') %}
-                    <ul class="nav navbar-nav">
-                        <li>{{ link_to(['admin', '<span class="glyphicon glyphicon-cog"></span>', 'title': _t('adminPanel')]) }}</li>
-                    </ul>
+                    <nav class="nav navbar-nav">
+                        {{ link_to(['admin', '<span class="icon-settings"></span>', _t('adminPanel'), 'class': 'nav-item nav-link']) }}
+                    </nav>
                 {% endif %}
-                <ul class="nav navbar-nav pull-right pull-none">
-                    <li class="dropdown">
-                        {{ link_to([ '#', 'class' : 'dropdown-togle', 'data-toggle' : 'dropdown', this.auth.getUser().username ~ '<b class="caret"></b>' ]) }}
-                        <ul class="dropdown-menu">
+                <nav class="nav navbar-nav pull-right pull none">
+                    <div class="nav-item dropdown">
+                        {{ link_to([ '#', 'class': 'nav-link dropdown-toggle', 'data-toggle': 'dropdown', this.auth.getUser().username ~ '<b class="caret"></b>' ]) }}
+                        <ul class="dropdown-menu dropdown-menu-right">
                             <li class="dropdown-header">{{ this.auth.getUser().email }}</li>
-                            <li>{{ link_to(['user', '<span class="glyphicon glyphicon-user"></span> ' ~ _t('account')]) }}</li>
-                            <li class="divider"></li>
-                            <li>{{ link_to(['user/signout', '<span class="glyphicon glyphicon-log-out"></span> ' ~ _t('signOut')]) }}</li>
+                            <li class="">{{ link_to(['user', '<span class="icon-user"></span> ' ~ _t('account'), 'class': 'dropdown-item']) }}</li>
+                            <li class="dropdown-divider"></li>
+                            <li>{{ link_to(['user/signout', '<span class="icon-power"></span> ' ~ _t('signOut'), 'class': 'dropdown-item']) }}</li>
                         </ul>
-                    </li>
-                </ul>
+                    </div>
+                </nav>
             {% endif %}
         </div>
     </div>

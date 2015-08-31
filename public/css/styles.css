@@ -1,22 +1,22 @@
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
 }
 
 footer {
-  position: absolute !important;
-  bottom: 0;
-  width: 100%;
-  /* Set the fixed height of the footer here */
-  margin-top: 5px;
-  height: 55px;
-  background-color: #f5f5f5;
+    position: absolute !important;
+    bottom: 0;
+    width: 100%;
+    /* Set the fixed height of the footer here */
+    margin-top: 5px;
+    /*height: 55px;*/
+    background-color: #f5f5f5;
 }
 
 footer.navbar-default {
@@ -24,8 +24,8 @@ footer.navbar-default {
     margin-bottom: 0;
 }
 
-#main {
-    min-height: 400px;
+pre {
+    border: 1px #ddd solid;
 }
 
 #main > .container {
@@ -34,46 +34,76 @@ footer.navbar-default {
     padding-bottom: 15px;
 }
 
-.navbar-inverse label {
-    color: #999;
+.navbar-form {
+    margin-bottom: 0
 }
 
-.navbar-text {
-    margin-left: 15px;
+.navbar-nav .nav-text {
+    display: block;
+    padding-top: .425rem;
+    padding-bottom: .425rem;
 }
 
-pre {
-    padding: 0;
+.form-horizontal .form-control-label {
+    text-align: right;
 }
 
-/* Extra small devices (phones) */
-@media (max-width: 767px) {
+.input-group-addon {
+    background: none;
+}
+
+/* Responsive breakpoints */
+/* xs-up Extra small devices (portrait phones, less than ???px) */
+/* No media query since this is the default in Bootstrap */
+
+/* xs-down Extra small devices (portrait phones, less than 34em) */
+@media (max-width: 33.9em) {
     .pull-none {
-        float: none!important;
+        float: none !important;
+    }
+    .navbar-form .form-control {
+        margin-bottom: 5px !important;
     }
 }
 
-/* Small devices (tablets, 768px and up) */
-@media (min-width: 768px){
-
-}
-
-/* Tablet only */
-@media (min-width: 768px) and (max-width: 991px){
-    .navbar-form .form-group {
-        max-width: 135px;
-    }
-    .navbar-form .form-group input {
-        width: 100%;
+/* sm-up Small devices (landscape phones, 34em and up) */
+@media (min-width: 34em) {
+    .navbar-form .form-control {
+        width: 135px;
     }
 }
 
-/* Medium devices (desktops, 992px and up) */
-@media (min-width: 992px) {
+/* sm-down Small devices (landscape phones, less than 48em) */
+@media (max-width: 47.9em) {
 
 }
 
-/* Large devices (large desktops, 1200px and up) */
-@media (min-width: 1200px) {
+/* md-up Medium devices (tablets, 48em and up) */
+@media (min-width: 48em) {
 
 }
+
+/* md-down Medium devices (tablets, less than 62em) */
+@media (max-width: 61.9em) {
+    
+}
+
+/* lg-up Large devices (desktops, 62em and up) */
+@media (min-width: 62em) {
+    .navbar-form .form-control {
+        width: auto;
+    }
+}
+
+/* lg-down Large devices (desktops, less than 75em) */
+@media (max-width: 74.9em) {
+
+}
+
+/* xl-up Extra large devices (large desktops, 75em and up) */
+@media (min-width: 75em) {
+
+}
+
+/* xl-down Extra large devices (large desktops) */
+/* No media query since the extra-large breakpoint has no upper bound on its width */

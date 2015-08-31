@@ -1,27 +1,30 @@
-<footer class="navbar navbar-default">
+<footer class="navbar navbar-light bg-faded">
+    <div class="container clearfix">
+        {{ button(['toggle_footer', '&#9776;','type': 'button', 'class': "navbar-toggler hidden-sm-up pull-right", 'data-toggle': 'collapse', 'data-target': '#footer-collapse']) }}
+        <nav class="nav navbar-nav hidden-sm-up">
+            {{ link_to([null, this.config.app.name, 'class': 'nav-item nav-link']) }}
+            <span class="nav-item nav-text">&copy; {{ date('Y') }}</span>
+        </nav>
+    </div>
     <div class="container">
-        <div class="navbar-header">
-            {{ button(['togle_footer', '<span class="sr-only">' ~ _t('toggle') ~ '</span>' ~ str_repeat('<span class="icon-bar"></span>', 3), 'type': 'button', 'class': "navbar-toggle", 'data-toggle': 'collapse', 'data-target': '#footer-collapse']) }}
-            <p class="navbar-text">
-                {{ link_to([null, this.config.app.name, 'class': 'navbar-link']) }} &copy; {{ date('Y') }}
-            </p>
-        </div>
-        <div class="collapse navbar-collapse" id="footer-collapse">
-            <ul class="nav navbar-nav pull-left pull-none">
-                <li class="disabled"><span class="navbar-text">Ice {{ version() }}</span></li>
-                <li>{{ link_to(['contact', _t('contact')]) }}</li>
-                <li>{{ link_to(['user/signup', _t('signUp')]) }}</li>
-            </ul>
-            <ul class="nav navbar-nav pull-right pull-none">
-                <li class="dropdown dropup">
-                    <ul class="dropdown-menu">
+        <div class="collapse navbar-toggleable-xs" id="footer-collapse">
+            <nav class="nav navbar-nav">
+                {{ link_to([null, this.config.app.name, 'class': 'nav-item nav-link hidden-xs-down']) }}
+                <span class="nav-item nav-text hidden-xs-down">&copy; {{ date('Y') }}</span>
+                <span class="nav-item nav-text">Ice {{ version() }}</span>
+                {{ link_to(['contact', _t('contact'), 'class': 'nav-item nav-link']) }}
+                {{ link_to(['user/signup', _t('signUp'), 'class': 'nav-item nav-link']) }}
+            </nav>
+            <nav class="nav navbar-nav pull-right">
+                <div class="nav-item dropdown dropup">
+                    <ul class="dropdown-menu dropdown-menu-right">
                         {% foreach siteLangs as lang: language %}
-                            <li>{{ link_to(['lang/set/' ~ lang, language]) }}</li>
+                            <li>{{ link_to(['lang/set/' ~ lang, language, 'class': 'dropdown-item']) }}</li>
                         {% endforeach %}
                     </ul>
-                    {{ link_to([ '#', 'class' : 'dropdown-togle', 'data-toggle' : 'dropdown', _t('language') ~ '<b class="caret"></b>' ]) }}
-                </li>
-            </ul>
+                    {{ link_to([ '#', 'class': 'nav-link dropdown-toggle', 'data-toggle': 'dropdown', _t('language') ~ '<b class="caret"></b>' ]) }}
+                </div>
+            </nav>
         </div>
     </div>
 </footer>
