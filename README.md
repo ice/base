@@ -9,8 +9,10 @@ Use this application as a way to quick start any new project.
 
 #### Demo
 [mruz.me](https://mruz.me/base)
+```
 user: user
 admin: admin
+```
 
 #### Install the composer package
 ```sh
