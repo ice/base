@@ -16,10 +16,12 @@ admin = "admin@example.com"
 Podaj ustawienia do połączenia do bazy danych:
 ```ini
 [database]
+type     = "mongodb"
 host     = "localhost"
-username = "base"
-password = "password"
-dbname   = "base"
+port     = 27017
+user     = "demo"
+password = "demo"
+name     = "demo_base"
 ```
 <br />
 Zmień domyślne klucze. To jest **bardzo ważne** ze względów bezpieczeństwa:
