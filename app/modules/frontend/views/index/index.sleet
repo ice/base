@@ -1,3 +1,8 @@
 <h2>{{ _t('baseInfo') }}</h2><hr />
 <p>{{ _t('baseStart') }}</p>
 <p>{{ link_to(['doc', _t('documentation')]) }}</p>
+<p>
+    {{ _t('signIn') }}: ({{ _t('username') }}: {{ _t('password') }})<br />
+    user: user<br />
+    admin: admin<br />
+</p>

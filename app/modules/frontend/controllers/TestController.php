@@ -19,15 +19,27 @@ class TestController extends IndexController
     public function signupAction()
     {
         $user = new Users();
+        
+        // Skip rules
+        //$user->setRules([], false);
+
         $create = $user->create([
             'email' => 'user@example.com',
             'username' => 'user',
             'password' => $this->auth->hash('user'),
         ]);
         $errors = $user->getMessages();
-        $activation = $user->activation();
+        $activation = $user->addRole();
 
         $this->view->setContent($this->dump->vars($create, $activation, $errors));
+    }
+
+    public function adminAction()
+    {
+        $user = Users::findOne(["username" => 'admin']);
+        $admin = $user->addRole('admin');
+
+        $this->view->setContent($this->dump->vars($admin));
     }
 
     /**
