@@ -2,6 +2,7 @@
 
 namespace App\Modules\Shell\Tasks;
 
+use Ice\Auth\Driver\Model\Roles;
 use Ice\Mvc\View\Engine\Sleet;
 use Ice\Mvc\View\Engine\Sleet\Compiler;
 
@@ -153,5 +154,26 @@ class PrepareTask extends MainTask
                 }
             }
         }
+    }
+
+    public function rolesAction()
+    {
+        $roles = Roles::find();
+
+        if (!$roles->count()) {
+            $login = new Roles();
+            $login->name = 'login';
+            $login->description = 'Login privileges, granted after account confirmation.';
+            $login->create();
+
+            $admin = new Roles();
+            $admin->name = 'admin';
+            $admin->description = 'Administrative user, has access to everything.';
+            $admin->create();
+
+            echo "The roles have been added.\n";
+        }
+
+        $this->view->setContent(false);
     }
 }
