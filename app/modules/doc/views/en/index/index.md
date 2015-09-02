@@ -16,10 +16,12 @@ admin = "admin@example.com"
 Enter the settings to connect to the database:
 ```ini
 [database]
+type     = "mongodb"
 host     = "localhost"
-username = "base"
-password = "password"
-dbname   = "base"
+port     = 27017
+user     = "demo"
+password = "demo"
+name     = "demo_base"
 ```
 <br />
 Change default hash keys. It is **very important** for safety reasons:
