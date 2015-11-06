@@ -57,7 +57,7 @@ pre {
 /* No media query since this is the default in Bootstrap */
 
 /* xs-down Extra small devices (portrait phones, less than 34em) */
-@media (max-width: 33.9em) {
+@media (max-width: 33.99em) {
     .pull-none {
         float: none !important;
     }
@@ -74,7 +74,7 @@ pre {
 }
 
 /* sm-down Small devices (landscape phones, less than 48em) */
-@media (max-width: 47.9em) {
+@media (max-width: 47.99em) {
 
 }
 
@@ -84,7 +84,7 @@ pre {
 }
 
 /* md-down Medium devices (tablets, less than 62em) */
-@media (max-width: 61.9em) {
+@media (max-width: 61.99em) {
     
 }
 
@@ -96,7 +96,7 @@ pre {
 }
 
 /* lg-down Large devices (desktops, less than 75em) */
-@media (max-width: 74.9em) {
+@media (max-width: 74.99em) {
 
 }
 

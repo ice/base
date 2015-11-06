@@ -1,33 +1,40 @@
 {{ get_doc_type() }}
-<html lang="{{ substr(this.i18n.lang(), 0, 2) }}">
+<html lang="{{ this.i18n.iso() }}">
     <head>
-        <meta charset="utf-8">
-        <title>{{ _t('status :code', [':code' : code]) ~ ' | ' ~ this.config.app.name }}</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="{{ _t('status :code', [':code' : code]) }} - {{ _t(message) }}">
-        {% if isset(assets['styles']) %}
-            {% foreach assets['styles'] as style %}
-                {{ style }}
-            {% endforeach %}
-        {% endif %}
-        {{ style(['body { background: #f5f5f5 }']) }}
+        {% foreach get_meta() as meta %}
+            {{ meta }}
+        {% endforeach %}
+        <title>{{ get_title() }}</title>
+        {% foreach this.assets.getCss() as style %}
+            {{ style }}
+        {% endforeach %}
         {{ link(['favicon.ico', "type": "image/x-icon", "rel": "icon"]) }}
     </head>
     <body class="text-center">
-        <div id="main" class="text-center">
+        <div id="main">
             <div class="container">
                 <h1>{{ _t('status :code', [':code' : code]) }}</h1>
-                <h1 class="text-muted"><span class="glyphicon glyphicon-{{ icon|isset ? icon : 'remove' }}"></span></h1>
+                <h1 class="text-muted">
+                    {% switch code %}{% default %}
+                            <span class="icon-close"></span>
+                            {% break %}
+                        {% case 404 %}
+                            <span class="icon-directions"></span>
+                            {% break %}
+                        {% case 508 %}
+                            <span class="icon-loop"></span>
+                            {% break %}
+                    {% endswitch %}
+                </h1>
                 <h4 class="text-muted">{{ _t(message|isset ? message : 'Something is wrong') }}</h4>
             </div>
         </div>
-        <footer class="navbar navbar-default">
+        <footer class="navbar navbar-light" style="background-color: #fff;">
             <div class="container">
-                <div class="navbar-header">
-                    <p class="navbar-text">
-                        {{ link_to([null, this.config.app.name, 'class': 'navbar-link']) }} &copy; {{ date('Y') }}
-                    </p>
-                </div>
+                <nav class="nav navbar-nav">
+                    {{ link_to([null, this.config.app.name, 'class': 'nav-item nav-link']) }}
+                    <span class="nav-item nav-text">&copy; {{ date('Y') }}</span>
+                </nav>
             </div>
         </footer>
     </body>

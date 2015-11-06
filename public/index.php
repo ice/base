@@ -19,13 +19,13 @@ defined('__ROOT__') or
 
 // Register App namespace
 (new Ice\Loader())
-    ->addNamespace('App', __ROOT__ . '/app')
+    ->addNamespace('App', __ROOT__ . '/app/boot')
     ->register();
 
 // Include composer's autolader
 include_once __ROOT__ . '/vendor/autoload.php';
 
 // Initialize website, handle a MVC request and display the HTTP response body
-echo (new App\Application((new Ice\Di())->errors('App\Error')))
+echo (new App\Base((new Ice\Di())->errors('App\Error')))
     ->initialize()
     ->handle();

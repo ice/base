@@ -9,7 +9,7 @@ defined('__ROOT__') or
 
 // Register App namespaces
 (new Ice\Loader())
-    ->addNamespace('App', __ROOT__ . '/app')
+    ->addNamespace('App', __ROOT__ . '/app/boot')
     ->register();
 
 // Include composer's autolader
