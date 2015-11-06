@@ -5,6 +5,6 @@ if (!defined('__ROOT__')) {
 }
 
 (new Ice\Loader())
-    ->addNamespace('App', __ROOT__ . '/app')
+    ->addNamespace('App', __ROOT__ . '/app/boot')
     ->addNamespace('Tests', __ROOT__ . '/tests')
     ->register();
