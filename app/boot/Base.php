@@ -33,7 +33,7 @@ use Ice\Tag;
  * @package     Ice/Base
  * @category    Bootstrap
  */
-class Application extends App
+class Base extends App
 {
 
     /**
@@ -47,20 +47,6 @@ class Application extends App
      * @var string
      */
     public $keywords;
-
-    /**
-     * App constructor
-     *
-     * @param Di $di
-     */
-    public function __construct(Di $di)
-    {
-        // Register the app itself as a service
-        $di->app = $this;
-
-        // Set the dependency injector
-        parent::__construct($di);
-    }
 
     /**
      * Initialize the application
@@ -101,6 +87,7 @@ class Application extends App
                 ->addNamespace('App\Models', __ROOT__ . '/app/models')
                 ->addNamespace('App\Libraries', __ROOT__ . '/app/lib')
                 ->addNamespace('App\Extensions', __ROOT__ . '/app/ext')
+                ->addNamespace('App\Services', __ROOT__ . '/app/services')
                 ->register();
     }
 
@@ -213,38 +200,11 @@ class Application extends App
      */
     public function handle($method = null, $uri = null)
     {
-        $view = $this->di->view;
-        $assets['styles'] = [
-            $this->di->tag->link(['css/bootstrap.min.css?v=3.3.0']),
-            $this->di->tag->link(['css/fonts.css']),
-            $this->di->tag->link(['css/app.css'])
-        ];
-
         // Display pretty view if response is Client/Server Error and silet option is true
-        $this->di->hook('app.after.handle', function ($response) use ($view, $assets) {
-            $status = $response->getStatus();
-
+        $this->di->hook('app.after.handle', function ($response) {
             if ($response->isClientError() || $response->isServerError()) {
-                $view->setVars([
-                    'code' => $status,
-                    'message' => $response->getMessage($status)
-                ]);
-                switch ($status) {
-                    case 404:
-                        $view->setVar('icon', 'road');
-                        break;
-                    case 508:
-                        $view->setVar('icon', 'repeat');
-                        break;
-
-                    default:
-                        $view->setVar('icon', 'remove');
-                        break;
-                }
-                $response->setBody($view->layout('error', $assets));
+                throw new \Exception($response->getMessage($response->getStatus()), $response->getStatus());
             }
-
-            return $response;
         });
 
         return parent::handle($method, $uri);

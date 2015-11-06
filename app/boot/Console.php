@@ -1,6 +1,6 @@
 <?php
 
-namespace app;
+namespace App;
 
 use Ice\Cli\Dispatcher;
 use Ice\Cli\Router;
@@ -23,20 +23,6 @@ use Ice\Tag;
  */
 class Console extends \Ice\Cli\Console
 {
-
-    /**
-     * Console constructor
-     *
-     * @param Di $di
-     */
-    public function __construct(Di $di)
-    {
-        // Register the app itself as a service
-        $di->app = $this;
-
-        // Set the dependency injector
-        parent::__construct($di);
-    }
 
     /**
      * Initialize the application
@@ -76,6 +62,7 @@ class Console extends \Ice\Cli\Console
             ->addNamespace('App\Models', __ROOT__ . '/app/models')
             ->addNamespace('App\Libraries', __ROOT__ . '/app/lib')
             ->addNamespace('App\Extensions', __ROOT__ . '/app/ext')
+            ->addNamespace('App\Services', __ROOT__ . '/app/services')
             ->register();
     }
 

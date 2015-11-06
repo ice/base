@@ -3,6 +3,7 @@
 namespace App\Modules\Frontend\Controllers;
 
 use App\Models\Users;
+use App\Services\UserService;
 use Ice\Arr;
 use Ice\Auth\Social;
 
@@ -14,6 +15,13 @@ use Ice\Auth\Social;
  */
 class UserController extends IndexController
 {
+
+    public $userService;
+
+    public function onConstruct()
+    {
+        $this->userService = new UserService();
+    }
 
     /**
      * Activate the user
@@ -276,8 +284,7 @@ class UserController extends IndexController
         $this->app->description = _t('signUp');
 
         if ($this->request->isPost() == true) {
-            $user = new Users();
-            $signup = $user->signup();
+            $signup = $this->userService->signup();
 
             if ($signup instanceof Users) {
                 $this->flash->notice(_t('flash/notice/checkEmail'));

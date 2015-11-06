@@ -3,10 +3,11 @@
 namespace App;
 
 use App\Libraries\Email;
+use Ice\Exception;
 use Ice\Di;
 use Ice\Dump;
-use Ice\Exception;
 use Ice\Log\Driver\File as Logger;
+use Ice\Tag;
 
 /**
  * Handle exception, do something with it depending on the environment
@@ -60,19 +61,32 @@ class Error extends Exception
                 // Load and display error view
                 $view = $di->view;
 
-                if ($err->hide) {
-                    unset($message, $code);
+                if ($err->hide && $code != 404) {
+                    $view->setVar('message', _t('somethingIsWrong'));
                 } else {
-                    $view->setVar('message', $error);
+                    $view->setVar('message', $message);
                 }
 
-                $assets['styles'] = [
-                    $di->tag->link(['css/bootstrap.min.css?v=3.3.0']),
-                    $di->tag->link(['css/fonts.css']),
-                    $di->tag->link(['css/app.css'])
-                ];
+                $di->tag->setDocType(Tag::XHTML5);
+                $di->tag->setTitle(_t('status :code', [':code' => $code]));
+                $di->tag->appendTitle($di->config->app->name);
 
-                echo $view->layout('error', $assets);
+                // Add meta tags
+                $di->tag
+                    ->addMeta(['charset' => 'utf-8'])
+                    ->addMeta(['IE=edge', 'http-equiv' => 'X-UA-Compatible'])
+                    ->addMeta(['width=device-width, initial-scale=1.0', 'viewport'])
+                    ->addMeta(['noindex, nofollow', 'robots']);
+
+                $di->assets
+                    // Add styles to assets
+                    ->add('css/bootstrap.min.css', $di->config->assets->bootstrap)
+                    ->add('css/fonts.css', $di->config->assets->fonts)
+                    ->add('css/simple-line-icons.css', $di->config->assets->simpleLineIcons)
+                    ->add('css/styles.css', $di->config->assets->styles)
+                    ->addCss(['content' => 'body { background: #f5f5f5 }']);
+
+                echo $view->layout('error');
             }
         }
 
@@ -84,7 +98,7 @@ class Error extends Exception
             $logger->debug($debug);
         }
 
-        if ($err->email) {
+        if ($err->email && $code != 404) {
             // Send email to admin
             $log = $dump->vars($error, $info, $debug);
 

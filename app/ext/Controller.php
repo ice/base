@@ -31,12 +31,13 @@ class Controller extends \Ice\Mvc\Controller
         $this->tag
             ->addMeta(['charset' => 'utf-8'])
             ->addMeta(['IE=edge', 'http-equiv' => 'X-UA-Compatible'])
-            ->addMeta(['width=device-width, initial-scale=1.0', 'viewport']);
+            ->addMeta(['width=device-width, initial-scale=1.0', 'viewport'])
+            ->addMeta(['index, follow', 'robots']);
 
         $this->assets
             // Add styles to assets
             ->add('css/bootstrap.min.css', $this->config->assets->bootstrap)
-            ->add('css/fonts.css')
+            ->add('css/fonts.css', $this->config->assets->fonts)
             ->add('css/simple-line-icons.css', $this->config->assets->simpleLineIcons)
             ->add('css/styles.css', $this->config->assets->styles)
             // Add scripts to assets

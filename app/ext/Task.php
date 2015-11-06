@@ -37,7 +37,7 @@ class Task extends \Ice\Cli\Task
 
         echo PHP_EOL . Console::color("Available tasks:", null, Console::UNDERLINE) . PHP_EOL;
 
-        foreach ($this->app->getModules() as $name => $module) {
+        foreach ($this->console->getModules() as $name => $module) {
             (new Loader())
                 ->addNamespace($module['namespace'] . '\Tasks', $module['path'] . '/tasks/')
                 ->register();
