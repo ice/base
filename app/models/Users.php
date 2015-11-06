@@ -72,52 +72,6 @@ class Users extends AuthUsers
     }
 
     /**
-     * Sign up new user
-     *
-     * @return mixed
-     */
-    public function signup()
-    {
-        $di = $this->getDi();
-        $auth = $di->getAuth();
-
-        // Hash password after validate and before save
-        $di->hook('model.after.validate', function ($this) use ($auth) {
-            $data = $this->all();
-
-            $this->replace(['password' => $auth->hash($data['password'])]);
-        });
-
-        // Add extra validation for fields that won't be save but must pass
-        $extra = new Validation($_POST);
-        $extra->rules([
-            'repeatPassword' => 'same:password',
-            'repeatEmail' => 'same:email',
-        ]);
-
-        // Only valid fields are accepted from the _POST
-        if ($this->create($_POST, $extra) === true) {
-            $hash = md5($this->getId() . $this->email . $this->password . $this->getDi()->getConfig()->auth->hash_key);
-            $email = new Email();
-            $email->prepare(
-                _t('activation'),
-                $this->email,
-                'email/activation',
-                ['username' => $this->username, 'id' => $this->getId(), 'hash' => $hash]
-            );
-
-            if ($email->Send() === true) {
-                unset($_POST);
-                return $this;
-            } else {
-                return false;
-            }
-        } else {
-            return $this->getMessages();
-        }
-    }
-
-    /**
      * Sign up by social network
      */
     public function signupby($social)
