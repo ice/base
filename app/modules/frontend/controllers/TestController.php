@@ -3,7 +3,12 @@
 namespace App\Modules\Frontend\Controllers;
 
 use App\Models\Users;
+use App\Services\UserService;
 
+use Ice\Validation;
+use Ice\Validation\Validator\Email;
+use Ice\Validation\Validator\Required;
+use Ice\Validation\Validator\Same;
 /**
  * Frontend Test Controller
  *
@@ -14,24 +19,27 @@ class TestController extends IndexController
 {
 
     /**
-     * Sign up the user:user
+     * Sign up the user:user /base/test/demo
+     * Sign up the admin:admin /base/test/demo/admin
      */
-    public function signupAction()
+    public function demoAction()
     {
-        $user = new Users();
-        
-        // Skip rules
-        //$user->setRules([], false);
+        $username = $this->dispatcher->getParam('param', null, 'user');
+        $user = new UserService();
 
-        $create = $user->create([
-            'email' => 'user@example.com',
-            'username' => 'user',
-            'password' => $this->auth->hash('user'),
+        // Skip rules
+        $user->setRules([], false);
+
+        $create = $user->signup([
+            'username' => $username,
+            'password' => $username,
+            'repeatPassword' => $username,
+            'email' => $username . '@example.com',
+            'repeatEmail' => $username . '@example.com',
         ]);
-        $errors = $user->getMessages();
         $activation = $user->addRole();
 
-        $this->view->setContent($this->dump->vars($create, $activation, $errors));
+        $this->view->setContent($this->dump->vars($create, $activation));
     }
 
     public function adminAction()
@@ -72,5 +80,72 @@ class TestController extends IndexController
         $user = new \Ice\Auth\Driver\Model\Users();
 
         echo $this->dump->vars($user->loadOne(["username" => 'user']));
+    }
+
+
+    public function validationAction()
+    {
+        $data = [
+            'emailAddress' => '',
+            'repeatEmailAddress' => 'user@example.com',
+        ];
+
+        $validation = new Validation();
+        $validation->setHumanLabels(true);
+
+        // $validation->rule('emailAddress', new Required());
+        // $validation->rule('emailAddress', new Email());
+        // $validation->rule('repeatEmailAddress', new Same(['other' => 'emailAddress']));
+
+        // $validation->rules([
+        //     'emailAddress' => [
+        //         new Required(),
+        //         new Email()
+        //     ],
+        //     'repeatEmailAddress' => new Same(['other' => 'emailAddress'])
+        // ]);
+
+        $validation->rules([
+            'emailAddress' => [
+                'required',
+                'email'
+            ],
+            'repeatEmailAddress' => [
+                'same' => [
+                    'other' => 'emailAddress',
+                    'message' => ':field must be the same as :other',
+                    'label' => 'Repeat E-mail',
+                    'labelOther' => 'E-mail'
+                ]
+            ]
+        ]);
+
+        // $validation->rules([
+        //     'emailAddress' => 'required|email',
+        //     'repeatEmailAddress' => 'same:emailAddress'
+        // ]);
+
+        $validation->validate($data);
+
+        if (!$validation->valid()) {
+            $messages = $validation->getMessages();
+        }
+
+        var_dump($messages->all());
+
+        // $data = [
+        //     'username' => 'ice123_framework'
+        // ];
+
+        // $validation = new Validation();
+        // $validation->setFilters([
+        //     'username' => 'alpha'
+        // ]);
+
+        // $validation->validate($data);
+
+        // var_dump($validation->getValue('username'));
+
+        $this->app->setAutoRender(false);
     }
 }

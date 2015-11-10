@@ -78,6 +78,16 @@ class UserController extends IndexController
         $this->tag->setTitle(_t('signIn'));
         $this->app->description = _t('signIn');
 
+        $referer = $this->request->getHTTPReferer();
+
+        // Check if referer is this host
+        if (strpos(parse_url($referer, PHP_URL_PATH), $this->config->app->base_uri . 'user/signin') !== 0 &&
+            parse_url($referer, PHP_URL_HOST) .
+            (parse_url($referer, PHP_URL_PORT) ? ':' . parse_url($referer, PHP_URL_PORT) : '') ==
+            $this->request->getServer("HTTP_HOST")) {
+            $this->session->set('referer', $referer);
+        }
+
         if ($this->request->hasPost('submit_signin') && $this->request->hasPost('username') &&
             $this->request->hasPost('password')) {
             $login = $this->auth->login(
@@ -98,20 +108,15 @@ class UserController extends IndexController
                 $this->view->setVar('errors', new Arr($errors));
                 $this->flash->warning(_t('flash/warning/errors'));
             } else {
-                $referer = $this->request->getHTTPReferer();
-                $host = parse_url($referer, PHP_URL_HOST) . (parse_url($referer, PHP_URL_PORT));
+                // Back to last place
+                $referer = $this->session->get('referer');
+                $this->session->remove('referer');
+                $except = [
+                    $this->config->app->base_uri . 'user/signup',
+                    $this->config->app->base_uri . 'user/activation'
+                ];
 
-                if (parse_url($referer, PHP_URL_PORT)) {
-                    $host .= parse_url($referer, PHP_URL_PORT);
-                }
-
-                $back = !empty($referer) &&
-                    strpos(parse_url($referer, PHP_URL_PATH), '/user/signin') !== 0 &&
-                    strpos(parse_url($referer, PHP_URL_PATH), '/user/signup') !== 0 &&
-                    strpos(parse_url($referer, PHP_URL_PATH), '/user/activation') !== 0 &&
-                    $host == $this->request->getServer("HTTP_HOST");
-
-                if ($back) {
+                if (!empty($referer) && !in_array(parse_url($referer, PHP_URL_PATH), $except)) {
                     return $this->response->setHeader("Location", $referer);
                 } else {
                     return $this->dispatcher->forward(['handler' => 'index', 'action' => 'index']);
@@ -133,6 +138,14 @@ class UserController extends IndexController
             if (isset($params['param'])) {
                 $by = $params['param'];
                 $login = false;
+
+                // Check if referer is this host
+                if (strpos(parse_url($referer, PHP_URL_PATH), $this->config->app->base_uri . 'user/signinby') !== 0 &&
+                    parse_url($referer, PHP_URL_HOST) .
+                    (parse_url($referer, PHP_URL_PORT) ? ':' . parse_url($referer, PHP_URL_PORT) : '') ==
+                    $this->request->getServer("HTTP_HOST")) {
+                    $this->session->set('referer', $referer);
+                }
 
                 switch ($by) {
                     case 'facebook':
@@ -239,20 +252,15 @@ class UserController extends IndexController
                     $this->session->remove('access_token');
 
                     // Back to last place
-                    $referer = $this->request->getHTTPReferer();
-                    $host = parse_url($referer, PHP_URL_HOST);
+                    $referer = $this->session->get('referer');
+                    $this->session->remove('referer');
+                    $except = [
+                        $this->config->app->base_uri . 'user/signin',
+                        $this->config->app->base_uri . 'user/signup',
+                        $this->config->app->base_uri . 'user/activation'
+                    ];
 
-                    if (parse_url($referer, PHP_URL_PORT)) {
-                        $host .= parse_url($referer, PHP_URL_PORT);
-                    }
-
-                    $back = !empty($referer) &&
-                        strpos(parse_url($referer, PHP_URL_PATH), '/user/signin') !== 0 &&
-                        strpos(parse_url($referer, PHP_URL_PATH), '/user/signinby') !== 0 &&
-                        strpos(parse_url($referer, PHP_URL_PATH), '/user/signup') !== 0 &&
-                        $host == $this->request->getServer("HTTP_HOST");
-
-                    if ($back) {
+                    if (!empty($referer) && !in_array(parse_url($referer, PHP_URL_PATH), $except)) {
                         return $this->response->setHeader("Location", $referer);
                     } else {
                         $this->response->redirect();
