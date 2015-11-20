@@ -1,15 +1,19 @@
 <h2>{{ _t('signIn') }}</h2><hr />
 <div class="col-md-6 col-md-offset-3">
     {{ form([false]) }}
-        <fieldset class="form-group text-center">
-            <p>{{ _t('signInBy') }}</p>
-            {{ link_to(['user/signinby/facebook', '<i class="icon-social-facebook"></i>', 'Facebook', 'class': 'btn btn-primary-outline']) }}
-            {{ link_to(['user/signinby/google', '<i class="icon-social-gplus"></i>','Google', 'class': 'btn btn-danger-outline']) }}
-            {{ link_to(['user/signinby/twitter', '<i class="icon-social-twitter"></i>','Twitter', 'class': 'btn btn-info-outline']) }}
+        <p class="text-center">{{ _t('signInBy') }}</p>
+        {{ this.flash.getMessages() }}
+        {% set field = 'provider' %}
+        <fieldset class="form-group text-center{{ errors|isset and errors.has(field) ? ' has-warning' : (isset(_POST[field]) ? ' has-success' : '') }}">
+            {{ link_to(['user/signin/facebook', '<i class="icon-social-facebook"></i>', 'Facebook', 'class': 'btn btn-primary-outline']) }}
+            {{ link_to(['user/signin/google', '<i class="icon-social-gplus"></i>','Google', 'class': 'btn btn-danger-outline']) }}
+            {{ link_to(['user/signin/twitter', '<i class="icon-social-twitter"></i>','Twitter', 'class': 'btn btn-info-outline']) }}
+            {% if errors|isset and errors.has(field) %}
+                <p><small class="help-block">{{ current(errors.get(field)) }}</small></p>
+            {% endif %}
         </fieldset>
         <p class="text-center">{{ _t('or') }}</p>
-        {{ this.flash.getMessages() }}
-        {% set field = 'username' %}    
+        {% set field = 'username' %}
         <fieldset class="form-group{{ errors|isset and errors.has(field) ? ' has-warning' : (this.request.hasPost(field) ? ' has-success' : '') }}">
             <div class="input-group">
                 <i class="input-group-addon icon-user"></i>

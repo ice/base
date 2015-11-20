@@ -3,9 +3,9 @@
     {{ form([false]) }}
         <fieldset class="form-group text-center">
             <p>{{ _t('signUpBy') }}</p>
-            {{ link_to(['user/signinby/facebook', '<i class="icon-social-facebook"></i>', 'Facebook', 'class': 'btn btn-primary-outline']) }}
-            {{ link_to(['user/signinby/google', '<i class="icon-social-gplus"></i>','Google', 'class': 'btn btn-danger-outline']) }}
-            {{ link_to(['user/signinby/twitter', '<i class="icon-social-twitter"></i>','Twitter', 'class': 'btn btn-info-outline']) }}
+            {{ link_to(['user/signin/facebook', '<i class="icon-social-facebook"></i>', 'Facebook', 'class': 'btn btn-primary-outline']) }}
+            {{ link_to(['user/signin/google', '<i class="icon-social-gplus"></i>','Google', 'class': 'btn btn-danger-outline']) }}
+            {{ link_to(['user/signin/twitter', '<i class="icon-social-twitter"></i>','Twitter', 'class': 'btn btn-info-outline']) }}
         </fieldset>
         <p class="text-center">{{ _t('or') }}</p>
         {{ this.flash.getMessages() }}

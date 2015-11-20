@@ -77,7 +77,7 @@ class UserController extends IndexController
     {
         $this->tag->setTitle(_t('signIn'));
         $this->app->description = _t('signIn');
-
+        $provider = $this->dispatcher->getParam('param');
         $referer = $this->request->getHTTPReferer();
 
         // Check if referer is this host
@@ -88,26 +88,72 @@ class UserController extends IndexController
             $this->session->set('referer', $referer);
         }
 
-        if ($this->request->hasPost('submit_signin') && $this->request->hasPost('username') &&
-            $this->request->hasPost('password')) {
-            $login = $this->auth->login(
-                $this->request->getPost('username'),
-                $this->request->getPost('password'),
-                $this->request->getPost('rememberMe') ? true : false
-            );
+        // Detect the login way
+        if ($this->request->isPost() && $this->request->hasPost('username') && $this->request->hasPost('password')) {
+            // Try to login by username and password
+            $login = $this->userService->signin();
+        } elseif ($provider) {
+            // Try to login by social network
+            $login = $this->userService->signinby($provider);
 
-            if (!$login) {
-                $errors = [];
+            if ($login instanceof \Ice\Http\Response) {
+                // Redirect to social page
+                return $login;
+            }
+        }
 
-                if ($login === null) {
-                    $errors['username'][] = _t('Field :field is not valid', [':field' => _t('username')]);
-                } else {
-                    $errors['password'][] = _t('Field :field is not valid', [':field' => _t('password')]);
+        if ($this->request->isPost() || $provider) {
+            $errors = [];
+
+            // If the login fails
+            if ($provider && $login === null) {
+                // The user doesn't exist, load view to select the new username
+                $this->view->setFile('user/signupby');
+
+                // Fetch social data
+                $social = $this->userService->getSocial();
+                $email = $social->getEmail();
+                $this->view->setVar('email', $email);
+
+                // Add social auth for existing account
+                if ($email && $user = Users::findOne(['email' => $email])) {
+                    // Update user's data from social network
+                    $user->socialUpdate($social);
+
+                    // Redirect to this action and sign in the user
+                    $this->response->redirect('user/signin/' . $provider);
                 }
 
+                // Sign up new user by social network
+                if ($this->request->isPost() == true) {
+                    // Try to signup new user
+                    $signup = $this->userService->signupby($social);
+
+                    if ($signup instanceof Users) {
+                        // Update user's data from social network
+                        $signup->socialUpdate($social);
+                        
+                        // Redirect to this action and sign in the user
+                        $this->response->redirect('user/signin/' . $provider);
+                    } else {
+                        $errors = $signup;
+                    }
+                }
+            } elseif ($provider && $login === false) {
+                $errors['provider'][] = _t('Field :field is not valid', [':field' => $provider]);
+            } elseif ($login === null) {
+                $errors['username'][] = _t('Field :field is not valid', [':field' => _t('username')]);
+            } elseif ($login === false) {
+                $errors['password'][] = _t('Field :field is not valid', [':field' => _t('password')]);
+            }
+
+            if (!$login) {
                 $this->view->setVar('errors', new Arr($errors));
                 $this->flash->warning(_t('flash/warning/errors'));
             } else {
+                // Sign in the user by social network, remove access token from the session if exist
+                $this->session->remove('access_token');
+
                 // Back to last place
                 $referer = $this->session->get('referer');
                 $this->session->remove('referer');
@@ -122,155 +168,6 @@ class UserController extends IndexController
                     return $this->dispatcher->forward(['handler' => 'index', 'action' => 'index']);
                 }
             }
-        }
-    }
-
-    /**
-     * Sign in the user through social network
-     */
-    public function signinbyAction()
-    {
-        if (!$this->auth ->loggedIn()) {
-            $this->tag->setTitle(_t('signIn'));
-            $this->app->description = _t('signIn');
-
-            $params = $this->router->getParams();
-            if (isset($params['param'])) {
-                $by = $params['param'];
-                $login = false;
-
-                // Check if referer is this host
-                if (strpos(parse_url($referer, PHP_URL_PATH), $this->config->app->base_uri . 'user/signinby') !== 0 &&
-                    parse_url($referer, PHP_URL_HOST) .
-                    (parse_url($referer, PHP_URL_PORT) ? ':' . parse_url($referer, PHP_URL_PORT) : '') ==
-                    $this->request->getServer("HTTP_HOST")) {
-                    $this->session->set('referer', $referer);
-                }
-
-                switch ($by) {
-                    case 'facebook':
-                        $social = new Social(new Social\Facebook());
-
-                        if (!$this->request->hasGet($social->getResponseType())) {
-                            $this->view->setContent(false);
-                            return $this->response->redirect($social->getAuthUrl(), 302, true);
-                        } else {
-                            // Check if access token already exist in the session
-                            if ($this->session->has('access_token')) {
-                                $social->setAccessToken($this->session->get('access_token'));
-                            }
-
-                            if ($social->authenticate()) {
-                                // Store the access token in the session, it can be retrieved only once
-                                $this->session->set('access_token', $social->getAccessToken());
-                                
-                                // Try to login by social
-                                $login = $this->auth->loginBy($social);
-                            } else {
-                                parent::noAccess();
-                            }
-                        }
-                        break;
-                    case 'google':
-                        $social = new Social(new Social\Google());
-
-                        if (!$this->request->hasGet($social->getResponseType())) {
-                            $this->view->setContent(false);
-                            return $this->response->redirect($social->getAuthUrl(), 302, true);
-                        } else {
-                            // Check if access token already exist in the session
-                            if ($this->session->has('access_token')) {
-                                $social->setAccessToken($this->session->get('access_token'));
-                            }
-
-                            if ($social->authenticate()) {
-                                // Store the access token in the session, it can be retrieved only once
-                                $this->session->set('access_token', $social->getAccessToken());
-                                
-                                // Try to login by social
-                                $login = $this->auth->loginBy($social);
-                            } else {
-                                parent::noAccess();
-                            }
-                        }
-                        break;
-                    case 'twitter':
-                        $social = new Social(new Social\Twitter());
-
-                        if (!$this->request->hasGet($social->getResponseType())) {
-                            $this->view->setContent(false);
-                            return $this->response->redirect($social->getAuthUrl(), 302, true);
-                        } else {
-                            if ($social->authenticate()) {
-                                // Try to login by social
-                                $login = $this->auth->loginBy($social);
-                            } else {
-                                parent::noAccess();
-                            }
-                        }
-                        break;
-                    default:
-                        parent::notFound();
-                        break;
-                }
-
-                if ($login === null) {
-                    $this->view->setFile('user/signupby');
-                    $this->view->setVar('email', $social->getEmail());
-
-                    // Add social auth for existing account
-                    if ($user = Users::findOne(['email' => $social->getEmail()])) {
-                        // Update user's data from social network
-                        $user->socialUpdate($social);
-
-                        // Redirect to this action and sign in the user
-                        $this->response->redirect('user/signinby/' . $social->getProvider());
-                    }
-
-                    // Sign up new user by social network
-                    if ($this->request->isPost() == true) {
-                        // Try to signup new user
-                        $user = new Users();
-                        $signup = $user->signupby($social);
-
-                        if ($signup instanceof Users) {
-                            // Remove access token from the session
-                            $this->session->remove('access_token');
-                            
-                            // Redirect to this action and sign in the user
-                            $this->response->redirect('user/signinby/' . $social->getProvider());
-                        } else {
-                            $this->view->setVar('errors', $signup);
-                            $this->flash->warning(_t('flash/warning/errors'));
-                        }
-                    }
-                } elseif ($login == false) {
-                    parent::noAccess();
-                } else {
-                    // Sign in the user by social network
-                    // Remove access token from the session
-                    $this->session->remove('access_token');
-
-                    // Back to last place
-                    $referer = $this->session->get('referer');
-                    $this->session->remove('referer');
-                    $except = [
-                        $this->config->app->base_uri . 'user/signin',
-                        $this->config->app->base_uri . 'user/signup',
-                        $this->config->app->base_uri . 'user/activation'
-                    ];
-
-                    if (!empty($referer) && !in_array(parse_url($referer, PHP_URL_PATH), $except)) {
-                        return $this->response->setHeader("Location", $referer);
-                    } else {
-                        $this->response->redirect();
-                    }
-                }
-            } else {
-                parent::notFound();
-            }
-        } else {
-            $this->response->redirect();
         }
     }
 

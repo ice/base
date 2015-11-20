@@ -72,55 +72,6 @@ class Users extends AuthUsers
     }
 
     /**
-     * Sign up by social network
-     */
-    public function signupby($social)
-    {
-        $validation = new Validation();
-
-        $validation->rules([
-            'username' => $this->rules['username']
-        ]);
-
-        if (!$social->getEmail()) {
-            $validation->rule('email', $this->rules['email']);
-        }
-        
-        $valid = $validation->validate($_POST);
-
-        if (!$valid) {
-            return $validation->getMessages();
-        } else {
-            $this->username = $this->request->getPost('username');
-            $this->email = $social->getEmail() ? $social->getEmail() : $this->request->getPost('email');
-
-            if ($this->create() === true) {
-                unset($_POST);
-
-                // Add social auth
-                $userSocial = new UserSocial();
-                $userSocial->social_id = $social->getSocialId();
-                $userSocial->type = $social->getProvider();
-                $userSocial->user_id = $this->getId();
-
-                if ($userSocial->create() === true) {
-                    // Add login role
-                    $roleUser = new RolesUsers();
-                    $roleUser->user_id = $this->getId();
-                    $roleUser->role_id = Roles::findOne(['name' => 'login'])->getId();
-
-                    if ($roleUser->create() === true) {
-                        return $this;
-                    }
-                }
-                return false;
-            } else {
-                throw new Error($this->getError());
-            }
-        }
-    }
-
-    /**
      * Update existing user, add social loggin
      */
     public function socialUpdate($social)
