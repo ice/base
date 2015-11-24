@@ -3,6 +3,7 @@
 namespace App\Libraries;
 
 use Ice\Di;
+use Ice\Log\Driver\File as Logger;
 use Ice\Mvc\View;
 use Ice\Mvc\View\Engine\Sleet;
 use Ice\Mvc\View\Engine\Sleet\Compiler;
@@ -88,5 +89,31 @@ class Email extends PHPMailer
         $this->MsgHTML($body);
 
         return $body;
+    }
+
+    /**
+     * Send or log an email depending on environment
+     */
+    public function send()
+    {
+        if (Di::fetch()->config->env->email) {
+            return parent::send();
+        } else {
+            $this->preSend();
+            // Log email into the file
+            $logger = new Logger(__ROOT__ . '/app/log/' . date('Ymd') . '.log');
+            $logger->info('Subject: ' . $this->Subject . '; To: ' . json_encode($this->to));
+            $logger->error($this->ErrorInfo);
+            $logger->debug($this->Body);
+            return true;
+        }
+    }
+
+    /**
+     * Get error info
+     */
+    public function getError()
+    {
+        return $this->ErrorInfo;
     }
 }

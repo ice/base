@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Error;
 use App\Libraries\Email;
 use App\Models\Users;
 use Ice\Arr;
