@@ -107,7 +107,6 @@ class Base extends App
         $this->di->request = new Request();
         $this->di->cookies = new Cookies($config->cookie->salt);
         $this->di->response = new Response();
-
         $this->di->i18n = new I18n($config->i18n->toArray());
         $this->di->auth = new Auth($config->auth->toArray());
 
@@ -143,7 +142,7 @@ class Base extends App
         // Set the router service
         $this->di->set('router', function () use ($config) {
             $router = new Router();
-            $router->setDefaultModule('frontend');
+            $router->setDefaultModule($config->modules->application->default);
             $router->setSilent($config->env->silent->router);
             $router->setRoutes((new Routes())->universal());
             return $router;
@@ -168,7 +167,7 @@ class Base extends App
         });
 
         // Set the view service
-        $this->di->set('view', function () {
+        $this->di->set('view', function () use ($config) {
             $view = new View();
             $view->setViewsDir(__ROOT__ . '/app/views/');
 
@@ -177,7 +176,7 @@ class Base extends App
             $sleet->setOptions([
                 'compileDir' => __ROOT__ . '/app/tmp/sleet/',
                 'trimPath' => __ROOT__,
-                'compile' => Compiler::IF_CHANGE
+                'compile' => $config->env->sleet->compile
             ]);
 
             // Set template engines
