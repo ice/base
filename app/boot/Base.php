@@ -199,10 +199,13 @@ class Base extends App
      */
     public function handle($method = null, $uri = null)
     {
-        // Display pretty view if response is Client/Server Error and silet option is true
-        $this->di->hook('app.after.handle', function ($response) {
+        $di = $this->di;
+
+        $this->di->hook('app.after.handle', function ($response) use ($di) {
+            // Display pretty view if response is Client/Server Error
             if ($response->isClientError() || $response->isServerError()) {
-                throw new \Exception($response->getMessage($response->getStatus()), $response->getStatus());
+                $code = $response->getStatus();
+                $response->setBody(Error::view($di, $code, $response->getMessage($code)));
             }
         });
 
