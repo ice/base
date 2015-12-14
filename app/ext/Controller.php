@@ -39,11 +39,9 @@ class Controller extends \Ice\Mvc\Controller
             ->add('css/bootstrap.min.css', $this->config->assets->bootstrap)
             ->add('css/fonts.css', $this->config->assets->fonts)
             ->add('css/simple-line-icons.css', $this->config->assets->simpleLineIcons)
-            ->add('css/styles.css', $this->config->assets->styles)
             // Add scripts to assets
             ->add('js/jquery.min.js', $this->config->assets->jquery)
-            ->add('js/bootstrap.min.js', $this->config->assets->bootstrap)
-            ->add('js/plugins.js', $this->config->assets->plugins);
+            ->add('js/bootstrap.min.js', $this->config->assets->bootstrap);
     }
 
     /**

@@ -115,7 +115,7 @@ class Error extends Exception
                 ->add('css/bootstrap.min.css', $di->config->assets->bootstrap)
                 ->add('css/fonts.css', $di->config->assets->fonts)
                 ->add('css/simple-line-icons.css', $di->config->assets->simpleLineIcons)
-                ->add('css/styles.css', $di->config->assets->styles);
+                ->add('css/frontend.css', $di->config->assets->frontend);
         }
 
         $di->assets->addCss(['content' => 'body { background: #f5f5f5 }']);

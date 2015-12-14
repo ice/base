@@ -58,9 +58,6 @@ pre {
 
 /* xs-down Extra small devices (portrait phones, less than 34em) */
 @media (max-width: 33.99em) {
-    .pull-none {
-        float: none !important;
-    }
     .navbar-form .form-control {
         margin-bottom: 5px !important;
     }

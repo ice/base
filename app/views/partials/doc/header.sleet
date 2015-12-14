@@ -1,0 +1,11 @@
+<header class="navbar navbar-light bg-info navbar-fixed-top">
+    <div class="container clearfix">
+        {{ button(['toggle_header', '&#9776;','type': 'button', 'class': "navbar-toggler hidden-sm-up pull-xs-right", 'data-toggle': 'collapse', 'data-target': '#header-collapse']) }}
+        {{ link_to([null, this.config.app.name, 'class': 'navbar-brand hidden-sm-up']) }}
+    </div>
+    <div class="container">
+        {{ link_to([null, this.config.app.name, 'class': 'navbar-brand hidden-xs-down']) }}
+        <div class="collapse navbar-toggleable-xs" id="header-collapse">
+        </div>
+    </div>
+</header>

@@ -3,7 +3,7 @@
 namespace App\Modules\Frontend\Controllers;
 
 use App\Error;
-use App\Extensions\Controller;
+use App\Extensions\Frontend;
 use App\Libraries\Email;
 use Ice\Arr;
 use Ice\Validation;
@@ -14,7 +14,7 @@ use Ice\Validation;
  * @package     Ice/Base
  * @category    Controller
  */
-class StaticController extends Controller
+class StaticController extends Frontend
 {
 
     /**

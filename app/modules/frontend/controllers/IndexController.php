@@ -2,7 +2,7 @@
 
 namespace App\Modules\Frontend\Controllers;
 
-use App\Extensions\Controller;
+use App\Extensions\Frontend;
 
 /**
  * Frontend home controller
@@ -10,7 +10,7 @@ use App\Extensions\Controller;
  * @package     Ice/Base
  * @category    Controller
  */
-class IndexController extends Controller
+class IndexController extends Frontend
 {
 
     /**

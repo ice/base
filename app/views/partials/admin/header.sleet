@@ -1,15 +1,13 @@
 <header class="navbar navbar-dark bg-inverse navbar-fixed-top">
     <div class="container clearfix">
-        {{ button(['toggle_header', '&#9776;','type': 'button', 'class': "navbar-toggler hidden-sm-up pull-right", 'data-toggle': 'collapse', 'data-target': '#header-collapse']) }}
+        {{ button(['toggle_header', '&#9776;','type': 'button', 'class': "navbar-toggler hidden-sm-up pull-xs-right", 'data-toggle': 'collapse', 'data-target': '#header-collapse']) }}
         {{ link_to([null, this.config.app.name, 'class': 'navbar-brand hidden-sm-up']) }}
     </div>
     <div class="container">
         {{ link_to([null, this.config.app.name, 'class': 'navbar-brand hidden-xs-down']) }}
         <div class="collapse navbar-toggleable-xs" id="header-collapse">
-            <nav class="nav navbar-nav">
+            <nav class="nav navbar-nav pull-sm-right">
                 {{ link_to([null, '<span class="icon-home"></span>', _t('home'), 'class': 'nav-item nav-link']) }}
-            </nav>
-            <nav class="nav navbar-nav pull-right pull none">
                 <div class="nav-item dropdown">
                     {{ link_to([ '#', 'class': 'nav-link dropdown-toggle', 'data-toggle': 'dropdown', this.auth.getUser().username ~ '<b class="caret"></b>' ]) }}
                     <ul class="dropdown-menu dropdown-menu-right">
