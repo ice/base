@@ -2,8 +2,7 @@
 ***
 
 ### Konfiguracja:
-1. Użyj `auth.sql` do stworzenia wymaganych tabel.
-2. Ustaw *base_uri* i inne opcje w pliku `/app/cfg/config.ini`:
+Ustaw *base_uri* i inne opcje w pliku `/app/cfg/config.ini`:
 
 ```ini
 [app]
@@ -36,10 +35,21 @@ key = "secret_key"
 salt = "secret_key"
 ```
 <br />
-Przygotuj aplikację do pierwszego użycia:
+Użyj `auth.sql` do stworzenia wymaganych tabel albo uruchom dla _mongodb_:
 ```bash
 cd /path/to/base/private
+php index.php --module=shell --handler=prepare --action=roles
+```
+
+Ustaw prawa do katalogów:
+```bash
 php index.php --module=shell --handler=prepare --action=chmod
+```
+
+Aby ręcznie zrekompilować widoki albo zminifikować assety (np. dla _production_ `env`):
+```
+php index.php --module=shell --handler=prepare --action=sleet
+php index.php --module=shell --handler=prepare --action=assets
 ```
 ***
 

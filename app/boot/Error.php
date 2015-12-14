@@ -54,39 +54,15 @@ class Error extends Exception
                 echo $dump->vars($error, $info, $debug);
             }
         } else {
-            // Load and display error view
             if (PHP_SAPI == 'cli') {
-                echo _t('somethingIsWrong');
+                echo $message;
             } else {
-                // Load and display error view
-                $view = $di->view;
-
-                if ($err->hide && $code != 404) {
-                    $view->setVar('message', _t('somethingIsWrong'));
-                } else {
-                    $view->setVar('message', $message);
+                if ($err->hide) {
+                    $message = _t('somethingIsWrong');
                 }
 
-                $di->tag->setDocType(Tag::XHTML5);
-                $di->tag->setTitle(_t('status :code', [':code' => $code]));
-                $di->tag->appendTitle($di->config->app->name);
-
-                // Add meta tags
-                $di->tag
-                    ->addMeta(['charset' => 'utf-8'])
-                    ->addMeta(['IE=edge', 'http-equiv' => 'X-UA-Compatible'])
-                    ->addMeta(['width=device-width, initial-scale=1.0', 'viewport'])
-                    ->addMeta(['noindex, nofollow', 'robots']);
-
-                $di->assets
-                    // Add styles to assets
-                    ->add('css/bootstrap.min.css', $di->config->assets->bootstrap)
-                    ->add('css/fonts.css', $di->config->assets->fonts)
-                    ->add('css/simple-line-icons.css', $di->config->assets->simpleLineIcons)
-                    ->add('css/styles.css', $di->config->assets->styles)
-                    ->addCss(['content' => 'body { background: #f5f5f5 }']);
-
-                echo $view->layout('error');
+                // Load and display error view
+                echo self::view($di, $code, $message);
             }
         }
 
@@ -98,7 +74,7 @@ class Error extends Exception
             $logger->debug($debug);
         }
 
-        if ($err->email && $code != 404) {
+        if ($err->email) {
             // Send email to admin
             $log = $dump->vars($error, $info, $debug);
 
@@ -110,5 +86,45 @@ class Error extends Exception
                 $logger->error($email->ErrorInfo);
             }
         }
+    }
+
+    /**
+     * Get the error view
+     *
+     * @param object di
+     * @return string
+     */
+    public static function view($di, $code, $message)
+    {
+        $di->tag->setDocType(Tag::XHTML5);
+        $di->tag->setTitle(_t('status :code', [':code' => $code]));
+        $di->tag->appendTitle($di->config->app->name);
+
+        if (!$di->tag->getMeta()) {
+            // Add meta tags
+            $di->tag
+                ->addMeta(['charset' => 'utf-8'])
+                ->addMeta(['IE=edge', 'http-equiv' => 'X-UA-Compatible'])
+                ->addMeta(['width=device-width, initial-scale=1.0', 'viewport'])
+                ->addMeta(['noindex, nofollow', 'robots']);
+        }
+
+        if (!$di->assets->getCss()) {
+            // Add styles to assets
+            $di->assets
+                ->add('css/bootstrap.min.css', $di->config->assets->bootstrap)
+                ->add('css/fonts.css', $di->config->assets->fonts)
+                ->add('css/simple-line-icons.css', $di->config->assets->simpleLineIcons)
+                ->add('css/frontend.css', $di->config->assets->frontend);
+        }
+
+        $di->assets->addCss(['content' => 'body { background: #f5f5f5 }']);
+
+        $di->view->setVars([
+            'code' => $code,
+            'message' => $message
+        ]);
+
+        return $di->view->layout('error');
     }
 }

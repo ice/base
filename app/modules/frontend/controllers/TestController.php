@@ -2,9 +2,9 @@
 
 namespace App\Modules\Frontend\Controllers;
 
+use App\Extensions\Frontend;
 use App\Models\Users;
 use App\Services\UserService;
-
 use Ice\Validation;
 use Ice\Validation\Validator\Email;
 use Ice\Validation\Validator\Required;
@@ -16,7 +16,7 @@ use Ice\Validation\Validator\Same;
  * @package     Ice/Base
  * @category    Controller
  */
-class TestController extends IndexController
+class TestController extends Frontend
 {
 
     /**

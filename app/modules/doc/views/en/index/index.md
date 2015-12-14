@@ -2,9 +2,7 @@
 ***
 
 ### Configuration:
-1. Use `auth.sql` file to create required tables.
-2. Set *base_uri* and other settings in the `/app/cfg/config.ini` file:
-
+Set *base_uri* and other settings in the `/app/cfg/config.ini` file:
 ```ini
 [app]
 domain = "example.com"
@@ -36,10 +34,21 @@ key = "secret_key"
 salt = "secret_key"
 ```
 <br />
-Prepare the application for the first run:
+Use `auth.sql` file to create required tables or run for _mongodb_:
 ```bash
 cd /path/to/base/private
+php index.php --module=shell --handler=prepare --action=roles
+```
+
+Set the chmods:
+```bash
 php index.php --module=shell --handler=prepare --action=chmod
+```
+
+To recompile views or minify assets manually (eg. for _production_ `env`):
+```
+php index.php --module=shell --handler=prepare --action=sleet
+php index.php --module=shell --handler=prepare --action=assets
 ```
 ***
 

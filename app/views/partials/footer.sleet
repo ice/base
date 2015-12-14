@@ -1,6 +1,6 @@
 <footer class="navbar navbar-light bg-faded">
     <div class="container clearfix">
-        {{ button(['toggle_footer', '&#9776;','type': 'button', 'class': "navbar-toggler hidden-sm-up pull-right", 'data-toggle': 'collapse', 'data-target': '#footer-collapse']) }}
+        {{ button(['toggle_footer', '&#9776;','type': 'button', 'class': "navbar-toggler hidden-sm-up pull-xs-right", 'data-toggle': 'collapse', 'data-target': '#footer-collapse']) }}
         <nav class="nav navbar-nav hidden-sm-up">
             {{ link_to([null, this.config.app.name, 'class': 'nav-item nav-link']) }}
             <span class="nav-item nav-text">&copy; {{ date('Y') }}</span>
@@ -15,7 +15,7 @@
                 {{ link_to(['contact', _t('contact'), 'class': 'nav-item nav-link']) }}
                 {{ link_to(['user/signup', _t('signUp'), 'class': 'nav-item nav-link']) }}
             </nav>
-            <nav class="nav navbar-nav pull-right">
+            <nav class="nav navbar-nav pull-sm-right">
                 <div class="nav-item dropdown dropup">
                     <ul class="dropdown-menu dropdown-menu-right">
                         {% foreach siteLangs as lang: language %}

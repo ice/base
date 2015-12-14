@@ -2,7 +2,7 @@
 
 namespace App\Modules\Doc\Controllers;
 
-use App\Extensions\Controller;
+use App\Extensions\Doc;
 
 /**
  * Documentation home controller
@@ -10,20 +10,8 @@ use App\Extensions\Controller;
  * @package     Ice/Base
  * @category    Controller
  */
-class IndexController extends Controller
+class IndexController extends Doc
 {
-
-    
-    public function before()
-    {
-        parent::before();
-        
-        $this->assets->add('css/highlight/tomorrow.min.css', $this->config->assets->highlight);
-        $this->assets->add('js/plugins/highlight.min.js', $this->config->assets->highlight);
-        $this->assets->addJs([
-            'content' => '$(document).ready(function() {$("pre code").each(function(i, e) {hljs.highlightBlock(e)});});'
-        ]);
-    }
 
     /**
      * Display doc's home page

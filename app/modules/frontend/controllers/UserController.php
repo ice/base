@@ -2,6 +2,7 @@
 
 namespace App\Modules\Frontend\Controllers;
 
+use App\Extensions\Frontend;
 use App\Models\Users;
 use App\Services\UserService;
 use Ice\Arr;
@@ -13,7 +14,7 @@ use Ice\Auth\Social;
  * @package     Ice/Base
  * @category    Controller
  */
-class UserController extends IndexController
+class UserController extends Frontend
 {
 
     public $userService;

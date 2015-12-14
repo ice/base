@@ -1,24 +1,22 @@
 <header class="navbar navbar-light bg-faded navbar-fixed-top">
     <div class="container clearfix">
-        {{ button(['toggle_header', '&#9776;','type': 'button', 'class': "navbar-toggler hidden-sm-up pull-right", 'data-toggle': 'collapse', 'data-target': '#header-collapse']) }}
+        {{ button(['toggle_header', '&#9776;','type': 'button', 'class': "navbar-toggler hidden-sm-up pull-xs-right", 'data-toggle': 'collapse', 'data-target': '#header-collapse']) }}
         {{ link_to([null, this.config.app.name, 'class': 'navbar-brand hidden-sm-up']) }}
     </div>
     <div class="container">
         {{ link_to([null, this.config.app.name, 'class': 'navbar-brand hidden-xs-down']) }}
         <div class="collapse navbar-toggleable-xs" id="header-collapse">
             {% if not this.auth.loggedIn() %}
-                {{ form(['user/signin', 'class': 'form-inline navbar-form pull-right pull-none']) }}
+                {{ form(['user/signin', 'class': 'form-inline navbar-form pull-sm-right pull-none']) }}
                     {{ text_field([ 'username', 'class': 'form-control', 'placeholder': _t('username') ]) }}
                     {{ password_field([ 'password', 'class': 'form-control', 'placeholder': _t('password') ]) }}
                     {{ button(['submit_signin', '<span class="icon-login"></span> ' ~ _t('signIn'), 'class': "btn btn-secondary"]) }}
                 {{ end_tag('form') }}
             {% else %}
-                {% if this.auth.loggedIn('admin') %}
-                    <nav class="nav navbar-nav">
+                <nav class="nav navbar-nav pull-sm-right">
+                    {% if this.auth.loggedIn('admin') %}
                         {{ link_to(['admin', '<span class="icon-settings"></span>', _t('adminPanel'), 'class': 'nav-item nav-link']) }}
-                    </nav>
-                {% endif %}
-                <nav class="nav navbar-nav pull-right pull none">
+                    {% endif %}
                     <div class="nav-item dropdown">
                         {{ link_to([ '#', 'class': 'nav-link dropdown-toggle', 'data-toggle': 'dropdown', this.auth.getUser().username ~ '<b class="caret"></b>' ]) }}
                         <ul class="dropdown-menu dropdown-menu-right">

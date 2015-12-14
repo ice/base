@@ -2,7 +2,7 @@
 
 namespace App\Modules\Admin\Controllers;
 
-use App\Extensions\Controller;
+use App\Extensions\Admin;
 
 /**
  * Admin home controller
@@ -10,30 +10,8 @@ use App\Extensions\Controller;
  * @package     Ice/Base
  * @category    Controller
  */
-class IndexController extends Controller
+class IndexController extends Admin
 {
-
-    /**
-     * Before execute action
-     */
-    public function before()
-    {
-        // Check privileges
-        if (!$this->auth->loggedIn()) {
-            // 401 Unauthorized
-            $this->response->setStatus(401);
-            return $this->response;
-        } elseif (!$this->auth->loggedIn('admin')) {
-            // 403 Forbidden
-            $this->response->setStatus(403);
-            return $this->response;
-        }
-
-        // Set admin header
-        $this->view->setVar('header', 'header_admin');
-        
-        parent::before();
-    }
 
     /**
      * Display admin's home page

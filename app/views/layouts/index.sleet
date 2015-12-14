@@ -12,7 +12,7 @@
     </head>
     <body>
         <div id="main">
-            {{ partial(header|isset ? header : 'header') }}
+            {{ partial(this.dispatcher.getModule() ~ '/header') }}
             <div class="container">
                 {{ content() }}
             </div>
