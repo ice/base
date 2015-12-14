@@ -38,6 +38,8 @@ class PrepareTask extends MainTask
                 chmod(__ROOT__ . $dir, 0777);
             }
         }
+
+        @symlink(__ROOT__ . '/public/fonts/', __ROOT__ . '/public/min/fonts');
     }
 
     /**
