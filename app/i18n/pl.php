@@ -59,6 +59,8 @@ return [
     "english" => "Angielski",
     "language" => "Język",
     "polish" => "Polski",
+    "japanese" => "Japoński",
+
     // Ice validation
     /** alnum */
     "Field :field must contain only letters and numbers" => "Pole <em>:field</em> może zawierać tylko litery i cyfry",
