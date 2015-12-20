@@ -101,9 +101,14 @@ class Controller extends \Ice\Mvc\Controller
      */
     public function notFound()
     {
-        $this->response->setStatus(404);
-        $this->view->setMainView('error');
-        $this->view->setContent(false);
+        return $this->responseCode(404);
+    }
+    
+    public function responseCode($code = 200)
+    {
+        $this->app->setAutoRender(false);
+        $this->response->setStatus($code);
+        return $this->response;
     }
 
     /**
