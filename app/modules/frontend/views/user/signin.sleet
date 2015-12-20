@@ -9,7 +9,7 @@
             {{ link_to(['user/signin/google', '<i class="icon-social-gplus"></i>','Google', 'class': 'btn btn-danger-outline']) }}
             {{ link_to(['user/signin/twitter', '<i class="icon-social-twitter"></i>','Twitter', 'class': 'btn btn-info-outline']) }}
             {% if errors|isset and errors.has(field) %}
-                <p><small class="help-block">{{ current(errors.get(field)) }}</small></p>
+                <p><small class="text-help">{{ current(errors.get(field)) }}</small></p>
             {% endif %}
         </fieldset>
         <p class="text-center">{{ _t('or') }}</p>
@@ -20,7 +20,7 @@
                 {{ text_field([ field, 'class': 'form-control form-control-success form-control-warning', 'placeholder': _t(field) ]) }}
             </div>
             {% if errors|isset and errors.has(field) %}
-                <small class="help-block">{{ current(errors.get(field)) }}</small>
+                <small class="text-help">{{ current(errors.get(field)) }}</small>
             {% endif %}
         </fieldset>
         {% set field = 'password' %}
@@ -30,7 +30,7 @@
                 {{ password_field([ field, 'class': 'form-control form-control-success form-control-warning', 'placeholder': _t(field) ]) }}
             </div>
             {% if errors|isset and errors.has(field) %}
-                <small class="help-block">{{ current(errors.get(field)) }}</small>
+                <small class="text-help">{{ current(errors.get(field)) }}</small>
             {% endif %}
         </fieldset>
         {% set field = 'rememberMe' %}

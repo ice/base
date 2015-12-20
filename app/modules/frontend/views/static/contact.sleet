@@ -10,7 +10,7 @@
                 {{ text_field([ field, 'class': 'form-control form-control-warning', 'placeholder': _t(field) ]) }}
             </div>
             {% if errors|isset and errors.has(field) %}
-                <small class="help-block">{{ current(errors.get(field)) }}</small>
+                <small class="text-help">{{ current(errors.get(field)) }}</small>
             {% endif %}
         </div>
     </fieldset>
@@ -23,7 +23,7 @@
                 {{ text_field([ field, 'class': 'form-control form-control-success form-control-warning', 'placeholder': _t(field) ]) }}
             </div>
             {% if errors|isset and errors.has(field) %}
-                <small class="help-block">{{ current(errors.get(field)) }}</small>
+                <small class="text-help">{{ current(errors.get(field)) }}</small>
             {% endif %}
         </div>
     </fieldset>
@@ -36,7 +36,7 @@
                 {{ text_field([ field, 'class': 'form-control form-control-success form-control-warning', 'placeholder': _t(field) ]) }}
             </div>
             {% if errors|isset and errors.has(field) %}
-                <small class="help-block">{{ current(errors.get(field)) }}</small>
+                <small class="text-help">{{ current(errors.get(field)) }}</small>
             {% endif %}
         </div>
     </fieldset>
@@ -49,7 +49,7 @@
                 {{ text_area([ field, 'class': 'form-control form-control-success form-control-warning', 'placeholder': _t(field), 'rows': '5', 'onclick': "this.rows='10'" ]) }}
             </div>
             {% if errors|isset and errors.has(field) %}
-                <small class="help-block">{{ current(errors.get(field)) }}</small>
+                <small class="text-help">{{ current(errors.get(field)) }}</small>
             {% endif %}
         </div>
     </fieldset>
