@@ -3,6 +3,7 @@
 namespace App\Modules\Shell\Tasks;
 
 use Ice\Auth\Driver\Model\Roles;
+use Ice\Cli\Console;
 use Ice\Mvc\View\Engine\Sleet;
 use Ice\Mvc\View\Engine\Sleet\Compiler;
 
@@ -177,5 +178,55 @@ class PrepareTask extends MainTask
         }
 
         $this->view->setContent(false);
+    }
+
+    /**
+     * Help to find untranslated messages
+     * Parameters:
+     *  0: lang, eg. pl
+     */
+    public function langAction()
+    {
+        $lang = $this->dispatcher->getParam(0, null, 'en', true);
+
+        $dir = '/app/';
+        $scan = [];
+
+        foreach ($iterator = new \RecursiveIteratorIterator(
+            new \RecursiveDirectoryIterator(__ROOT__ . $dir, \RecursiveDirectoryIterator::SKIP_DOTS),
+            \RecursiveIteratorIterator::SELF_FIRST
+        ) as $item) {
+            if (!$item->isDir() && in_array($item->getExtension(), ['php', 'sleet'])) {
+                $content = file_get_contents(__ROOT__ . $dir . $iterator->getSubPathName());
+
+                preg_match_all('/(?:field\s=\s|_t\()[\'"]([^\'"]+)/i', $content, $matches);
+
+                if (count($matches[1])) {
+                    foreach ($matches[1] as $value) {
+                        $scan[$value] = "";
+                    }
+                }
+            }
+        }
+
+        $path = $this->config->i18n->dir . $lang . '.php';
+        $file = file_exists($path) ? include_once($path) : [];
+        $merge = array_merge($scan, $file);
+
+        ksort($merge);
+
+        foreach ($merge as $key => $value) {
+            if (isset($file[$key]) && isset($scan[$key])) {
+                $color = null;
+            } elseif (!isset($file[$key]) && isset($scan[$key])) {
+                $color = 'green';
+            } elseif (isset($file[$key]) && !isset($scan[$key])) {
+                $color = 'yellow';
+            } else {
+                $color = 'red';
+            }
+
+            echo Console::color("    '" . $key . "' => '" . $value . "'," . PHP_EOL, $color);
+        }
     }
 }
