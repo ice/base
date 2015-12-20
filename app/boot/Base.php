@@ -9,7 +9,6 @@ use Ice\Config\Json;
 use Ice\Cookies;
 use Ice\Crypt;
 use Ice\Db;
-use Ice\Di;
 use Ice\Dump;
 use Ice\Filter;
 use Ice\Flash;
@@ -23,7 +22,6 @@ use Ice\Mvc\Router;
 use Ice\Mvc\Url;
 use Ice\Mvc\View;
 use Ice\Mvc\View\Engine\Sleet;
-use Ice\Mvc\View\Engine\Sleet\Compiler;
 use Ice\Session;
 use Ice\Tag;
 
