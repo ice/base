@@ -70,8 +70,6 @@ return [
     "Field :field must be within the range of :min to :max" => "Pole <em>:field</em> musi zawierać się w przedziale <em>:min</em> do <em>:max</em>",
     /** digit */
     "Field :field must be numeric" => "Pole <em>:field</em> musi być numeryczne",
-    /** default */
-    "Field :field is not valid" => "Pole <em>:field</em> jest nieprawidłowe",
     /** email */
     "Field :field must be an email address" => "Pole <em>:field</em> musi być adresem e-mail",
     /** in */
@@ -108,6 +106,6 @@ return [
     "File :field exceeds the size of :max" => "Plik <em>:field</em> przekracza rozmiar <em>:max</em>",
     /* FileType */
     "File :field must be of type: :types" => "Plik <em>:field</em> musi być typu: <em>:types</em>",
-    /* FileValid */
+    /* FileValid / default */
     "Field :field is not valid" => "Pole <em>:field</em> jest nieprawidłowe",
 ];
