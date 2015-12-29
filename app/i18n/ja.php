@@ -107,5 +107,5 @@ return [
     /* FileType */
     "File :field must be of type: :types" => ":field 欄には次のファイル形式のものを指定してください。:types",
     /* FileValid / default */
-    "Field :field is not valid" => ":field 欄で指定したファイルは無効です。",
+    "Field :field is not valid" => ":field 欄の入力は無効です。",
 ];
