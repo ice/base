@@ -70,8 +70,6 @@ return [
     "Field :field must be within the range of :min to :max" => ":field 欄は :min から :max の範囲で入力してください。",
     /** digit */
     "Field :field must be numeric" => ":field 欄は半角数字を入力してください。",
-    /** default */
-    "Field :field is not valid" => ":field 欄の入力は無効です。",
     /** email */
     "Field :field must be an email address" => ":field 欄は正しいメールアドレスの形式で入力してください。",
     /** in */
@@ -108,6 +106,6 @@ return [
     "File :field exceeds the size of :max" => ":field 欄には :max 以下のサイズを指定してください。",
     /* FileType */
     "File :field must be of type: :types" => ":field 欄には次のファイル形式のものを指定してください。:types",
-    /* FileValid */
-    "Field :field is not valid" => ":field 欄で指定したファイルは無効です。",
+    /* FileValid / default */
+    "Field :field is not valid" => ":field 欄の入力は無効です。",
 ];

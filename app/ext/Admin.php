@@ -20,15 +20,11 @@ class Admin extends Controller
     {
         // Check privileges
         if (!$this->auth->loggedIn()) {
-            $this->view->load('error');
             // 401 Unauthorized
-            $this->response->setStatus(401);
-            return $this->response;
+            return parent::responseCode(401);
         } elseif (!$this->auth->loggedIn('admin')) {
-            $this->view->load('error');
             // 403 Forbidden
-            $this->response->setStatus(403);
-            return $this->response;
+            return parent::responseCode(403);
         }
 
         parent::before();

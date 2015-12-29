@@ -149,4 +149,9 @@ class TestController extends Frontend
 
         $this->app->setAutoRender(false);
     }
+    
+    public function noAction()
+    {
+        return parent::notFound();
+    }
 }

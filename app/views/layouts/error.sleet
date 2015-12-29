@@ -10,13 +10,19 @@
         {% endforeach %}
         {{ link(['favicon.ico', "type": "image/x-icon", "rel": "icon"]) }}
     </head>
-    <body class="text-center">
+    <body class="text-xs-center">
         <div id="main">
             <div class="container">
                 <h1>{{ _t('status :code', [':code' : code]) }}</h1>
                 <h1 class="text-muted">
                     {% switch code %}{% default %}
                             <span class="icon-close"></span>
+                            {% break %}
+                        {% case 401 %}
+                            <span class="icon-login"></span>
+                            {% break %}
+                        {% case 403 %}
+                            <span class="icon-lock"></span>
                             {% break %}
                         {% case 404 %}
                             <span class="icon-directions"></span>
