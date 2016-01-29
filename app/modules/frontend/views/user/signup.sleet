@@ -1,13 +1,13 @@
 <h2>{{ _t('signUp') }}</h2><hr />
 <div class="col-md-6 col-md-offset-3">
     {{ form([false]) }}
-        <fieldset class="form-group text-center">
+        <fieldset class="form-group text-xs-center">
             <p>{{ _t('signUpBy') }}</p>
             {{ link_to(['user/signin/facebook', '<i class="icon-social-facebook"></i>', 'Facebook', 'class': 'btn btn-primary-outline']) }}
             {{ link_to(['user/signin/google', '<i class="icon-social-gplus"></i>','Google', 'class': 'btn btn-danger-outline']) }}
             {{ link_to(['user/signin/twitter', '<i class="icon-social-twitter"></i>','Twitter', 'class': 'btn btn-info-outline']) }}
         </fieldset>
-        <p class="text-center">{{ _t('or') }}</p>
+        <p class="text-xs-center">{{ _t('or') }}</p>
         {{ this.flash.getMessages() }}
         {% set field = 'username' %}    
         <fieldset class="form-group{{ errors|isset and errors.has(field) ? ' has-warning' : (this.request.hasPost(field) ? ' has-success' : '') }}">
@@ -59,7 +59,7 @@
                 <small class="text-help">{{ current(errors.get(field)) }}</small>
             {% endif %}
         </fieldset>
-        <fieldset class="form-group text-center">
+        <fieldset class="form-group text-xs-center">
             <p>
                 {{ button(['submit_signup', '<span class="icon-lock"></span> ' ~ _t('signUp'), 'class': "btn btn-block btn-secondary"]) }}
             </p>

@@ -5,7 +5,6 @@ namespace App\Services;
 use App\Error;
 use App\Libraries\Email;
 use App\Models\Users;
-use Ice\Arr;
 use Ice\Auth\Driver\Model\Users\Social as UserSocial;
 use Ice\Auth\Social;
 use Ice\Mvc\Service;
@@ -19,9 +18,9 @@ class UserService extends Service
     /**
      * Set the model
      */
-    public function onConstruct()
+    public function __construct(Users $users)
     {
-        $this->setModel(new Users());
+        $this->setModel($users);
     }
 
     /**
@@ -100,7 +99,7 @@ class UserService extends Service
      */
     public function signup($data = null)
     {
-        $auth = $this->di->auth;
+        $auth = $this->auth;
         
         if (!is_array($data)) {
             // Get _POST data

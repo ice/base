@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Error;
-use App\Libraries\Email;
 use Ice\Auth\Driver\Model\Roles;
 use Ice\Auth\Driver\Model\Roles\Users as AuthRolesUsers;
 use Ice\Auth\Driver\Model\Users as AuthUsers;

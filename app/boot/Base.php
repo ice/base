@@ -2,28 +2,16 @@
 
 namespace App;
 
-use Ice\Assets;
 use Ice\Auth\Driver\Model as Auth;
 use Ice\Config\Ini;
 use Ice\Config\Json;
-use Ice\Cookies;
-use Ice\Crypt;
 use Ice\Db;
-use Ice\Dump;
-use Ice\Filter;
-use Ice\Flash;
-use Ice\Http\Request;
-use Ice\Http\Response;
 use Ice\I18n;
-use Ice\Loader;
 use Ice\Mvc\App;
-use Ice\Mvc\Dispatcher;
 use Ice\Mvc\Router;
 use Ice\Mvc\Url;
 use Ice\Mvc\View;
 use Ice\Mvc\View\Engine\Sleet;
-use Ice\Session;
-use Ice\Tag;
 
 /**
  * Mvc application
@@ -81,12 +69,12 @@ class Base extends App
      */
     public function registerLoader()
     {
-        (new Loader())
-                ->addNamespace('App\Models', __ROOT__ . '/app/models')
-                ->addNamespace('App\Libraries', __ROOT__ . '/app/lib')
-                ->addNamespace('App\Extensions', __ROOT__ . '/app/ext')
-                ->addNamespace('App\Services', __ROOT__ . '/app/services')
-                ->register();
+        $this->di->loader
+            ->addNamespace('App\Models', __ROOT__ . '/app/models')
+            ->addNamespace('App\Libraries', __ROOT__ . '/app/lib')
+            ->addNamespace('App\Extensions', __ROOT__ . '/app/ext')
+            ->addNamespace('App\Services', __ROOT__ . '/app/services')
+            ->register();
     }
 
     /**
@@ -98,13 +86,13 @@ class Base extends App
     {
         $config = $this->config;
         $this->di->config = $config;
-        $this->di->dump = new Dump(true);
-        $this->di->crypt = new Crypt($config->crypt->key);
-        $this->di->filter = new Filter();
-        $this->di->session = new Session();
-        $this->di->request = new Request();
-        $this->di->cookies = new Cookies($config->cookie->salt);
-        $this->di->response = new Response();
+
+        if ($config->app->env == "development") {
+            $this->dump->setDetailed(true);
+        }
+
+        $this->di->crypt->setKey($config->crypt->key);
+        $this->di->cookies->setSalt($config->cookie->salt);
         $this->di->i18n = new I18n($config->i18n->toArray());
         $this->di->auth = new Auth($config->auth->toArray());
 
@@ -116,26 +104,15 @@ class Base extends App
             return $url;
         });
 
-        $this->di->tag = new Tag();
-        $this->di->flash = new Flash();
-
         // Set the assets service
-        $this->di->set('assets', function () use ($config) {
-            $assets = new Assets();
-            $assets->setOptions([
-                'source' => __ROOT__ . '/public/',
-                'target' => 'min/',
-                'minify' => $config->env->assets->minify
-            ]);
-            return $assets;
-        });
+        $this->di->assets->setOptions([
+            'source' => __ROOT__ . '/public/',
+            'target' => 'min/',
+            'minify' => $config->env->assets->minify
+        ]);
 
         // Set the dispatcher service
-        $this->di->set('dispatcher', function () use ($config) {
-            $dispatcher = new Dispatcher();
-            $dispatcher->setSilent($config->env->silent->dispatcher);
-            return $dispatcher;
-        });
+        $this->di->dispatcher->setSilent($config->env->silent->dispatcher);
 
         // Set the router service
         $this->di->set('router', function () use ($config) {
