@@ -33,7 +33,7 @@ class Error extends Exception
         $e = $previous ? $previous : $this;
         $error = get_class($e) . '[' . $e->getCode() . ']: ' . $e->getMessage();
         $info = $e->getFile() . '[' . $e->getLine() . ']';
-        $debug = "Trace: \n" . $e->getTraceAsString() . "\n";
+        $debug = "Trace: \n" . $this->getFullTraceAsString($e) . "\n";
 
         // Get the error settings depending on environment
         $di = Di::fetch();
@@ -43,7 +43,7 @@ class Error extends Exception
         } else {
             $dump = new Dump(true);
         }
-
+//echo $dump->vars($di->getData());exit();
         $err = $di->config->env->error;
 
         if ($err->debug) {

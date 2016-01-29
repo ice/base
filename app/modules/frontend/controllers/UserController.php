@@ -6,7 +6,6 @@ use App\Extensions\Frontend;
 use App\Models\Users;
 use App\Services\UserService;
 use Ice\Arr;
-use Ice\Auth\Social;
 
 /**
  * Frontend User Controller
@@ -17,11 +16,11 @@ use Ice\Auth\Social;
 class UserController extends Frontend
 {
 
-    public $userService;
+    protected $user;
 
-    public function onConstruct()
+    public function __construct(UserService $user)
     {
-        $this->userService = new UserService();
+        $this->user = $user;
     }
 
     /**
@@ -92,10 +91,10 @@ class UserController extends Frontend
         // Detect the login way
         if ($this->request->isPost() && $this->request->hasPost('username') && $this->request->hasPost('password')) {
             // Try to login by username and password
-            $login = $this->userService->signin();
+            $login = $this->user->signin();
         } elseif ($provider) {
             // Try to login by social network
-            $login = $this->userService->signinby($provider);
+            $login = $this->user->signinby($provider);
 
             if ($login instanceof \Ice\Http\Response) {
                 // Redirect to social page
@@ -112,7 +111,7 @@ class UserController extends Frontend
                 $this->view->setFile('user/signupby');
 
                 // Fetch social data
-                $social = $this->userService->getSocial();
+                $social = $this->user->getSocial();
                 $email = $social->getEmail();
                 $this->view->setVar('email', $email);
 
@@ -128,7 +127,7 @@ class UserController extends Frontend
                 // Sign up new user by social network
                 if ($this->request->isPost() == true) {
                     // Try to signup new user
-                    $signup = $this->userService->signupby($social);
+                    $signup = $this->user->signupby($social);
 
                     if ($signup instanceof Users) {
                         // Update user's data from social network
@@ -190,7 +189,7 @@ class UserController extends Frontend
         $this->app->description = _t('signUp');
 
         if ($this->request->isPost() == true) {
-            $signup = $this->userService->signup();
+            $signup = $this->user->signup();
 
             if ($signup instanceof Users) {
                 $this->flash->notice(_t('flash/notice/checkEmail'));

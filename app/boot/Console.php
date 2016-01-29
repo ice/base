@@ -6,14 +6,11 @@ use Ice\Cli\Dispatcher;
 use Ice\Cli\Router;
 use Ice\Config\Ini as Config;
 use Ice\Db;
-use Ice\Di;
 use Ice\I18n;
-use Ice\Loader;
 use Ice\Mvc\Url;
 use Ice\Mvc\View;
 use Ice\Mvc\View\Engine\Sleet;
 use Ice\Mvc\View\Engine\Sleet\Compiler;
-use Ice\Tag;
 
 /**
  * Console application
@@ -58,7 +55,7 @@ class Console extends \Ice\Cli\Console
      */
     public function registerLoader()
     {
-        (new Loader())
+        $this->di->loader
             ->addNamespace('App\Models', __ROOT__ . '/app/models')
             ->addNamespace('App\Libraries', __ROOT__ . '/app/lib')
             ->addNamespace('App\Extensions', __ROOT__ . '/app/ext')
@@ -86,7 +83,6 @@ class Console extends \Ice\Cli\Console
             return $url;
         });
 
-        $this->di->tag = new Tag();
         $this->di->dispatcher = new Dispatcher();
 
         $this->di->set('router', function () {

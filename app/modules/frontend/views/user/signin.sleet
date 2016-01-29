@@ -1,10 +1,10 @@
 <h2>{{ _t('signIn') }}</h2><hr />
 <div class="col-md-6 col-md-offset-3">
     {{ form([false]) }}
-        <p class="text-center">{{ _t('signInBy') }}</p>
+        <p class="text-xs-center">{{ _t('signInBy') }}</p>
         {{ this.flash.getMessages() }}
         {% set field = 'provider' %}
-        <fieldset class="form-group text-center{{ errors|isset and errors.has(field) ? ' has-warning' : (isset(_POST[field]) ? ' has-success' : '') }}">
+        <fieldset class="form-group text-xs-center{{ errors|isset and errors.has(field) ? ' has-warning' : (isset(_POST[field]) ? ' has-success' : '') }}">
             {{ link_to(['user/signin/facebook', '<i class="icon-social-facebook"></i>', 'Facebook', 'class': 'btn btn-primary-outline']) }}
             {{ link_to(['user/signin/google', '<i class="icon-social-gplus"></i>','Google', 'class': 'btn btn-danger-outline']) }}
             {{ link_to(['user/signin/twitter', '<i class="icon-social-twitter"></i>','Twitter', 'class': 'btn btn-info-outline']) }}
@@ -12,7 +12,7 @@
                 <p><small class="text-help">{{ current(errors.get(field)) }}</small></p>
             {% endif %}
         </fieldset>
-        <p class="text-center">{{ _t('or') }}</p>
+        <p class="text-xs-center">{{ _t('or') }}</p>
         {% set field = 'username' %}
         <fieldset class="form-group{{ errors|isset and errors.has(field) ? ' has-warning' : (this.request.hasPost(field) ? ' has-success' : '') }}">
             <div class="input-group">
@@ -41,7 +41,7 @@
                 {{ _t(field) }}
             </label>
         </fieldset>
-        <fieldset class="form-group text-center">
+        <fieldset class="form-group text-xs-center">
             <p>
                 {{ button(['submit_signin', '<span class="icon-login"></span> ' ~ _t('signIn'), 'class': "btn btn-block btn-secondary"]) }}
             </p>

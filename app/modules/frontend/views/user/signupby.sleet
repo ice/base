@@ -24,7 +24,7 @@
                 {% endif %}
             </fieldset>
         {% endif %}
-        <fieldset class="form-group text-center">
+        <fieldset class="form-group text-xs-center">
             <p>
                 {{ button(['submit_signupby', '<span class="icon-login"></span> ' ~ _t('save'), 'class': "btn btn-block btn-secondary"]) }}
             </p>
