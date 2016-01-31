@@ -155,16 +155,10 @@ class Base extends App
                 'compile' => $config->env->sleet->compile
             ]);
 
-            $twig = new Twig($view, $this->di, [
-                'cache' => __ROOT__ . '/app/tmp/twig/',
-                'auto_reload' => $config->env->sleet->compile
-            ]);
-
             // Set template engines
             $view->setEngines([
                 '.md' => 'App\Libraries\Markdown',
                 '.sleet' => $sleet,
-                '.twig' => $twig,
                 '.phtml' => 'Ice\Mvc\View\Engine\Php'
             ]);
 
