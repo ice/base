@@ -4,7 +4,6 @@ namespace App;
 
 use Ice\Auth\Driver\Model as Auth;
 use Ice\Config\Ini;
-use Ice\Config\Json;
 use Ice\Db;
 use Ice\I18n;
 use Ice\Mvc\App;
@@ -12,7 +11,6 @@ use Ice\Mvc\Router;
 use Ice\Mvc\Url;
 use Ice\Mvc\View;
 use Ice\Mvc\View\Engine\Sleet;
-use App\Libraries\Twig;
 
 /**
  * Mvc application
@@ -50,7 +48,7 @@ class Base extends App
 
         // Set environment settings
         $config->set('env', (new Ini(__ROOT__ . '/app/cfg/env.ini'))->{$config->app->env});
-        $config->set('assets', new Json(__ROOT__ . '/app/cfg/assets.json'));
+        $config->set('assets', new Ini(__ROOT__ . '/app/cfg/assets.ini'));
         $this->config = $config;
 
         // Register modules
@@ -178,8 +176,8 @@ class Base extends App
         $di = $this->di;
 
         $this->di->hook('app.after.handle', function ($response) use ($di) {
-            // Display pretty view if response is Client/Server Error
-            if ($response->isClientError() || $response->isServerError()) {
+            // Display pretty view for some response codes
+            if (!$response->isInformational() && !$response->isSuccessful() && !$response->isRedirect()) {
                 $code = $response->getStatus();
                 $response->setBody(Error::view($di, $code, $response->getMessage($code)));
             }

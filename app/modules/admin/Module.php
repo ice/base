@@ -42,5 +42,6 @@ class Module implements ModuleInterface
         $di->view->setViewsDir(__DIR__ . '/views/');
         $di->view->setPartialsDir('../../../views/partials/');
         $di->view->setLayoutsDir('../../../views/layouts/');
+        $di->view->setLayout('bootstrap');
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Extensions;
 
+use Ice\Arr;
 use Ice\Tag;
 
 /**
@@ -27,21 +28,15 @@ class Controller extends \Ice\Mvc\Controller
         $this->tag->setDocType(Tag::XHTML5);
         $this->tag->setTitle($this->config->app->title);
 
+        // Set layout' class container
+        $this->app->layout = new Arr([]);
+
         // Add meta tags
         $this->tag
             ->addMeta(['charset' => 'utf-8'])
             ->addMeta(['IE=edge', 'http-equiv' => 'X-UA-Compatible'])
             ->addMeta(['width=device-width, initial-scale=1.0', 'viewport'])
             ->addMeta(['index, follow', 'robots']);
-
-        $this->assets
-            // Add styles to assets
-            ->add('css/bootstrap.min.css', $this->config->assets->bootstrap)
-            ->add('css/fonts.css', $this->config->assets->fonts)
-            ->add('css/simple-line-icons.css', $this->config->assets->simpleLineIcons)
-            // Add scripts to assets
-            ->add('js/jquery.min.js', $this->config->assets->jquery)
-            ->add('js/bootstrap.min.js', $this->config->assets->bootstrap);
     }
 
     /**

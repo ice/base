@@ -20,10 +20,17 @@ class Frontend extends Controller
     {
         parent::before();
 
+        $versions = $this->config->assets;
         $this->assets
             // Add styles to assets
-            ->add('css/frontend.css', $this->config->assets->frontend)
+            ->add('css/material.min.css', $versions->material)
+            ->add('css/fonts.css', $versions->fonts)
+            ->add('css/simple-line-icons.css', $versions->simplelineicons)
+            ->add('css/material-icons.css', $versions->icons)
+            ->add('css/frontend.css', $versions->frontend)
             // Add scripts to assets
-            ->add('js/frontend.js', $this->config->assets->frontend);
+            ->add('js/jquery.min.js', $versions->jquery)
+            ->add('js/material.min.js', $versions->material)
+            ->add('js/frontend.js', $versions->frontend);
     }
 }

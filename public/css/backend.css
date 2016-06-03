@@ -1,0 +1,106 @@
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
+}
+
+footer {
+    position: absolute !important;
+    bottom: 0;
+    width: 100%;
+    /* Set the fixed height of the footer here */
+    margin-top: 5px;
+    /*height: 55px;*/
+    background-color: #f5f5f5;
+}
+
+footer.navbar-default {
+    background-color: #fff;
+    margin-bottom: 0;
+}
+
+pre {
+    border: 1px #ddd solid;
+}
+
+main > .container {
+    margin-top: 61px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.navbar-form {
+    margin-bottom: 0
+}
+
+.navbar-nav .nav-text {
+    display: block;
+    padding-top: .425rem;
+    padding-bottom: .425rem;
+}
+
+.form-horizontal .form-control-label {
+    text-align: right;
+}
+
+.input-group-addon {
+    background: none;
+}
+
+/* Responsive breakpoints */
+/* xs-up Extra small devices (portrait phones, less than ???px) */
+/* No media query since this is the default in Bootstrap */
+
+/* xs-down Extra small devices (portrait phones, less than 34em) */
+@media (max-width: 33.99em) {
+    .navbar-form .form-control {
+        margin-bottom: 5px !important;
+    }
+}
+
+/* sm-up Small devices (landscape phones, 34em and up) */
+@media (min-width: 34em) {
+    .navbar-form .form-control {
+        width: 135px;
+    }
+}
+
+/* sm-down Small devices (landscape phones, less than 48em) */
+@media (max-width: 47.99em) {
+
+}
+
+/* md-up Medium devices (tablets, 48em and up) */
+@media (min-width: 48em) {
+
+}
+
+/* md-down Medium devices (tablets, less than 62em) */
+@media (max-width: 61.99em) {
+    
+}
+
+/* lg-up Large devices (desktops, 62em and up) */
+@media (min-width: 62em) {
+    .navbar-form .form-control {
+        width: auto;
+    }
+}
+
+/* lg-down Large devices (desktops, less than 75em) */
+@media (max-width: 74.99em) {
+
+}
+
+/* xl-up Extra large devices (large desktops, 75em and up) */
+@media (min-width: 75em) {
+
+}
+
+/* xl-down Extra large devices (large desktops) */
+/* No media query since the extra-large breakpoint has no upper bound on its width */
