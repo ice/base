@@ -1,70 +1,75 @@
-<h2>{{ _t('signUp') }}</h2><hr />
-<div class="col-md-6 col-md-offset-3">
-    {{ form([false]) }}
-        <fieldset class="form-group text-xs-center">
+<div class="mdl-typography--text-center">
+    <h2><i class="icon-lock"></i> {{ _t('signUp') }}</h2><hr />
+    {{ form([false, 'class': 'mdl-form--horizontal']) }}
+        <fieldset>
             <p>{{ _t('signUpBy') }}</p>
-            {{ link_to(['user/signin/facebook', '<i class="icon-social-facebook"></i>', 'Facebook', 'class': 'btn btn-primary-outline']) }}
-            {{ link_to(['user/signin/google', '<i class="icon-social-gplus"></i>','Google', 'class': 'btn btn-danger-outline']) }}
-            {{ link_to(['user/signin/twitter', '<i class="icon-social-twitter"></i>','Twitter', 'class': 'btn btn-info-outline']) }}
+            {{ link_to(['user/signin/twitter', '<i class="icon-social-twitter"></i>','Twitter', 'class': 'mdl-button mdl-js-button mdl-button--icon mdl-button--colored']) }}
+            {{ link_to(['user/signin/facebook', '<i class="icon-social-facebook"></i>', 'Facebook', 'class': 'mdl-button mdl-js-button mdl-button--icon mdl-button--colored']) }}
+            {{ link_to(['user/signin/google', '<i class="icon-social-google"></i>','Google', 'class': 'mdl-button mdl-js-button mdl-button--icon mdl-button--colored']) }}
         </fieldset>
-        <p class="text-xs-center">{{ _t('or') }}</p>
+        <br />
+        <p>{{ _t('or') }}</p>
         {{ this.flash.getMessages() }}
-        {% set field = 'username' %}    
-        <fieldset class="form-group{{ errors|isset and errors.has(field) ? ' has-warning' : (this.request.hasPost(field) ? ' has-success' : '') }}">
-            <div class="input-group">
-                <i class="input-group-addon icon-user"></i>
-                {{ text_field([ field, 'class': 'form-control form-control-success form-control-warning', 'placeholder': _t(field) ]) }}
-            </div>
+        {% set field = 'username' %}
+        <fieldset class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label{{ errors|isset and errors.has(field) ? ' is-invalid is-focused' : '' }}">
+            {{ text_field([field, 'class': 'mdl-textfield__input']) }}
+            <label class="mdl-textfield__label" for="{{ field }}">
+                <i class="icon-user"></i> {{ _t(field) }}
+            </label>
             {% if errors|isset and errors.has(field) %}
-                <small class="text-help">{{ current(errors.get(field)) }}</small>
+                <span class="mdl-textfield__error">{{ current(errors.get(field)) }}</span>
             {% endif %}
         </fieldset>
-        {% set field = 'email' %}    
-        <fieldset class="form-group{{ errors|isset and errors.has(field) ? ' has-warning' : (this.request.hasPost(field) ? ' has-success' : '') }}">
-            <div class="input-group">
-                <i class="input-group-addon icon-envelope"></i>
-                {{ text_field([ field, 'class': 'form-control form-control-success form-control-warning', 'placeholder': _t(field) ]) }}
-            </div>
+        <br />
+        {% set field = 'email' %}
+        <fieldset class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label{{ errors|isset and errors.has(field) ? ' is-invalid is-focused' : '' }}">
+            {{ text_field([field, 'class': 'mdl-textfield__input']) }}
+            <label class="mdl-textfield__label" for="{{ field }}">
+                <i class="icon-envelope"></i> {{ _t(field) }}
+            </label>
             {% if errors|isset and errors.has(field) %}
-                <small class="text-help">{{ current(errors.get(field)) }}</small>
+                <span class="mdl-textfield__error">{{ current(errors.get(field)) }}</span>
             {% endif %}
         </fieldset>
-        {% set field = 'repeatEmail' %}    
-        <fieldset class="form-group{{ errors|isset and errors.has(field) ? ' has-warning' : (this.request.hasPost(field) ? ' has-success' : '') }}">
-            <div class="input-group">
-                <i class="input-group-addon icon-envelope"></i>
-                {{ text_field([ field, 'class': 'form-control form-control-success form-control-warning', 'placeholder': _t(field) ]) }}
-                </div>
+        <br />
+        {% set field = 'repeatEmail' %}
+        <fieldset class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label{{ errors|isset and errors.has(field) ? ' is-invalid is-focused' : '' }}">
+            {{ text_field([field, 'class': 'mdl-textfield__input']) }}
+            <label class="mdl-textfield__label" for="{{ field }}">
+                <i class="icon-envelope"></i> {{ _t(field) }}
+            </label>
             {% if errors|isset and errors.has(field) %}
-                <small class="text-help">{{ current(errors.get(field)) }}</small>
+                <span class="mdl-textfield__error">{{ current(errors.get(field)) }}</span>
             {% endif %}
         </fieldset>
+        <br />
         {% set field = 'password' %}
-        <fieldset class="form-group input-group {{ errors|isset and errors.has(field) ? ' has-warning' : (isset(_POST[field]) ? ' has-success' : '') }}">
-            <div class="input-group">
-                <i class="input-group-addon icon-key"></i>
-                {{ password_field([ field, 'class': 'form-control form-control-success form-control-warning', 'placeholder': _t(field) ]) }}
-            </div>
+        <fieldset class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label{{ errors|isset and errors.has(field) ? ' is-invalid is-focused' : '' }}">
+            {{ password_field([field, 'class': 'mdl-textfield__input']) }}
+            <label class="mdl-textfield__label" for="{{ field }}">
+                <i class="icon-key"></i> {{ _t(field) }}
+            </label>
             {% if errors|isset and errors.has(field) %}
-                <small class="text-help">{{ current(errors.get(field)) }}</small>
+                <span class="mdl-textfield__error">{{ current(errors.get(field)) }}</span>
             {% endif %}
         </fieldset>
+        <br />
         {% set field = 'repeatPassword' %}
-        <fieldset class="form-group{{ errors|isset and errors.has(field) ? ' has-warning' : (isset(_POST[field]) ? ' has-success' : '') }}">
-            <div class="input-group">
-                <i class="input-group-addon icon-key"></i>
-                {{ password_field([ field, 'class': 'form-control form-control-success form-control-warning', 'placeholder': _t(field) ]) }}
-            </div>
+        <fieldset class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label{{ errors|isset and errors.has(field) ? ' is-invalid is-focused' : '' }}">
+            {{ password_field([field, 'class': 'mdl-textfield__input']) }}
+            <label class="mdl-textfield__label" for="{{ field }}">
+                <i class="icon-key"></i> {{ _t(field) }}
+            </label>
             {% if errors|isset and errors.has(field) %}
-                <small class="text-help">{{ current(errors.get(field)) }}</small>
+                <span class="mdl-textfield__error">{{ current(errors.get(field)) }}</span>
             {% endif %}
         </fieldset>
-        <fieldset class="form-group text-xs-center">
+        <fieldset>
             <p>
-                {{ button(['submit_signup', '<span class="icon-lock"></span> ' ~ _t('signUp'), 'class': "btn btn-block btn-secondary"]) }}
+                {{ button(['submit_signup', '<i class="icon-lock"></i> ' ~ _t('signUp'), 'class': "mdl-button mdl-js-button mdl-button--primary"]) }}
             </p>
             <small class="text-muted">
-                {{  _t('iHaveAccount.') }} {{ link_to([ 'user/signin', _t('signIn') ~ ' »' ]) }}
+                {{  _t('iHaveAccount.') }} {{ link_to([ 'user/signin', _t('signIn') ~ ' <i class="icon-login"></i>' ]) }}
             </small>
         </fieldset>
     {{ end_tag('form') }}

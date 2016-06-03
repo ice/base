@@ -1,1 +1,48 @@
-{{ content|isset ? content : content() }}
+{{ get_doc_type() }}
+<html lang="{{ this.i18n.iso() }}">
+    <head>
+        {% foreach get_meta() as meta %}
+            {{ meta }}
+        {% endforeach %}
+        <title>{{ get_title() }}</title>
+        {% foreach this.assets.getCss() as style %}
+            {{ style }}
+        {% endforeach %}
+        <style type="text/css">
+            header {
+                width: 100%;
+                height: 40vh;
+                -webkit-flex-shrink: 0;
+                -ms-flex-negative: 0;
+                flex-shrink: 0;
+            }
+
+            main {
+                margin-top: -35vh;
+                -webkit-flex-shrink: 0;
+                -ms-flex-negative: 0;
+                flex-shrink: 0;
+            }
+        </style>
+        {{ link(['favicon.ico', "type": "image/x-icon", "rel": "icon"]) }}
+    </head>
+    <body class="mdl-layout mdl-layout--fixed-header mdl-js-layout mdl-color--grey-100">
+        <header class="{{ bg }}"></header >
+        <main class="mdl-layout__content">
+            <h1 class="mdl-typography--text-center mdl-color-text--white">{{ this.config.app.name }}</h1>
+            <div class="mdl-grid">
+                <div class="mdl-cell mdl-cell--4-col mdl-cell--hide-tablet mdl-cell--hide-phone"></div>
+                <content class="mdl-cell mdl-cell--4-col mdl-cell--12-col-tablet mdl-shadow--4dp mdl-color--white mdl-color-text--grey-800">
+                    {{ content() }}
+                </content>
+            </div>
+            <footer class="mdl-typography--text-center mdl-color-text--grey-500">
+                {{ link_to([null, this.config.app.name, 'class': 'mdl-color-text--grey-600']) }}
+                <span>&copy; {{ date('Y') }}</span>
+            </footer>
+        </main>
+        {% foreach this.assets.getJs() as script %}
+            {{ script }}
+        {% endforeach %}
+    </body>
+</html>

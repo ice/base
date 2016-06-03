@@ -1,64 +1,55 @@
-<h1>{{ _t('contact') }}</h1><hr />
-{{ this.flash.getMessages() }}
-{{ form(['contact', 'class' : 'form-horizontal']) }}
-    {% set field = 'fullName' %}
-    <fieldset class="form-group{{ errors|isset and errors.has(field) ? ' has-warning' : (this.request.hasPost(field) ? ' has-success' : '') }}">
-        <label class="form-control-label col-md-3" for={{ field }}>{{ _t(field) }}:</label>
-        <div class="col-md-9">
-            <div class="input-group">
-                <i class="input-group-addon icon-user"></i>
-                {{ text_field([ field, 'class': 'form-control form-control-warning', 'placeholder': _t(field) ]) }}
-            </div>
+<div class="mdl-typography--text-center">
+    <h2><i class="icon-envelope"></i> {{ _t('contact') }}</h2><hr />
+    {{ form([false, 'class': 'mdl-form--horizontal']) }}
+        {{ this.flash.getMessages() }}
+        {% set field = 'fullName' %}
+        <fieldset class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label{{ errors|isset and errors.has(field) ? ' is-invalid is-focused' : '' }}">
+            {{ text_field([field, 'class': 'mdl-textfield__input']) }}
+            <label class="mdl-textfield__label" for="{{ field }}">
+                <i class="icon-user"></i> {{ _t(field) }}
+            </label>
             {% if errors|isset and errors.has(field) %}
-                <small class="text-help">{{ current(errors.get(field)) }}</small>
+                <span class="mdl-textfield__error">{{ current(errors.get(field)) }}</span>
             {% endif %}
-        </div>
-    </fieldset>
-    {% set field = 'email' %}
-    <fieldset class="form-group{{ errors|isset and errors.has(field) ? ' has-warning' : (this.request.hasPost(field) ? ' has-success' : '') }}">
-        <label class="form-control-label col-md-3" for={{ field }}>{{ _t(field) }}:</label>
-        <div class="col-md-9">
-            <div class="input-group">
-                <i class="input-group-addon icon-envelope"></i>
-                {{ text_field([ field, 'class': 'form-control form-control-success form-control-warning', 'placeholder': _t(field) ]) }}
-            </div>
+        </fieldset>
+        <br />
+        {% set field = 'email' %}
+        <fieldset class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label{{ errors|isset and errors.has(field) ? ' is-invalid is-focused' : '' }}">
+            {{ text_field([field, 'class': 'mdl-textfield__input']) }}
+            <label class="mdl-textfield__label" for="{{ field }}">
+                <i class="icon-envelope"></i> {{ _t(field) }}
+            </label>
             {% if errors|isset and errors.has(field) %}
-                <small class="text-help">{{ current(errors.get(field)) }}</small>
+                <span class="mdl-textfield__error">{{ current(errors.get(field)) }}</span>
             {% endif %}
-        </div>
-    </fieldset>
-    {% set field = 'repeatEmail' %}
-    <fieldset class="form-group{{ errors|isset and errors.has(field) ? ' has-warning' : (this.request.hasPost(field) ? ' has-success' : '') }}">
-        <label class="form-control-label col-md-3" for={{ field }}>{{ _t(field) }}:</label>
-        <div class="col-md-9">
-            <div class="input-group">
-                <i class="input-group-addon icon-envelope"></i>
-                {{ text_field([ field, 'class': 'form-control form-control-success form-control-warning', 'placeholder': _t(field) ]) }}
-            </div>
+        </fieldset>
+        <br />
+        {% set field = 'repeatEmail' %}
+        <fieldset class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label{{ errors|isset and errors.has(field) ? ' is-invalid is-focused' : '' }}">
+            {{ text_field([field, 'class': 'mdl-textfield__input']) }}
+            <label class="mdl-textfield__label" for="{{ field }}">
+                <i class="icon-envelope"></i> {{ _t(field) }}
+            </label>
             {% if errors|isset and errors.has(field) %}
-                <small class="text-help">{{ current(errors.get(field)) }}</small>
+                <span class="mdl-textfield__error">{{ current(errors.get(field)) }}</span>
             {% endif %}
-        </div>
-    </fieldset>
-    {% set field = 'content' %}
-    <fieldset class="form-group{{ errors|isset and errors.has(field) ? ' has-warning' : (this.request.hasPost(field) ? ' has-success' : '') }}">
-        <label class="form-control-label col-md-3" for={{ field }}>{{ _t(field) }}:</label>
-        <div class="col-md-9">
-            <div class="input-group">
-                <i class="input-group-addon icon-speech"></i>
-                {{ text_area([ field, 'class': 'form-control form-control-success form-control-warning', 'placeholder': _t(field), 'rows': '5', 'onclick': "this.rows='10'" ]) }}
-            </div>
+        </fieldset>
+        <br />
+        {% set field = 'content' %}
+        <fieldset class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label{{ errors|isset and errors.has(field) ? ' is-invalid is-focused' : '' }}">
+            {{ text_area([field, 'class': 'mdl-textfield__input', 'rows': '2', 'onclick': "this.rows='10'"]) }}
+            <label class="mdl-textfield__label" for="{{ field }}">
+                <i class="icon-envelope"></i> {{ _t(field) }}
+            </label>
             {% if errors|isset and errors.has(field) %}
-                <small class="text-help">{{ current(errors.get(field)) }}</small>
+                <span class="mdl-textfield__error">{{ current(errors.get(field)) }}</span>
             {% endif %}
-        </div>
-    </fieldset>
-    <hr />
-    <div class="form-group">
-        <div class="col-lg-offset-3 col-lg-9">
+        </fieldset>
+        <br />
+        <fieldset>
             <p>
-                {{ button(['submit', '<span class="icon-plane"></span> ' ~ _t('send'), 'class': "btn btn-secondary"]) }}
+                {{ button(['submit', '<span class="icon-paper-plane"></span> ' ~ _t('send'), 'class': "mdl-button mdl-js-button mdl-button--primary"]) }}
             </p>
-        </div>
-    </div>
-{{ end_tag('form') }}
+        </fieldset>
+    {{ end_tag('form') }}
+</div>

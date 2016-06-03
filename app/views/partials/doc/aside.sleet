@@ -1,0 +1,23 @@
+<aside class="app-drawer mdl-layout__drawer">
+    <span class="mdl-layout-title">
+        {{ link_to(['doc', _t('documentation')]) }}
+    </span>
+    <nav class="mdl-navigation">
+        {{ link_to(['doc/theme/material', _t('material'), 'class': 'mdl-navigation__link']) }}
+        <div class="app-drawer-separator"></div>
+        {{ link_to(['doc/theme/material#badges-section', 'Badges', 'class': 'mdl-navigation__link']) }}
+        {{ link_to(['doc/theme/material#buttons-section', 'Buttons', 'class': 'mdl-navigation__link']) }}
+        {{ link_to(['doc/theme/material#cards-section', 'Cards', 'class': 'mdl-navigation__link']) }}
+        {{ link_to(['doc/theme/material#dialog-section', 'Dialogs', 'class': 'mdl-navigation__link']) }}
+        {{ link_to(['doc/theme/material#layout-section', 'Layout', 'class': 'mdl-navigation__link']) }}
+        {{ link_to(['doc/theme/material#lists-section', 'Lists', 'class': 'mdl-navigation__link']) }}
+        {{ link_to(['doc/theme/material#loading-section', 'Loading', 'class': 'mdl-navigation__link']) }}
+        {{ link_to(['doc/theme/material#menus-section', 'Menus', 'class': 'mdl-navigation__link']) }}
+        {{ link_to(['doc/theme/material#sliders-section', 'Sliders', 'class': 'mdl-navigation__link']) }}
+        {{ link_to(['doc/theme/material#snackbar-section', 'Snackbar', 'class': 'mdl-navigation__link']) }}
+        {{ link_to(['doc/theme/material#toggles-section', 'Toggles', 'class': 'mdl-navigation__link']) }}
+        {{ link_to(['doc/theme/material#tables-section', 'Tables', 'class': 'mdl-navigation__link']) }}
+        {{ link_to(['doc/theme/material#textfields-section', 'Text Fields', 'class': 'mdl-navigation__link']) }}
+        {{ link_to(['doc/theme/material#tooltips-section', 'Tooltips', 'class': 'mdl-navigation__link']) }}
+    </nav>
+</aside>

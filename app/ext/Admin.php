@@ -29,10 +29,18 @@ class Admin extends Controller
 
         parent::before();
 
+        $versions = $this->config->assets;
         $this->assets
             // Add styles to assets
-            ->add('css/frontend.css', $this->config->assets->frontend)
+            ->add('css/bootstrap.min.css', $versions->bootstrap)
+            ->add('css/fonts.css', $versions->fonts)
+            ->add('css/simple-line-icons.css', $versions->simplelineicons)
+            ->add('css/backend.css', $versions->backend)
+            ->add('css/tether.min.css', $versions->tether)
             // Add scripts to assets
-            ->add('js/frontend.js', $this->config->assets->frontend);
+            ->add('js/jquery.min.js', $versions->jquery)
+            ->add('js/plugins/tether.min.js', $versions->tether)
+            ->add('js/bootstrap.min.js', $versions->bootstrap)
+            ->add('js/backend.js', $versions->backend);
     }
 }

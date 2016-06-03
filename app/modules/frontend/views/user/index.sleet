@@ -1,4 +1,4 @@
-<h2>{{ _t('hello %s', [this.auth.getUser().username]) }}</h2><hr />
+<h2><i class="icon-user"></i> {{ _t('hello %s', [this.auth.getUser().username]) }}</h2><hr />
 <p class="muted">{{ _t('niceDay!') }}</p>
 <p><strong>{{ _t('logins') }}:</strong> {{ this.auth.getUser().logins }}</p>
 <p><strong>{{ _t('lastLogin') }}:</strong> {{ date('Y-m-d H:i:s', this.auth.getUser().lastlogin) }}</p>

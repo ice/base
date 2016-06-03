@@ -43,7 +43,7 @@ class Error extends Exception
         } else {
             $dump = new Dump(true);
         }
-//echo $dump->vars($di->getData());exit();
+
         $err = $di->config->env->error;
 
         if ($err->debug) {
@@ -100,31 +100,53 @@ class Error extends Exception
         $di->tag->setTitle(_t('status :code', [':code' => $code]));
         $di->tag->appendTitle($di->config->app->name);
 
-        if (!$di->tag->getMeta()) {
-            // Add meta tags
-            $di->tag
-                ->addMeta(['charset' => 'utf-8'])
-                ->addMeta(['IE=edge', 'http-equiv' => 'X-UA-Compatible'])
-                ->addMeta(['width=device-width, initial-scale=1.0', 'viewport'])
-                ->addMeta(['noindex, nofollow', 'robots']);
-        }
+        // Clear meta tags and assets
+        $di->tag->setMeta([]);
+        $di->assets->setCollections([]);
 
-        if (!$di->assets->getCss()) {
-            // Add styles to assets
-            $di->assets
-                ->add('css/bootstrap.min.css', $di->config->assets->bootstrap)
-                ->add('css/fonts.css', $di->config->assets->fonts)
-                ->add('css/simple-line-icons.css', $di->config->assets->simpleLineIcons)
-                ->add('css/frontend.css', $di->config->assets->frontend);
-        }
+        // Add meta tags
+        $di->tag
+            ->addMeta(['charset' => 'utf-8'])
+            ->addMeta(['IE=edge', 'http-equiv' => 'X-UA-Compatible'])
+            ->addMeta(['width=device-width, initial-scale=1.0', 'viewport'])
+            ->addMeta(['noindex, nofollow', 'robots']);
+        
+        // Add styles to assets
+        $di->assets
+            ->add('css/material.min.css', $di->config->assets->material)
+            ->add('css/fonts.css', $di->config->assets->fonts)
+            ->add('css/simple-line-icons.css', $di->config->assets->simpleLineIcons)
+            ->add(['content' => 'content { padding: 40px; text-align: center }', 'type' => 'text/css']);
 
-        $di->assets->addCss(['content' => 'body { background: #f5f5f5 }']);
+        // Restore default view settings
+        $di->view->setViewsDir(__ROOT__ . '/app/views/');
+        $di->view->setPartialsDir('partials/');
+        $di->view->setLayoutsDir('layouts/');
+        $di->view->setFile('partials/error');
+
+        if ($di->response->isServerError()) {
+            $bg = 'mdl-color--red';
+        } elseif ($di->response->isClientError()) {
+            $bg = 'mdl-color--blue';
+        } elseif ($di->response->isRedirection()) {
+            $bg = 'mdl-color--orange';
+        } else {
+            $bg = 'mdl-color--amber';
+        }
 
         $di->view->setVars([
-            'code' => $code,
-            'message' => $message
+            'bg' => $bg,
+            'title' => _t('status :code', [':code' => $code]),
+            'content' => $message,
+            'actions' => $di->tag->linkTo([
+                null,
+                '<i class="icon-home"></i> ' . _t('home'),
+                'class' => 'mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect'
+            ])
         ]);
+        $di->view->setContent($di->view->render());
 
-        return $di->view->layout('error');
+
+        return $di->view->layout('minimal');
     }
 }

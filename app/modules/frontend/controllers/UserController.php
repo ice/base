@@ -80,6 +80,11 @@ class UserController extends Frontend
         $provider = $this->dispatcher->getParam('param');
         $referer = $this->request->getHTTPReferer();
 
+        $this->app->layout->replace([
+            'left' => 'mdl-cell--4-col',
+            'content' => 'mdl-cell--4-col'
+        ]);
+
         // Check if referer is this host
         if (strpos(parse_url($referer, PHP_URL_PATH), $this->config->app->base_uri . 'user/signin') !== 0 &&
             parse_url($referer, PHP_URL_HOST) .
@@ -187,6 +192,11 @@ class UserController extends Frontend
     {
         $this->tag->setTitle(_t('signUp'));
         $this->app->description = _t('signUp');
+
+        $this->app->layout->replace([
+            'left' => 'mdl-cell--4-col',
+            'content' => 'mdl-cell--4-col'
+        ]);
 
         if ($this->request->isPost() == true) {
             $signup = $this->user->signup();

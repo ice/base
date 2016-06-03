@@ -25,7 +25,7 @@ return [
     "hello %s" => "Hello %s.",
     "hi" => "Hi",
     "home" => "Home",
-    "iHaveAccount" => "I already have an account.",
+    "iHaveAccount." => "I already have an account.",
     "lastLogin" => "Last login",
     "logins" => "Logins",
     "noAccess" => "No access",

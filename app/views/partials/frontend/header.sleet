@@ -1,33 +1,80 @@
-<header class="navbar navbar-light bg-faded navbar-fixed-top">
-    <div class="container clearfix">
-        {{ button(['toggle_header', '&#9776;','type': 'button', 'class': "navbar-toggler hidden-sm-up pull-xs-right", 'data-toggle': 'collapse', 'data-target': '#header-collapse']) }}
-        {{ link_to([null, this.config.app.name, 'class': 'navbar-brand hidden-sm-up']) }}
-    </div>
-    <div class="container">
-        {{ link_to([null, this.config.app.name, 'class': 'navbar-brand hidden-xs-down']) }}
-        <div class="collapse navbar-toggleable-xs" id="header-collapse">
-            {% if not this.auth.loggedIn() %}
-                {{ form(['user/signin', 'class': 'form-inline navbar-form pull-sm-right pull-none']) }}
-                    {{ text_field([ 'username', 'class': 'form-control', 'placeholder': _t('username') ]) }}
-                    {{ password_field([ 'password', 'class': 'form-control', 'placeholder': _t('password') ]) }}
-                    {{ button(['submit_signin', '<span class="icon-login"></span> ' ~ _t('signIn'), 'class': "btn btn-secondary"]) }}
-                {{ end_tag('form') }}
-            {% else %}
-                <nav class="nav navbar-nav pull-sm-right">
-                    {% if this.auth.loggedIn('admin') %}
-                        {{ link_to(['admin', '<span class="icon-settings"></span>', _t('adminPanel'), 'class': 'nav-item nav-link']) }}
-                    {% endif %}
-                    <div class="nav-item dropdown">
-                        {{ link_to([ '#', 'class': 'nav-link dropdown-toggle', 'data-toggle': 'dropdown', this.auth.getUser().username ~ '<b class="caret"></b>' ]) }}
-                        <ul class="dropdown-menu dropdown-menu-right">
-                            <li class="dropdown-header">{{ this.auth.getUser().email }}</li>
-                            <li class="">{{ link_to(['user', '<span class="icon-user"></span> ' ~ _t('account'), 'class': 'dropdown-item']) }}</li>
-                            <li class="dropdown-divider"></li>
-                            <li>{{ link_to(['user/signout', '<span class="icon-power"></span> ' ~ _t('signOut'), 'class': 'dropdown-item']) }}</li>
-                        </ul>
-                    </div>
-                </nav>
-            {% endif %}
+<header class="mdl-layout__header mdl-layout__header--waterfall mdl-color--grey-100 mdl-color-text--grey-800 {{ this.app.layout.get('header', 'mdl-color--white') }}">
+    <div class="mdl-layout__header-row">
+        {{ link_to([null, this.config.app.name, 'class': 'mdl-layout-title mdl-navigation__link']) }}
+        <div class="mdl-layout-spacer"></div>
+
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-textfield--floating-label mdl-textfield--align-right mdl-textfield--full-width">
+            <label class="mdl-button mdl-js-button mdl-button--icon" for="search" title="{{ _t('search') }}">
+                <i class="icon-magnifier"></i>
+            </label>
+            <div class="mdl-textfield__expandable-holder">
+                <input class="mdl-textfield__input" type="text" id="search">
+                <label class="mdl-textfield__label" for="search">Enter your query...</label>
+            </div>
         </div>
+
+        <div class="app-navigation-container">
+            <nav class="app-navigation mdl-navigation">
+                {{ link_to([null, '<i class="icon-home"></i>', _t('home'), 'class': 'mdl-navigation__link']) }}
+                {{ link_to(['doc', '<i class="icon-book-open"></i>', _t('documentation'), 'class': 'mdl-navigation__link']) }}
+                {% if this.auth.loggedIn('admin') %}
+                    {{ link_to(['admin', '<i class="icon-settings"></i>', _t('adminPanel'), 'class': 'mdl-navigation__link']) }}
+                {% endif %}
+            </nav>
+        </div>
+
+        {% if this.auth.loggedIn() %}
+            {{ button(['more-button', '<i class="icon-arrow-down"></i>', 'type': 'button', 'class': 'app-more-button mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect']) }}
+            <ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right mdl-js-ripple-effect" for="more-button">
+                <li class="mdl-menu__item" disabled>{{ this.auth.getUser().email }}</li>
+                <li class="">{{ link_to(['user', '<i class="icon-user"></i> ' ~ _t('account'), 'class': 'mdl-menu__item']) }}</li>
+                <li class="mdl-menu__item--full-bleed-divider"></li>
+                <li class="">{{ link_to(['user/signout', '<i class="icon-power"></i> ' ~ _t('signOut'), 'class': 'mdl-menu__item']) }}</li>
+            </ul>
+        {% else %}
+            {{ link_to(['user/signin', '<i class="icon-login"></i>', _t('signIn'), 'class': 'app-more-button mdl-button mdl-js-button mdl-button--icon']) }}
+        {% endif %}
     </div>
 </header>
+{{ partial(this.dispatcher.getModule() ~ '/aside') }}
+<!-- <header class="app-header mdl-layout__header mdl-layout__header--waterfall">
+    <div class="mdl-layout__header-row">
+        <span class="app-title mdl-layout-title">
+            {{ link_to([null, image(['img/logo.png', this.config.app.name, 'class': 'app-logo-image'])]) }}
+        </span>
+        <div class="app-header-spacer mdl-layout-spacer"></div>
+        <div class="app-search-box mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-textfield--floating-label mdl-textfield--align-right mdl-textfield--full-width">
+            <label class="mdl-button mdl-js-button mdl-button--icon" for="search-field" title="{{ _t('search') }}">
+                <i class="icon-magnifier"></i>
+            </label>
+            <div class="mdl-textfield__expandable-holder">
+                <input class="mdl-textfield__input" type="text" id="search-field">
+            </div>
+        </div>
+        <div class="app-navigation-container">
+            <nav class="app-navigation mdl-navigation">
+                {{ link_to([null, '<i class="icon-home"></i>', _t('home'), 'class': 'mdl-navigation__link']) }}
+                {{ link_to(['doc', '<i class="icon-book-open"></i>', _t('documentation'), 'class': 'mdl-navigation__link']) }}
+                {% if this.auth.loggedIn('admin') %}
+                    {{ link_to(['admin', '<i class="icon-settings"></i>', _t('adminPanel'), 'class': 'mdl-navigation__link']) }}
+                {% endif %}
+            </nav>
+        </div>
+        <span class="app-mobile-title mdl-layout-title">
+            {{ link_to([null, image(['img/logo.png', this.config.app.name, 'class': 'app-logo-image'])]) }}
+        </span>
+
+        {% if this.auth.loggedIn() %}
+            {{ button(['more-button', '<i class="icon-arrow-down"></i>', 'type': 'button', 'class': 'app-more-button mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect']) }}
+            <ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right mdl-js-ripple-effect" for="more-button">
+                <li class="mdl-menu__item" disabled>{{ this.auth.getUser().email }}</li>
+                <li class="mdl-menu__item">{{ link_to(['user', '<i class="icon-user"></i> ' ~ _t('account'), 'class': '']) }}</li>
+                <li class="mdl-menu__item--full-bleed-divider"></li>
+                <li class="mdl-menu__item">{{ link_to(['user/signout', '<i class="icon-power"></i> ' ~ _t('signOut'), 'class': '']) }}</li>
+            </ul>
+        {% else %}
+            {{ link_to(['user/signin', '<i class="icon-login"></i>', _t('signIn'), 'class': 'app-more-button mdl-button mdl-js-button mdl-button--icon']) }}
+        {% endif %}
+    </div>
+</header>
+ -->

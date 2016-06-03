@@ -51,8 +51,12 @@ class Module implements ModuleInterface
         }
 
         // Overwrite views dirs
-        $di->view->setViewsDir(__DIR__ . '/views/' . $di->i18n->iso($lang) . '/');
+        $di->view->setViewsDir([
+            __DIR__ . '/views/' . $di->i18n->iso($lang) . '/',
+            __DIR__ . '/views/en/'
+        ]);
         $di->view->setPartialsDir('../../../../views/partials/');
         $di->view->setLayoutsDir('../../../../views/layouts/');
+        $di->view->setLayout('material');
     }
 }

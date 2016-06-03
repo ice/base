@@ -20,10 +20,15 @@ class StaticController extends Frontend
     /**
      * Display contact form
      */
-    public function contactAction()
+    public function getContactAction()
     {
         $this->tag->setTitle(_t('contact'));
         $this->app->description = _t('contact');
+
+        $this->app->layout->replace([
+            'left' => 'mdl-cell--3-col',
+            'content' => 'mdl-cell--6-col'
+        ]);
     }
 
     /**
@@ -33,6 +38,9 @@ class StaticController extends Frontend
      */
     public function postContactAction()
     {
+        $this->getContactAction();
+        //$this->app->request(['action' => 'getContact']);
+
         $validation = new Validation();
 
         $validation->rules([

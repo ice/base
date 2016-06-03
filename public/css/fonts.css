@@ -44,6 +44,7 @@
 /* No media query since this is the default in Bootstrap */
 body {
     font: 300 16px/1.4 'Open Sans', Helvetica, Arial;
+    color: #444;
 }
 
 h1, h2, h3, h4, h5, h6 {
