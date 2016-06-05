@@ -107,7 +107,7 @@ class UserService extends Service
         }
 
         // Hash password after validate and before save
-        $this->di->hook('model.after.validate', function ($this) use ($auth) {
+        $this->di->hook('model.after.validate', function () use ($auth) {
             $this->set('password', $auth->hash($this->get('password')));
         });
         
