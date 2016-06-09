@@ -81,8 +81,8 @@ class UserController extends Frontend
         $referer = $this->request->getHTTPReferer();
 
         $this->app->layout->replace([
-            'left' => 'mdl-cell--4-col',
-            'content' => 'mdl-cell--4-col'
+            'left' => 'mdl-cell--3-col',
+            'content' => 'mdl-cell--6-col mdl-cell--8-col-tablet'
         ]);
 
         // Check if referer is this host
@@ -194,8 +194,8 @@ class UserController extends Frontend
         $this->app->description = _t('signUp');
 
         $this->app->layout->replace([
-            'left' => 'mdl-cell--4-col',
-            'content' => 'mdl-cell--4-col'
+            'left' => 'mdl-cell--3-col',
+            'content' => 'mdl-cell--6-col mdl-cell--8-col-tablet'
         ]);
 
         if ($this->request->isPost() == true) {

@@ -27,7 +27,7 @@ class StaticController extends Frontend
 
         $this->app->layout->replace([
             'left' => 'mdl-cell--3-col',
-            'content' => 'mdl-cell--6-col'
+            'content' => 'mdl-cell--6-col mdl-cell--8-col-tablet'
         ]);
     }
 
