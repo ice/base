@@ -20,10 +20,5 @@ class ThemeController extends Doc
     {
         $this->tag->setTitle(_t('material'));
         $this->app->description = _t('material');
-
-        $this->app->layout->replace([
-            'left' => 'mdl-cell--hide-desktop',
-            'content' => 'mdl-cell--12-col'
-        ]);
     }
 }

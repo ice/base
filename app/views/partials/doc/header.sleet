@@ -1,6 +1,6 @@
 <header class="mdl-layout__header mdl-layout__header--waterfall mdl-color--grey-100 mdl-color-text--grey-800 {{ this.app.layout.get('header', 'mdl-color--white') }}">
     <div class="mdl-layout__header-row">
-        {{ link_to([null, this.config.app.name, 'class': 'mdl-layout-title mdl-navigation__link']) }}
+        {{ link_to(['doc', this.config.app.name ~ '/doc', 'class': 'mdl-layout-title mdl-navigation__link']) }}
         <div class="mdl-layout-spacer"></div>
 
         <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-textfield--floating-label mdl-textfield--align-right mdl-textfield--full-width">

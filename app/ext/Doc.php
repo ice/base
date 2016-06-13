@@ -42,5 +42,11 @@ class Doc extends Controller
                     });
                 });'
             ]);
+
+            $this->app->layout->replace([
+                'left' => 'mdl-cell--hide-desktop',
+                'content' => 'mdl-cell--12-col',
+                'ribbon' => 'mdl-color--light-green'
+            ]);
     }
 }
