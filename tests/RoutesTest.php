@@ -106,7 +106,6 @@ class RoutesTest extends PHPUnit
             ['/index/test', ['frontend', 'index', 'test', []]],
             
             ['/user', ['frontend', 'user', 'index', []]],
-            ['/user/', ['frontend', 'user', 'index', []]],
             ['/user/3', ['frontend', 'user', 'index', ['id' => 3]]],
             ['/user/signup', ['frontend', 'user', 'signup', []]],
             ['/user/profile/1', ['frontend', 'user', 'profile', ['id' => 1]]],
@@ -124,7 +123,6 @@ class RoutesTest extends PHPUnit
             ['/admin/index/test', ['admin', 'index', 'test', []]],
             
             ['/admin/user', ['admin', 'user', 'index', []]],
-            ['/admin/user/', ['admin', 'user', 'index', []]],
             ['/admin/user/3', ['admin', 'user', 'index', ['id' => 3]]],
             ['/admin/user/add', ['admin', 'user', 'add', []]],
             ['/admin/user/details/2', ['admin', 'user', 'details', ['id' => 2]]],
@@ -147,7 +145,6 @@ class RoutesTest extends PHPUnit
             ['/module/some/index/test', ['some', 'index', 'test', []]],
 
             ['/module/some/user', ['some', 'user', 'index', []]],
-            ['/module/some/user/', ['some', 'user', 'index', []]],
             ['/module/some/user/3', ['some', 'user', 'index', ['id' => 3]]],
             ['/module/some/user/add', ['some', 'user', 'add', []]],
             ['/module/some/user/details/2', ['some', 'user', 'details', ['id' => 2]]],
@@ -170,7 +167,6 @@ class RoutesTest extends PHPUnit
             ['/index/test', ['frontend', 'index', 'test', []]],
             
             ['/user', ['frontend', 'user', 'index', []]],
-            ['/user/', ['frontend', 'user', 'index', []]],
             ['/user/3', ['frontend', 'user', 'index', ['id' => 3]]],
             ['/user/signup', ['frontend', 'user', 'signup', []]],
             ['/user/profile/1', ['frontend', 'user', 'profile', ['id' => 1]]],

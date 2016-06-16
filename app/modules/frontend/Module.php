@@ -47,10 +47,10 @@ class Module implements ModuleInterface
         // Overwrite flash options
         $di->flash->setOptions([
             "session_key" => "_flash",
-            "success" => ["class" => "alert mdl-color--green-50 mdl-color-text--green mdl-shadow--2dp"],
-            "info" => ["class" => "alert mdl-color--blue-50 mdl-color-text--blue  mdl-shadow--2dp"],
-            "warning" => ["class" => "alert mdl-color--orange-50 mdl-color-text--orange  mdl-shadow--2dp"],
-            "danger" => ["class" => "alert mdl-color--red-50 mdl-color-text--red  mdl-shadow--2dp"],
+            "success" => ["class" => "alert mdl-color--green mdl-color-text--white mdl-shadow--2dp"],
+            "info" => ["class" => "alert mdl-color--blue mdl-color-text--white  mdl-shadow--2dp"],
+            "warning" => ["class" => "alert mdl-color--orange mdl-color-text--white  mdl-shadow--2dp"],
+            "danger" => ["class" => "alert mdl-color--red mdl-color-text--white  mdl-shadow--2dp"],
             "html" => true
         ]);
     }
