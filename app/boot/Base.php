@@ -133,7 +133,7 @@ class Base extends App
                 $config->database->password
             );
 
-            if ($config->database->type !== "mongodb" && $config->app->env == "development") {
+            if (strpos($config->database->type, "mongo") === false && $config->app->env == "development") {
                 $db->getDriver()->getClient()->setAttribute(\Pdo::ATTR_ERRMODE, \Pdo::ERRMODE_EXCEPTION);
             }
 
