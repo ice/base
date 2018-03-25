@@ -9,7 +9,6 @@ php:
 
 before_script:
   - yes '' | pecl -q install -f mongodb
-  - phpenv config-add tests/mongodb.ini
   - ./tests/install-extension.sh
   - composer update
   - phpenv config-rm xdebug.ini
