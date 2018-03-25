@@ -9,6 +9,7 @@ php:
 
 before_script:
   - yes '' | pecl -q install -f mongodb
+  - phpenv config-add tests/mongodb.ini
   - ./tests/install-extension.sh
   - composer update
   - phpenv config-rm xdebug.ini
@@ -16,7 +17,7 @@ before_script:
 
 script:
   - php vendor/bin/phpcs --encoding=utf-8 .
-  - php vendor/bin/phpunit --configuration tests/phpunit.xml --testsuite=all
+  - php vendor/bin/phpunit --testsuite=all
 
 after_failure:
   - sudo apt-get -qq install gdb
