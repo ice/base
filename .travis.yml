@@ -10,6 +10,7 @@ php:
 before_script:
   - yes '' | pecl -q install -f mongodb
   - phpenv config-add tests/mongodb.ini
+  - php -r "echo PHP_VERSION; var_dump(version_compare(PHP_VERSION, '7.0.0', '>='));"
   - ./tests/install-extension.sh
   - composer update
   - phpenv config-rm xdebug.ini
