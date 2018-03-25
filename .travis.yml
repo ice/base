@@ -1,24 +1,22 @@
 language: php
 
 php:
-  - 5.4
   - 5.5
   - 5.6
   - 7.0
-
-matrix:
-  allow_failures:
-    - php: 7.0
+  - 7.1
+  - 7.2
 
 before_script:
+  - yes '' | pecl -q install -f mongodb-1.4.0
+  - phpenv config-rm xdebug.ini || echo "xdebug not available"
   - ./tests/install-extension.sh
   - composer update
-  - phpenv config-rm xdebug.ini
   - phpenv rehash
 
 script:
-  - php vendor/bin/phpcs --standard=PSR2 --encoding=utf-8 --ignore=i18n app/
-  - php vendor/bin/phpunit --configuration tests/phpunit.xml --testsuite=all
+  - php vendor/bin/phpcs --encoding=utf-8 --ignore=framework .
+  - php vendor/bin/phpunit --testsuite=all
 
 after_failure:
   - sudo apt-get -qq install gdb

@@ -1,0 +1,5 @@
+<footer class="footer">
+    <div class="container">
+        {{ link_to([null, this.config.app.name, 'class': 'text-dark']) }} <span class="text-muted">&copy; {{ date('Y') }} </span>
+    </div>
+</footer>

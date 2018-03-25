@@ -1,0 +1,37 @@
+<h2>{{ _t('signIn') }}</h2><hr />
+<div class="col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3">
+    {{ form([false]) }}
+        {{ this.flash.getMessages() }}
+        {% set field = 'username' %}
+        <fieldset class="form-group">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <div class="input-group-text"><i class="icon-user"></i></div>
+                </div>
+                {{ text_field([ field, 'class': 'form-control' ~ (errors|isset and errors.has(field) ? ' is-invalid' : (this.request.hasPost(field) ? ' is-valid' : '')), 'placeholder': _t(field) ]) }}
+                {% if errors|isset and errors.has(field) %}
+                    <div class="{{ errors|isset and errors.has(field) ? 'invalid-feedback' : (this.request.hasPost(field) ? 'valid-feedback' : '') }}">{{ current(errors.get(field)) }}</div>
+                {% endif %}
+            </div>
+        </fieldset>
+        {% if not email %}
+            {% set field = 'email' %}
+            <fieldset class="form-group">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text"><i class="icon-envelope"></i></div>
+                    </div>
+                    {{ text_field([ field, 'class': 'form-control' ~ (errors|isset and errors.has(field) ? ' is-invalid' : (this.request.hasPost(field) ? ' is-valid' : '')), 'placeholder': _t(field) ]) }}
+                    {% if errors|isset and errors.has(field) %}
+                        <div class="{{ errors|isset and errors.has(field) ? 'invalid-feedback' : (this.request.hasPost(field) ? 'valid-feedback' : '') }}">{{ current(errors.get(field)) }}</div>
+                    {% endif %}
+                </div>
+            </fieldset>
+        {% endif %}
+        <fieldset class="form-group text-xs-center">
+            <p>
+                {{ button(['submit_signupby', '<span class="icon-login"></span> ' ~ _t('save'), 'class': "btn btn-block btn-secondary"]) }}
+            </p>
+        </fieldset>
+    {{ end_tag('form') }}
+</div>

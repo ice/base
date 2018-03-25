@@ -1,0 +1,29 @@
+<footer class="footer">
+    <nav class="navbar navbar-expand-sm navbar-light bg-light">
+        {{ link_to([null, this.config.app.name, 'class': 'navbar-brand']) }} <span>&copy; {{ date('Y') }} </span>
+        {{ button(['toggle_footer', '<span class="navbar-toggler-icon"></span>', 'type': 'button', 'class': "navbar-toggler", 'data-toggle': 'collapse', 'data-target': '#footer-collapse']) }}
+        <div class="collapse navbar-collapse" id="footer-collapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="#">Ice {{ version() }}</a>
+                </li>
+                <li class="nav-item">
+                    {{ link_to(['contact', _t('contact'), 'class': 'nav-link']) }}
+                </li>
+                <li class="nav-item">
+                    {{ link_to(['user/signup', _t('signUp'), 'class': 'nav-link']) }}
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-md-auto float-md-right">
+                <li class="nav-item dropup">
+                    {{ link_to(['#', _t('language'), 'class': 'nav-link dropdown-toggle', 'data-toggle': 'dropdown']) }}
+                    <ul class="dropdown-menu dropdown-menu-right">
+                        {% foreach siteLangs as lang: language %}
+                            <li class="">{{ link_to(['lang/' ~ lang, language, 'class': 'dropdown-item']) }}</li>
+                        {% endforeach %}
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</footer>
