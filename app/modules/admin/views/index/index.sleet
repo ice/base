@@ -1,2 +1,0 @@
-<h2>{{ _t('adminPanel') }}</h2><hr />
-<p>{{ _t('baseStart') }}</p>

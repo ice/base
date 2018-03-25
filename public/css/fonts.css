@@ -43,7 +43,7 @@
 /* xs-up Extra small devices (portrait phones, less than ???px) */
 /* No media query since this is the default in Bootstrap */
 body {
-    font: 300 16px/1.4 'Open Sans', Helvetica, Arial;
+    font: 400 16px/1.4 'Open Sans', Helvetica, Arial;
     color: #444;
 }
 

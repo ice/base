@@ -11,21 +11,13 @@
  */
 error_reporting(E_ALL | E_STRICT);
 
-defined('__ROOT__') or
-    /**
-     * Full path to the docroot
-     */
-    define('__ROOT__', dirname(__DIR__));
+require_once __DIR__ . '/../root.php';
+require_once __DIR__ . '/../autoload.php';
 
-// Register App namespace
-(new Ice\Loader())
-    ->addNamespace('App', __ROOT__ . '/app/boot')
-    ->register();
-
-// Include composer's autolader
-include_once __ROOT__ . '/vendor/autoload.php';
+use App\Boot\Base;
+use Ice\Di;
 
 // Initialize website, handle a MVC request and display the HTTP response body
-echo (new App\Base((new Ice\Di())->errors('App\Error')))
+echo (new Base(new Di))
     ->initialize()
     ->handle();

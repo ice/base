@@ -1,0 +1,57 @@
+<h2>{{ _t('signIn') }}</h2><hr />
+<div class="col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3">
+    {{ form([false]) }}
+        <p class="text-center">{{ _t('signInBy') }}</p>
+        {{ this.flash.getMessages() }}
+        {% set field = 'provider' %}
+        <fieldset class="form-group text-center{{ errors|isset and errors.has(field) ? ' has-warning' : (isset(_POST[field]) ? ' has-success' : '') }}">
+            {{ link_to(['user/signin/facebook', '<i class="icon-social-facebook"></i>', 'Facebook', 'class': 'btn btn-primary-outline']) }}
+            {{ link_to(['user/signin/google', '<i class="icon-social-google"></i>','Google', 'class': 'btn btn-danger-outline']) }}
+            {{ link_to(['user/signin/twitter', '<i class="icon-social-twitter"></i>','Twitter', 'class': 'btn btn-info-outline']) }}
+            {% if errors|isset and errors.has(field) %}
+                <p><small class="text-help">{{ current(errors.get(field)) }}</small></p>
+            {% endif %}
+        </fieldset>
+        <p class="text-center">{{ _t('or') }}</p>
+        {% set field = 'username' %}
+        <fieldset class="form-group">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <div class="input-group-text"><i class="icon-user"></i></div>
+                </div>
+                {{ text_field([ field, 'class': 'form-control' ~ (errors|isset and errors.has(field) ? ' is-invalid' : (this.request.hasPost(field) ? ' is-valid' : '')), 'placeholder': _t(field) ]) }}
+                {% if errors|isset and errors.has(field) %}
+                    <div class="{{ errors|isset and errors.has(field) ? 'invalid-feedback' : (this.request.hasPost(field) ? 'valid-feedback' : '') }}">{{ current(errors.get(field)) }}</div>
+                {% endif %}
+            </div>
+        </fieldset>
+        {% set field = 'password' %}
+        <fieldset class="form-group">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <div class="input-group-text"><i class="icon-key"></i></div>
+                </div>
+                {{ password_field([ field, 'class': 'form-control' ~ (errors|isset and errors.has(field) ? ' is-invalid' : (this.request.hasPost(field) ? ' is-valid' : '')), 'placeholder': _t(field) ]) }}
+                {% if errors|isset and errors.has(field) %}
+                    <div class="{{ errors|isset and errors.has(field) ? 'invalid-feedback' : (this.request.hasPost(field) ? 'valid-feedback' : '') }}">{{ current(errors.get(field)) }}</div>
+                {% endif %}
+            </div>
+        </fieldset>
+        {% set field = 'rememberMe' %}
+        <fieldset class="form-group">
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="customCheck1">
+                {{ check_field([field, 'value': 'on', 'class': 'custom-control-input']) }}
+                <label class="custom-control-label" for="{{ field }}">{{ _t(field) }}</label>
+            </div>
+        </fieldset>
+        <fieldset class="form-group">
+            {{ button(['submit_signin', '<i class="icon-login"></i> ' ~ _t('signIn'), 'class': "btn btn-block btn-secondary"]) }}
+        </fieldset>
+        <fieldset class="form-group text-center">
+            <small class="text-muted">
+                {{  _t("noAccount?") }} {{ link_to([ 'user/signup', _t('signUp') ~ ' »' ]) }}
+            </small>
+        </fieldset>
+    {{ end_tag('form') }}
+</div>

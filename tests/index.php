@@ -1,10 +1,8 @@
 <?php
 
-if (!defined('__ROOT__')) {
-    define('__ROOT__', dirname(__DIR__));
-}
+require_once __DIR__ . '/../root.php';
+$loader = include_once __DIR__ . '/../autoload.php';
 
-(new Ice\Loader())
-    ->addNamespace('App', __ROOT__ . '/app/boot')
+$loader
     ->addNamespace('Tests', __ROOT__ . '/tests')
     ->register();

@@ -1,0 +1,36 @@
+<header>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-primary">
+        {{ link_to([null, this.config.app.name, 'class': 'navbar-brand']) }}
+        {{ button(['toggle_header', '<span class="navbar-toggler-icon"></span>', 'type': 'button', 'class': "navbar-toggler", 'data-toggle': 'collapse', 'data-target': '#header-collapse']) }}
+        <div class="collapse navbar-collapse" id="header-collapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    {{ link_to([null, _t('home'), 'class': 'nav-link']) }}
+                </li>
+                <li class="nav-item">
+                    {{ link_to(['doc', _t('documentation'), 'class': 'nav-link']) }}
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-md-auto float-md-right">
+            {% if not this.auth.loggedIn() %}
+                <li class="nav-item">
+                    {{ link_to(['user/signin', _t('signIn'), 'class': 'nav-link']) }}
+                </li>
+            {% else %}
+                <li class="nav-item dropdown">
+                    {{ link_to(['#', this.auth.getUser().username, 'class': 'nav-link dropdown-toggle', 'data-toggle': 'dropdown']) }}
+                    <ul class="dropdown-menu dropdown-menu-right">
+                        <li class="dropdown-header">{{ this.auth.getUser().email }}</li>
+                        <li>{{ link_to(['user', '<span class="icon-user"></span> ' ~ _t('account'), 'class': 'dropdown-item']) }}</li>
+                        {% if this.auth.loggedIn('admin') %}
+                            <li>{{ link_to(['admin', '<span class="icon-settings"></span> ' ~ _t('adminPanel'), 'class': 'dropdown-item']) }}</li>
+                        {% endif %}
+                        <li class="dropdown-divider"></li>
+                        <li>{{ link_to(['user/signout', '<span class="icon-power"></span> ' ~ _t('signOut'), 'class': 'dropdown-item']) }}</li>
+                    </ul>
+                </li>
+            {% endif %}
+            </ul>
+        </div>
+    </nav>
+</header>
