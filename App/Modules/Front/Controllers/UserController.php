@@ -34,7 +34,9 @@ class UserController extends Front
     }
 
     /**
-     * Activate the user
+     * Activate the user.
+     *
+     * @return void
      */
     public function activationAction()
     {
@@ -69,7 +71,9 @@ class UserController extends Front
     }
 
     /**
-     * Display user profile
+     * Display user profile.
+     *
+     * @return void
      */
     public function indexAction()
     {
@@ -81,7 +85,9 @@ class UserController extends Front
     }
 
     /**
-     * Sign in the user
+     * Sign in the user.
+     *
+     * @return void
      */
     public function signinAction()
     {
@@ -90,11 +96,14 @@ class UserController extends Front
         $provider = $this->dispatcher->getParam('id');
         $referer = $this->request->getHTTPReferer();
 
+        $path = parse_url($referer, PHP_URL_PATH);
+        $host = parse_url($referer, PHP_URL_HOST);
+        $port = parse_url($referer, PHP_URL_PORT);
+
         // Check if referer is this host
-        if (strpos(parse_url($referer, PHP_URL_PATH), $this->config->app->base_uri . 'user/signin') !== 0 &&
-            parse_url($referer, PHP_URL_HOST) .
-            (parse_url($referer, PHP_URL_PORT) ? ':' . parse_url($referer, PHP_URL_PORT) : '') ==
-            $this->request->getServer("HTTP_HOST")) {
+        if (strpos($path, $this->config->app->base_uri . 'user/signin') !== 0
+            && $host . ($port ? ':' . $port : '') == $this->request->getServer("HTTP_HOST")
+        ) {
             $this->session->set('referer', $referer);
         }
 
@@ -181,7 +190,9 @@ class UserController extends Front
     }
 
     /**
-     * Sign out the user
+     * Sign out the user.
+     *
+     * @return void
      */
     public function signoutAction()
     {
@@ -190,7 +201,9 @@ class UserController extends Front
     }
 
     /**
-     * Sign up the user
+     * Sign up the user.
+     *
+     * @return void
      */
     public function signupAction()
     {

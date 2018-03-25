@@ -59,7 +59,11 @@ class Users extends AuthUsers
     }
 
     /**
-     * Add role to user
+     * Add role to user.
+     *
+     * @param string $role Name
+     *
+     * @return boolean|null
      */
     public function addRole($role = 'login')
     {
@@ -81,7 +85,11 @@ class Users extends AuthUsers
     }
 
     /**
-     * Update existing user, add social loggin
+     * Update existing user, add social loggin.
+     *
+     * @param object $social Adapter
+     *
+     * @return boolean
      */
     public function socialUpdate($social)
     {
@@ -98,7 +106,9 @@ class Users extends AuthUsers
     }
 
     /**
-     * Change user email
+     * Change user email.
+     *
+     * @return object"boolean
      */
     public function changeEmail()
     {
@@ -124,7 +134,9 @@ class Users extends AuthUsers
     }
 
     /**
-     * Change user password
+     * Change user password.
+     *
+     * @return object"boolean
      */
     public function changePassword()
     {

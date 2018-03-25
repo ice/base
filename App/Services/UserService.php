@@ -10,6 +10,15 @@ use Ice\Auth\Social;
 use Ice\Mvc\Service;
 use Ice\Validation;
 
+/**
+ * User service.
+ *
+ * @category Services
+ * @package  Base
+ * @author   Ice <info@iceframework.org>
+ * @license  iceframework.org Ice
+ * @link     iceframework.org
+ */
 class UserService extends Service
 {
 
@@ -17,14 +26,18 @@ class UserService extends Service
 
     /**
      * Set the model
+     *
+     * @param object $model User
      */
-    public function __construct(Users $users)
+    public function __construct(Users $model)
     {
-        $this->setModel($users);
+        $this->setModel($model);
     }
 
     /**
      * Get the social
+     *
+     * @return object Social
      */
     public function getSocial()
     {
@@ -47,7 +60,8 @@ class UserService extends Service
 
     /**
      * Sign in by social network
-     * @param string provider
+     *
+     * @param string $provider Provider nme
      *
      * @return mixed
      */
@@ -91,7 +105,8 @@ class UserService extends Service
 
     /**
      * Sign up new user
-     * @param mixed data
+     *
+     * @param array $data Data used to create
      *
      * @return mixed
      */
@@ -143,6 +158,9 @@ class UserService extends Service
 
     /**
      * Sign up by social network
+     *
+     * @param object $social Adapter
+     * @param array  $data   Data used to create
      *
      * @return mixed
      */

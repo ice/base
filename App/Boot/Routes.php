@@ -32,7 +32,7 @@ class Routes
             // Static routes
             [['GET', 'POST'], '/contact', ['controller' => 'index', 'action' => 'contact']],
             ['GET', '/{action:aboutus|policy|terms|lang}[/{id}]', ['controller' => 'index']],
-            ['GET', ''],
+            [['GET', 'POST'], ''],
         ];
     }
 }

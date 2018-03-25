@@ -5,16 +5,21 @@ namespace App\Modules\Admin\Controllers;
 use App\Extensions\Admin;
 
 /**
- * Admin home controller
+ * Admin home controller.
  *
- * @package     Ice/Base
- * @category    Controller
+ * @category Controller
+ * @package  App
+ * @author   Ice <info@iceframework.org>
+ * @license  iceframework.org Ice
+ * @link     iceframework.org
  */
 class IndexController extends Admin
 {
 
     /**
-     * Display admin's home page
+     * Display home page
+     *
+     * @return void
      */
     public function indexAction()
     {

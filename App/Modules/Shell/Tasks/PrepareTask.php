@@ -20,7 +20,9 @@ class PrepareTask extends MainTask
 {
 
     /**
-     * Chmod for folders
+     * Chmod for folders.
+     *
+     * @return void
      */
     public function chmodAction()
     {
@@ -47,10 +49,12 @@ class PrepareTask extends MainTask
     }
 
     /**
-     * Remove data from directories
+     * Remove data from directories.
      * Parameters:
      *  recursive: yes
      *  all: no
+     *
+     * @return void
      */
     public function rmAction()
     {
@@ -66,8 +70,9 @@ class PrepareTask extends MainTask
                     '/public/min/',
                 ];
 
-                if ($this->config->app->env == 'development' &&
-                    isset($params["upload"]) && $params["upload"] == 'yes') {
+                if ($this->config->app->env == 'development'
+                    && isset($params["upload"]) && $params["upload"] == 'yes'
+                ) {
                     $dirs[] = '/public/upload/';
                 }
             }
@@ -95,7 +100,7 @@ class PrepareTask extends MainTask
 
                     if (isset($params["all"]) && $params["all"] == "dir") {
                         exec('find ' . __ROOT__ . $dir .
-                            ' -type d -not -path ' . __ROOT__ . $dir . ' | xargs rm -frd');
+                        ' -type d -not -path ' . __ROOT__ . $dir . ' | xargs rm -frd');
                     }
                 }
             }
@@ -103,7 +108,9 @@ class PrepareTask extends MainTask
     }
 
     /**
-     * Compile views from sleet files
+     * Compile views from sleet files.
+     *
+     * @return void
      */
     public function sleetAction()
     {
@@ -135,7 +142,9 @@ class PrepareTask extends MainTask
     }
 
     /**
-     * Minify assets (css & js) files
+     * Minify assets (css & js) files.
+     *
+     * @return void
      */
     public function assetsAction()
     {
@@ -187,9 +196,11 @@ class PrepareTask extends MainTask
     }
 
     /**
-     * Help to find untranslated messages
+     * Help to find untranslated messages.
      * Parameters:
      *  0: lang, eg. pl
+     *
+     * @return void
      */
     public function langAction()
     {
@@ -216,7 +227,7 @@ class PrepareTask extends MainTask
         }
 
         $path = $this->config->i18n->dir . $lang . '.php';
-        $file = file_exists($path) ? include_once($path) : [];
+        $file = file_exists($path) ? include_once $path : [];
         $merge = array_merge($scan, $file);
 
         ksort($merge);

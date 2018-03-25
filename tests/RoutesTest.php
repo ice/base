@@ -7,13 +7,24 @@ use Ice\Di;
 use Ice\Mvc\Router;
 use PHPUnit_Framework_TestCase as PHPUnit;
 
+/**
+ * Toure tests.
+ *
+ * @category Task
+ * @package  App
+ * @author   Ice <info@iceframework.org>
+ * @license  iceframework.org Ice
+ * @link     iceframework.org
+ */
 class RoutesTest extends PHPUnit
 {
 
     private static $di;
 
     /**
-     * Run public/index.php and fetch Di
+     * Run public/index.php and fetch Di.
+     *
+     * @return void
      */
     public static function setUpBeforeClass()
     {
@@ -30,7 +41,11 @@ class RoutesTest extends PHPUnit
     }
 
     /**
-     * Get service from Di
+     * Get service from Di.
+     *
+     * @param string $service Name
+     *
+     * @return object Service
      */
     public function __get($service)
     {
@@ -38,9 +53,14 @@ class RoutesTest extends PHPUnit
     }
 
     /**
-     * Test route matching for universal routes and GET method
+     * Test route matching for universal routes and GET method.
+     *
+     * @param string $pattern  Uri
+     * @param array  $expected Output
      *
      * @dataProvider GETrouteProvider
+     *
+     * @return void
      */
     public function testUniversalGET($pattern, $expected)
     {
@@ -65,9 +85,14 @@ class RoutesTest extends PHPUnit
     }
 
     /**
-     * Test route matching for universal routes and POST method
+     * Test route matching for universal routes and POST method.
+     *
+     * @param string $pattern  Uri
+     * @param array  $expected Output
      *
      * @dataProvider POSTrouteProvider
+     *
+     * @return void
      */
     public function testUniversalPOST($pattern, $expected)
     {
@@ -106,27 +131,24 @@ class RoutesTest extends PHPUnit
             ['/index/test', ['frontend', 'index', 'test', []]],
 
             ['/user', ['frontend', 'user', 'index', []]],
-            ['/user/3', ['frontend', 'user', 'index', ['id' => 3]]],
             ['/user/signup', ['frontend', 'user', 'signup', []]],
             ['/user/profile/1', ['frontend', 'user', 'profile', ['id' => 1]]],
-            ['/user/profile/ice', ['frontend', 'user', 'profile', ['param' => 'ice']]],
+            ['/user/profile/ice', ['frontend', 'user', 'profile', ['id' => 'ice']]],
 
             ['/post/details/7/friendly-title',
                 ['frontend', 'post', 'details', ['id' => 7, 'param' => 'friendly-title']]],
 
-            ['/contact', ['frontend', 'static', 'contact', []]],
+            ['/contact', ['frontend', 'index', 'contact', []]],
 
             ['/admin', ['admin', 'index', 'index', []]],
-            ['/admin/', ['admin', 'index', 'index', []]],
             ['/admin/index', ['admin', 'index', 'index', []]],
             ['/admin/index/index', ['admin', 'index', 'index', []]],
             ['/admin/index/test', ['admin', 'index', 'test', []]],
 
             ['/admin/user', ['admin', 'user', 'index', []]],
-            ['/admin/user/3', ['admin', 'user', 'index', ['id' => 3]]],
             ['/admin/user/add', ['admin', 'user', 'add', []]],
             ['/admin/user/details/2', ['admin', 'user', 'details', ['id' => 2]]],
-            ['/admin/user/details/ice', ['admin', 'user', 'details', ['param' => 'ice']]],
+            ['/admin/user/details/ice', ['admin', 'user', 'details', ['id' => 'ice']]],
 
             ['/doc', ['doc', 'index', 'index', []]],
             ['/doc/index', ['doc', 'index', 'index', []]],
@@ -135,20 +157,7 @@ class RoutesTest extends PHPUnit
 
             ['/doc/install', ['doc', 'install', 'index', []]],
             ['/doc/install/requirements', ['doc', 'install', 'requirements', []]],
-            ['/doc/install/requirements/php', ['doc', 'install', 'requirements', ['param' => 'php']]],
-            ['/doc/examples/2', ['doc', 'examples', 'index', ['id' => 2]]],
-
-            ['/module/some', ['some', 'index', 'index', []]],
-            ['/module/some/', ['some', 'index', 'index', []]],
-            ['/module/some/index', ['some', 'index', 'index', []]],
-            ['/module/some/index/index', ['some', 'index', 'index', []]],
-            ['/module/some/index/test', ['some', 'index', 'test', []]],
-
-            ['/module/some/user', ['some', 'user', 'index', []]],
-            ['/module/some/user/3', ['some', 'user', 'index', ['id' => 3]]],
-            ['/module/some/user/add', ['some', 'user', 'add', []]],
-            ['/module/some/user/details/2', ['some', 'user', 'details', ['id' => 2]]],
-            ['/module/some/user/details/ice', ['some', 'user', 'details', ['param' => 'ice']]],
+            ['/doc/install/requirements/php', ['doc', 'install', 'requirements', ['id' => 'php']]],
         ];
     }
 
@@ -167,15 +176,14 @@ class RoutesTest extends PHPUnit
             ['/index/test', ['frontend', 'index', 'test', []]],
 
             ['/user', ['frontend', 'user', 'index', []]],
-            ['/user/3', ['frontend', 'user', 'index', ['id' => 3]]],
             ['/user/signup', ['frontend', 'user', 'signup', []]],
             ['/user/profile/1', ['frontend', 'user', 'profile', ['id' => 1]]],
-            ['/user/profile/ice', ['frontend', 'user', 'profile', ['param' => 'ice']]],
+            ['/user/profile/ice', ['frontend', 'user', 'profile', ['id' => 'ice']]],
 
             ['/post/details/7/friendly-title',
                 ['frontend', 'post', 'details', ['id' => 7, 'param' => 'friendly-title']]],
 
-            ['/contact', ['frontend', 'static', 'contact', []]],
+            ['/contact', ['frontend', 'index', 'contact', []]],
         ];
     }
 }

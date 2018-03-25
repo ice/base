@@ -7,7 +7,7 @@ use App\Libraries\Email;
 use Ice\Validation;
 
 /**
- * Index controller.
+ * Front home controller.
  *
  * @category Controller
  * @package  App
