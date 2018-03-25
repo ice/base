@@ -8,10 +8,9 @@ php:
   - 7.2
 
 before_script:
-  - yes '' | pecl -q install -f mongodb
+  - phpenv config-rm xdebug.ini || echo "xdebug not available"
   - ./tests/install-extension.sh
   - composer update
-  - phpenv config-rm xdebug.ini
   - phpenv rehash
 
 script:
