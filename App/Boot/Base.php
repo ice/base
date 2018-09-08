@@ -10,6 +10,7 @@ use Ice\Mvc\App;
 use Ice\Mvc\Router;
 use Ice\Mvc\View;
 use Ice\Mvc\View\Engine\Sleet;
+use Ice\Http\Response\ResponseInterface;
 
 /**
  * Base MVC application.
@@ -142,7 +143,7 @@ class Base extends App
      *
      * @return object response
      */
-    public function handle($method = null, $uri = null)
+    public function handle($method = null, $uri = null): ResponseInterface
     {
         $di = $this->di;
 

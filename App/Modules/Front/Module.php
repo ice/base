@@ -21,11 +21,13 @@ class Module implements ModuleInterface
     /**
      * Register a specific autoloader for the module
      *
+     * @param object $loader Autoloader
+     *
      * @return void
      */
-    public function registerAutoloaders()
+    public function registerAutoloaders(Loader $loader = null)
     {
-        (new Loader())
+        $loader
             ->addNamespace(__NAMESPACE__ . '\Controllers', __DIR__ . '/controllers/')
             ->register();
     }

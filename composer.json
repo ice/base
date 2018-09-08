@@ -12,7 +12,7 @@
     ],
     "require": {
         "php": ">=5.5",
-        "ext-ice": ">=1.3.0",
+        "ext-ice": ">=1.3.1",
         "phpmailer/phpmailer": ">=5.2.10",
         "crossjoin/pre-mailer": "~1.0.5",
         "erusev/parsedown-extra": ">=0.7.0",
