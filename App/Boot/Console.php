@@ -6,6 +6,8 @@ use Ice\Cli\Dispatcher;
 use Ice\Cli\Router;
 use Ice\Config\Ini;
 use Ice\Dump;
+use Ice\Log\Driver\File as Logger;
+use App\Lib\Email;
 
 /**
  * Base console application.
@@ -27,7 +29,7 @@ class Console extends \Ice\Cli\Console
     public function initialize()
     {
         // Handle the errors by Error class
-        $this->di->errors('App\Boot\Error');
+        $this->di->errors();
 
         // Load the config
         $config = new Ini(__ROOT__ . '/App/cfg/config.ini');
@@ -40,8 +42,17 @@ class Console extends \Ice\Cli\Console
         $console = $config->modules->console;
         $this->setModules($config->{$console->modules}->toArray());
 
+        // Set dump
+        $this->di->dump->setPlain(true);
+
+        if ($this->di->env->environment == "development") {
+            $this->dump->setDetailed(true);
+        }
+
+        // Register hooks
+        $this->registerHooks();
+
         // Set services
-        $this->di->dump = new Dump(true, true);
         $this->di->dispatcher = new Dispatcher();
 
         $this->di->set('router', function () use ($config) {
@@ -55,42 +66,56 @@ class Console extends \Ice\Cli\Console
     }
 
     /**
-     * HMVC request in the console.
+     * Register hooks in the di.
      *
-     * @param array   $location Location to run the request
-     * @param boolean $clear    Clear current dispatcher data
-     *
-     * @return mixed
+     * @return void
      */
-    public function request($location, $clear = false)
+    public function registerHooks()
     {
-        $dispatcher = clone $this->di->get('dispatcher');
+        // Pretty exception
+        $this->di->hook('exception.after.uncaught', function ($e, $di) {
+            $message = $e->getMessage();
+            $error = get_class($e) . '[' . $e->getCode() . ']: ' . $e->getMessage();
+            $info = $e->getFile() . '[' . $e->getLine() . ']';
+            $debug = "Trace: \n" . $e->getTraceAsString() . "\n";
 
-        if (isset($location['module'])) {
-            $dispatcher->setModule($location['module']);
-        } elseif ($clear) {
-            $dispatcher->setModule($this->di->router->getDefaultModule());
-        }
+            if ($di->env->error->log) {
+                // Log error into the file
+                $logger = new Logger(__ROOT__ . '/App/log/' . date('Ymd') . '.log');
+                $logger->error($error);
+                $logger->info($info);
+                $logger->debug($debug);
+            }
 
-        if (isset($location['handler'])) {
-            $dispatcher->setHandler($location['handler']);
-        } elseif ($clear) {
-            $dispatcher->setHandler($this->di->router->getDefaultHandler());
-        }
+            if ($di->env->error->email) {
+                // Send email to admin
+                $log = $di->dump->vars($error, $info, $debug);
 
-        if (isset($location['action'])) {
-            $dispatcher->setAction($location['action']);
-        } elseif ($clear) {
-            $dispatcher->setAction($this->di->router->getDefaultActoin());
-        }
+                if ($di->has("request")) {
+                    $log .= $di->dump->one($di->request->getData(), '_REQUEST');
+                    $log .= $di->dump->one($di->request->getServer()->getData(), '_SERVER');
+                    $log .= $di->dump->one($di->request->getPost()->getData(), '_POST');
+                    $log .= $di->dump->one($di->request->getQuery()->getData(), '_GET');
+                }
 
-        if (isset($location['params'])) {
-            $dispatcher->setParams($location['params']);
-        } elseif ($clear) {
-            $dispatcher->setParams([]);
-        }
+                $email = new Email();
+                $email->prepare(_t('somethingIsWrong'), $di->config->app->admin, 'email/error', ['log' => $log]);
 
-        $this->di->dispatcher = $dispatcher;
-        return $this->di->dispatcher->dispatch();
+                if ($email->Send() !== true) {
+                    $logger = new Logger(__ROOT__ . '/App/log/' . date('Ymd') . '.log');
+                    $logger->error($email->ErrorInfo);
+                }
+            }
+
+            if ($di->env->error->debug) {
+                echo $di->dump->vars($error, $info, $debug);
+            } else {
+                if ($di->env->error->hide) {
+                    $message = _t('somethingIsWrong');
+                }
+
+                echo $message;
+            }
+        });
     }
 }

@@ -1,0 +1,49 @@
+<section class="error">
+    <header>
+        <h3>{{ get_class(e) ~ '[' ~ e.getCode() ~ ']: ' ~ e.getMessage() }}</h3>
+        <p>{{ e.getFile() ~ '[' ~ e.getLine() ~ ']' }}</p>
+    </header>
+    {% if e.getFile() and e.getLine() %}
+        {% if source = this.dump.source(e.getFile(), e.getLine()) %}
+        <pre><code><table>
+            {% foreach source as key: value %}
+            {{ sprintf('<tr><td>%d</td><td>%s</td></tr>', key, value) }}
+            {% endforeach %}
+        </table></code></pre>
+        {% endif %}
+    {% endif %}
+</section>
+<section class="trace">
+    <header class="toggle" data-target=".trace ol">
+        <h3>Trace</h3>
+    </header>
+    <ol style="display:none">
+        {% foreach e.getTrace() as trace %}
+        {% if isset(trace['class']) && isset(trace['function']) %}
+        <li>{{ sprintf('%s::%s', trace['class'], trace['function']) }}
+            {% if isset(trace['file']) && isset(trace['line']) %}
+            {{ sprintf(' in %s[%d]', trace['file'], trace['line']) }}
+            {% if source = this.dump.source(trace['file'], trace['line']) %}
+            <pre><code><table>
+                {% foreach source as key: value %}
+                {{ sprintf('<tr><td>%d</td><td>%s</td></tr>', key, value) }}
+                {% endforeach %}
+            </table></code></pre>
+            {% endif %}
+            {% endif %}
+            {% endif %}
+        </li>
+        {% endforeach %}
+    </ol>
+</section>
+<section class="env">
+    <header class="toggle" data-target=".env > div">
+    	<h3>Environment</h3>
+    </header>
+    <div style="display:none">
+        {{ this.dump->one(this.request.getData(), '_REQUEST') }}
+        {{ this.dump->one(this.request.getServer().getData(), '_SERVER') }}
+        {{ this.dump->one(this.request.getPost().getData(), '_POST') }}
+        {{ this.dump->one(this.request.getQuery().getData(), '_GET') }}
+    </div>
+</section>

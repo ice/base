@@ -1,0 +1,7 @@
+<h3><a href={{ this.url.getBaseUri() }}>{{ this.request.getServer('SERVER_NAME') }}</a></h3>
+<p><b>{{ _t('Error %d', [this.response.getStatus()]) }}!</b> <ins>{{ this.response.getMessage(this.response.getStatus()) }}</ins>
+{% if this.response.isNotFound() %}
+    <p>{{ _t("The requested URL <code>:url</code> was not found on this server. That's all we know.", [':url': this.request.getServer().get('REQUEST_URI')]) }}
+{% else %}
+    <p>{{ _t("Something is wrong. That's all we know.") }}
+{% endif %}

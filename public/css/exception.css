@@ -1,0 +1,23 @@
+*{margin:0;padding:0}
+html{font:300 15px/1.4 'Open Sans', sans-serif;background:#fff;color:#222;padding:15px}
+body{padding:15px 0 15px}
+ins,code{color:#777;text-decoration:none}
+p{margin:10px 0 20px;overflow:hidden}
+a{color:#48b0f7;text-decoration:none;}
+b, h3{font-weight: 400;}
+table {width: 100%;}
+ol {margin-left: 20px;}
+pre {padding: .25rem;border: 1px solid #ddd;border-radius: .25rem; margin-bottom: 10px}
+pre code {font-family: 'Source Code Pro', monospace;}
+pre .highlight-block { background-color: #f96868; color: #fff}
+pre .highlight-block *{ color: #fff !important;}
+section{padding-bottom: 20px}
+section header{padding: 15px 20px 5px;margin-bottom: 10px;}
+section header h3{font-weight: 400;}
+section.error header{border-left: 3px solid #f96868;}
+section.error h3{color: #f96868;}
+section.trace header{border-left: 3px solid #faa64b;}
+section.trace h3{color: #faa64b;text-transform: uppercase;}
+section.env header{border-left: 3px solid #15c377;}
+section.env h3{color: #15c377;text-transform: uppercase;}
+@media screen and (max-width:772px){body{padding-right:0}}
