@@ -16,7 +16,7 @@
         "phpmailer/phpmailer": ">=5.2.10",
         "crossjoin/pre-mailer": "~1.0.5",
         "erusev/parsedown-extra": ">=0.7.0",
-        "mongodb/mongodb": "dev-master"
+        "mongodb/mongodb": "1.2.0"
     },
     "require-dev": {
         "squizlabs/php_codesniffer": ">=2.3.3",
