@@ -126,7 +126,7 @@ class PrepareTask extends MainTask
         $dirs = [
             '/App/Modules/Admin/views/',
             '/App/Modules/Doc/views/',
-            '/App/Modules/Frontend/views/',
+            '/App/Modules/Front/views/',
             '/App/views/',
         ];
         foreach ($dirs as $dir) {

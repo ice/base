@@ -1,7 +1,6 @@
 #!/usr/bin/php
 <?php
 
-require_once __DIR__ . '/../root.php';
 require_once __DIR__ . '/../autoload.php';
 
 // Initialize the application, handle a MVC request and display the HTTP response body

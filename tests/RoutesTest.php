@@ -5,6 +5,7 @@ namespace Tests;
 use App\Boot\Routes;
 use Ice\Di;
 use Ice\Mvc\Router;
+use Ice\Mvc\Fastrouter;
 use PHPUnit_Framework_TestCase as PHPUnit;
 
 /**
@@ -37,6 +38,14 @@ class RoutesTest extends PHPUnit
             return $router;
         });
 
+        $di->set('fastrouter', function () {
+            $router = new Fastrouter();
+            $router->setDefaultModule('frontend');
+            $router->setRoutes((new Routes())->fastroute());
+
+            return $router;
+        });
+
         self::$di = $di;
     }
 
@@ -64,9 +73,70 @@ class RoutesTest extends PHPUnit
      */
     public function testUniversalGET($pattern, $expected)
     {
-        $return = $this->router->handle('GET', $pattern);
+        if (!$expected) {
+            $this->expectExceptionMessage("Unable to find a route to match the URI: " . $pattern);
+        }
 
+        $return = $this->router->handle('GET', $pattern);
         $this->assertEquals('GET', $this->router->getMethod());
+
+        $this->assertEquals(
+            $expected,
+            [
+                $this->router->getModule(),
+                $this->router->getHandler(),
+                $this->router->getAction(),
+                $this->router->getParams()
+            ],
+            $pattern
+        );
+    }
+
+    /**
+     * Test route matching for fastroute routes and GET method.
+     *
+     * @param string $pattern  Uri
+     * @param array  $expected Output
+     *
+     * @dataProvider GETrouteProvider
+     *
+     * @return void
+     */
+    public function testFastrouteGET($pattern, $expected)
+    {
+        if (!$expected) {
+            $this->expectExceptionMessage("The requested route could not be found");
+        }
+
+        $returnFast = $this->fastrouter->handle('GET', $pattern);
+        $this->assertEquals('GET', $this->fastrouter->getMethod());
+
+        $this->assertEquals(
+            $expected,
+            [
+                $this->fastrouter->getModule(),
+                $this->fastrouter->getHandler(),
+                $this->fastrouter->getAction(),
+                $this->fastrouter->getParams()
+            ],
+            $pattern
+        );
+    }
+
+    /**
+     * Test route matching for universal routes and POST method.
+     *
+     * @param string $pattern  Uri
+     * @param array  $expected Output
+     *
+     * @dataProvider POSTrouteProvider
+     *
+     * @return void
+     */
+    public function testUniversalPOST($pattern, $expected)
+    {
+        $return = $this->router->handle('POST', $pattern);
+        $this->assertEquals('POST', $this->router->getMethod());
 
         if (is_array($return)) {
             $this->assertEquals(
@@ -85,7 +155,7 @@ class RoutesTest extends PHPUnit
     }
 
     /**
-     * Test route matching for universal routes and POST method.
+     * Test route matching for fastroute routes and POST method.
      *
      * @param string $pattern  Uri
      * @param array  $expected Output
@@ -94,20 +164,19 @@ class RoutesTest extends PHPUnit
      *
      * @return void
      */
-    public function testUniversalPOST($pattern, $expected)
+    public function testFastroutePOST($pattern, $expected)
     {
-        $return = $this->router->handle('POST', $pattern);
+        $returnFast = $this->fastrouter->handle('POST', $pattern);
+        $this->assertEquals('POST', $this->fastrouter->getMethod());
 
-        $this->assertEquals('POST', $this->router->getMethod());
-
-        if (is_array($return)) {
+        if (is_array($returnFast)) {
             $this->assertEquals(
                 $expected,
                 [
-                    $this->router->getModule(),
-                    $this->router->getHandler(),
-                    $this->router->getAction(),
-                    $this->router->getParams()
+                    $this->fastrouter->getModule(),
+                    $this->fastrouter->getHandler(),
+                    $this->fastrouter->getAction(),
+                    $this->fastrouter->getParams()
                 ],
                 $pattern
             );
@@ -139,6 +208,7 @@ class RoutesTest extends PHPUnit
                 ['frontend', 'post', 'details', ['id' => 7, 'param' => 'friendly-title']]],
 
             ['/contact', ['frontend', 'index', 'contact', []]],
+            ['/lang/en-gb', ['frontend', 'index', 'lang', ['id' => 'en-gb']]],
 
             ['/admin', ['admin', 'index', 'index', []]],
             ['/admin/index', ['admin', 'index', 'index', []]],
@@ -158,6 +228,7 @@ class RoutesTest extends PHPUnit
             ['/doc/install', ['doc', 'install', 'index', []]],
             ['/doc/install/requirements', ['doc', 'install', 'requirements', []]],
             ['/doc/install/requirements/php', ['doc', 'install', 'requirements', ['id' => 'php']]],
+            ['/a/b/c/1/2/3', null]
         ];
     }
 

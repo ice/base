@@ -1,0 +1,13 @@
+{{ get_doc_type() }}
+<html lang={{ this.i18n.iso() }}>
+    {% foreach get_meta() as meta %}
+        {{ meta }}
+    {% endforeach %}
+    <title>{{ get_title() }}</title>
+    {% foreach this.assets.getCss() as style %}
+        {{ style }}
+    {% endforeach %}
+    {{ content() }}
+    {% foreach this.assets.getJs() as script %}
+        {{ script }}
+    {% endforeach %}

@@ -6,4 +6,4 @@ _*
 !.htaccess
 /vendor/
 /composer.lock
-/app/modules/frontend/controllers/TestController.php
+/App/Modules/Front/Controllers/TestController.php

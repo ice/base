@@ -1,6 +1,0 @@
-<div class="mdl-color-text--grey-500">
-    {{ this.request.getServer('REQUEST_URI') }}
-</div>
-<h2>{{ title|isset ? title : '' }}</h2>
-<p>{{ content|isset ? content : '' }}</p>
-{{ actions|isset ? actions : '' }}
