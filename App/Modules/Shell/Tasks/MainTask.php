@@ -3,7 +3,7 @@
 namespace App\Modules\Shell\Tasks;
 
 use App\Extensions\Task;
-use Ice\Auth\Driver\Model as Auth;
+use Ice\Auth\Driver\Db as Auth;
 use Ice\Db;
 use Ice\I18n;
 use Ice\Mvc\Url;
