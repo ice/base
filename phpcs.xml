@@ -14,7 +14,7 @@
             <property name="lineLimit" value="120"/>
         </properties>
     </rule>
-    <exclude-pattern>App/i18n/*</exclude-pattern>
+    <exclude-pattern>translations/*</exclude-pattern>
     <exclude-pattern>vendor/*</exclude-pattern>
     <exclude-pattern>*.min.js</exclude-pattern>
     <exclude-pattern>*.min.css</exclude-pattern>

@@ -10,13 +10,19 @@
             "email": "info@iceframework.org"
         }
     ],
+    "autoload": {
+      "psr-4": {
+        "App\\": "src/App/"
+      }
+    },
     "require": {
         "php": ">=5.6",
         "ext-ice": ">=1.4.0",
         "phpmailer/phpmailer": ">=5.2.10",
         "crossjoin/pre-mailer": "~1.0.5",
         "erusev/parsedown-extra": ">=0.7.0",
-        "mongodb/mongodb": "1.2.0"
+        "mongodb/mongodb": "1.2.0",
+        "symfony/dotenv": "^4.2"
     },
     "require-dev": {
         "squizlabs/php_codesniffer": ">=2.3.3",
