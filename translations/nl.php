@@ -50,62 +50,76 @@ return [
     "toggle" => "Toggle",
     "username" => "Gebruikersnaam",
     // Base
-    "baseInfo" => 'The base application written in Ice framework',
-    "baseStart" => "Use this application as a way to quick start any new project.",
+    "baseInfo" => 'Deze applicatie is ontwikkeld met het Ice Framework.',
+    "baseStart" => "Gebruik deze applicatie om snel te kunnen starten met je nieuwe project.",
     // Email
-    "beforeSignIn" => "Before you can log in, you first need to activate your account.",
-    "toActivateClick" => "To activate your account, click on this link:",
+    "beforeSignIn" => "Activeer eerst je account om in te loggen.",
+    "toActivateClick" => "Klik op de link om je account te activeren:",
     // Langs
     "english" => "English",
     "language" => "Language",
     "polish" => "Polish",
+    "dutch" => "Nederlands",
     "japanese" => "Japanese",
 
     // Ice validation
     /** alnum */
-    "Field :field must contain only letters and numbers" => "Field <em>:field</em> must contain only letters and numbers",
+
+    /** alnum */
+    "Het veld :field mag uitsluitend letters en cijfers bevatten" => "Field <em>:field</em> must contain only letters and numbers",
     /** alpha */
-    "Field :field must contain only letters" => "Field <em>:field</em> must contain only letters",
+    "Het veld :field mag uitsluitend letters bevatten" => "Field <em>:field</em> must contain only letters",
     /** between */
-    "Field :field must be within the range of :min to :max" => "Field <em>:field</em> must be within the range of <em>:min</em> to <em>:max</em>",
+    "Het veld :field moet groter of gelijk zijn aan :min en kleiner of gelijk aan :max" => "Field <em>:field</em> must be within the range of <em>:min</em> to <em>:max</em>",
     /** digit */
-    "Field :field must be numeric" => "Field <em>:field</em> must be numeric",
+    "Het veld :field moet een numerieke waarde bevatten" => "Field <em>:field</em> must be numeric",
     /** email */
-    "Field :field must be an email address" => "Field <em>:field</em> must be an email address",
+    "Het veld :field moet een geldig e-mail adres bevatten." => "Field <em>:field</em> must be an email address",
+
+
+    "Field :field must contain only letters and numbers" => "Het veld <em>:field</em> mag uitsluitend letters en cijfers bevatten",
+    /** alpha */
+    "Field :field must contain only letters" => "Het veld <em>:field</em> mag uitsluitend letters bevatten",
+    /** between */
+    "Field :field must be within the range of :min to :max" => "Het veld <em>:field</em> moet groter zijn of gelijk aan <em>:min</em> en kleiner of gelijk aan <em>:max</em>",
+    /** digit */
+    "Field :field must be numeric" => "Het veld <em>:field</em> moet een numerieke waarde bevatten",
+    /** email */
+    "Field :field must be an email address" => "Het veld <em>:field</em> moet een geldig e-mail adres gevatten",
     /** in */
-    "Field :field must be a part of list: :values" => "Field <em>:field</em> must be a part of list: <em>:values</em>",
+    "Field :field must be a part of list: :values" => "Het veld <em>:field</em> moet een van de volgende waardes bevatten: <em>:values</em>",
     /** lengthMax */
-    "Field :field must not exceed :max characters long" => "Field <em>:field</em> must not exceed <em>:max</em> characters long",
+    "Field :field must not exceed :max characters long" => "Het veld <em>:field</em> mag niet meer dan <em>:max</em> tekens bevatten",
     /** lengthMin */
-    "Field :field must be at least :min characters long" => "Field <em>:field</em> must be at least <em>:min</em> characters long",
+    "Field :field must be at least :min characters long" => "Het veld <em>:field</em> moet tenminste <em>:min</em> tekens bevatten",
     /** notIn */
-    "Field :field must not be a part of list: :values" => "Field <em>:field</em> must not be a part of list: <em>:values</em>",
+    "Field :field must not be a part of list: :values" => "Het veld <em>:field</em> mag niet hetzelfde zijn als een van de volgende waardes: <em>:values</em>",
     /** regex */
-    "Field :field does not match the required format" => "Field <em>:field</em> does not match the required format",
+    "Field :field does not match the required format" => "Het veld <em>:field</em> bevat een waarde in een ongeldig formaat.",
     /** required */
-    "Field :field is required" => "Field <em>:field</em> is required",
+    "Field :field is required" => "Het veld <em>:field</em> is verplicht",
     /** same */
-    "Field :field and :other must match" => "Field <em>:field</em> and <em>:other</em> must match",
+    "Field :field and :other must match" => "Het veld <em>:field</em> en <em>:other</em> moeten overeenkomen",
     /** unique */
-    "Field :field must be unique" => "Field <em>:field</em> must be unique",
+    "Field :field must be unique" => "Het veld <em>:field</em> moet een unieke waarde bevatten",
     /** url */
-    "Field :field must be a url" => "Field <em>:field</em> must be a url",
+    "Field :field must be a url" => "Het veld <em>:field</em> moet een geldige URL bevatten.",
     /** with */
-    "Field :field must occur together with :fields" => "Field <em>:field</em> must occur together with <em>:fields</em>",
+    "Field :field must occur together with :fields" => "Het veld <em>:field</em> moet gebruikt worden in combinatie met de volgende velden: <em>:fields</em>",
     /** without */
-    "Field :field must not occur together with :fields" => "Field <em>:field</em> must not occur together with <em>:fields</em>",
+    "Field :field must not occur together with :fields" => "Het veld <em>:field</em> mag niet gebruikt in combinatie met de volgende velden:  <em>:fields</em>",
     /* FileEmpty */
-    "Field :field must not be empty" => "Field <em>:field</em> must not be empty",
+    "Field :field must not be empty" => "Het veld <em>:field</em> mag niet leeg zijn",
     /* FileIniSize */
-    "File :field exceeds the maximum file size" => "File <em>:field</em> exceeds the maximum file size",
+    "File :field exceeds the maximum file size" => "Het bestand <em>:field</em> is overschrijdt de maximale bestandsgrootte",
     /* FileMaxResolution */
-    "File :field must not exceed :max resolution" => "File <em>:field</em> must not exceed <em>:max</em> resolution",
+    "File :field must not exceed :max resolution" => "De resolutie van het bestand  <em>:field</em> mag niet groter zijn dan <em>:max</em>",
     /* FileMinResolution */
-    "File :field must be at least :min resolution" => "File <em>:field</em> must be at least <em>:min</em> resolution",
+    "File :field must be at least :min resolution" => "De resolutie van het bestand  <em>:field</em> mag niet kleiner zijn dan <em>:min</em>",
     /* FileSize */
-    "File :field exceeds the size of :max" => "File <em>:field</em> exceeds the size of <em>:max</em>",
+    "File :field exceeds the size of :max" => "Het bestand  <em>:field</em> overschrijdt de maximum grootte van <em>:max</em>",
     /* FileType */
-    "File :field must be of type: :types" => "File <em>:field</em> must be of type: <em>:types</em>",
+    "File :field must be of type: :types" => "Het bestand  <em>:field</em> is ongeldig. De volgende bestandtypes zijn toegestaan: <em>:types</em>",
     /* FileValid / default */
-    "Field :field is not valid" => "Field <em>:field</em> is not valid",
+    "Field :field is not valid" => "Het veld <em>:field</em> bevat een ongeldige waarde",
 ];
