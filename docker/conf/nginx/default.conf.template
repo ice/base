@@ -1,0 +1,192 @@
+proxy_cache_path $NGINX_CACHE_PATH levels=1:2 keys_zone=$NGINX_CACHE_NAME:$NGINX_CACHE_METADATA_MEMORY_SIZE max_size=$NGINX_CACHE_MAX_SIZE inactive=$NGINX_CACHE_TTL use_temp_path=$NGINX_CACHE_USE_TEMP_PATH;
+
+server {
+  # Short cache: All 200 responses are cached for X seconds.
+  proxy_cache $NGINX_CACHE_NAME;
+  proxy_cache_lock on;
+  proxy_cache_valid 200 302 10m;
+  proxy_cache_valid 404 5s;
+  proxy_cache_valid 500 1s;
+  proxy_cache_min_uses $NGINX_CACHE_MIN_USES;
+  proxy_cache_use_stale error timeout updating http_500 http_502 http_503 http_504;
+  root $NGINX_DOCUMENT_ROOT;
+
+  # Ipv4
+  listen $NGINX_HTTP_PORT;
+
+  # IPv6
+  # listen [::]:$NGINX_HTTP_PORT;
+
+  # SSL Ipv4 & v6
+  listen $NGINX_HTTPS_PORT ssl;
+  #listen [::]:$NGINX_HTTPS_PORT ssl;
+
+  # Your SSL Certificates, don't forget to take a look at Certbot (https://certbot.eff.org)
+  # ssl_certificate /etc/ssl/fullchain.pem;
+  # ssl_certificate_key /etc/ssl/privkey.pem;
+
+  # ssl_session_timeout 24h;
+  # ssl_session_cache shared:SSL:10m;
+  # ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+  # ssl_ciphers ECDH+AESGCM:ECDH+AES256:ECDH+AES128:DH+3DES:RSA+3DES:AES128-SHA:!ADH:!AECDH:!MD5;
+  # ssl_prefer_server_ciphers on;
+  # Do not forget to create this file before with OpenSSL : "openssl dhparam -out /etc/nginx/ssl/dhparam.pem 2048"
+  # ssl_dhparam /etc/nginx/ssl/dhparam.pem;
+
+  index index.php;
+
+  # Redirect 404 errors to app
+  #error_page 404 /index.php?controller=404;
+
+  # Gzip Settings, convert all types.
+  gzip on;
+  gzip_vary on;
+  gzip_proxied any;
+
+  # Can be enhance to 5, but it can slow you server
+  # gzip_comp_level    5;
+  # gzip_min_length    256;
+
+  gzip_types
+  application/atom+xml
+  application/javascript
+  application/json
+  application/ld+json
+  application/manifest+json
+  application/rss+xml
+  application/vnd.geo+json
+  application/vnd.ms-fontobject
+  application/x-font-ttf
+  application/x-web-app-manifest+json
+  application/xhtml+xml
+  application/xml
+  font/opentype
+  image/bmp
+  image/svg+xml
+  image/x-icon
+  text/cache-manifest
+  text/css
+  text/plain
+  text/vcard
+  text/vnd.rim.location.xloc
+  text/vtt
+  text/x-component
+  text/x-cross-domain-policy;
+
+  # See PHP-FPM documentation about ping.path and ping.response. We can use it to perform healthchecks.
+  # Obviously we don't want those requests in our access log.
+  location ~ ^/(status|ping)$ {
+    log_not_found off;
+    access_log off;
+  }
+
+  #
+  # protect internal assets
+  #
+  location ~* /(.*)\.(?:$DENIED_EXTENSIONS)$ {
+    access_log $ACCESS_SECURITY_LOG;
+    log_not_found on;
+    deny all;
+  }
+
+  # block access to certain JSON files (just for additional hardening, most applications don't have these files in the webroot)
+  location ~ /(?:bower|composer|jsdoc|package)\.json$ {
+    access_log $ACCESS_SECURITY_LOG;
+    log_not_found on;
+    deny all;
+  }
+  # block access to certain js files (just for additional hardening, most applications don't have these files in the webroot)
+  location ~ /(?:gulpfile)\.js$ {
+    access_log $ACCESS_SECURITY_LOG;
+    log_not_found on;
+    deny all;
+  }
+
+  gzip_disable "MSIE [1-6]\.(?!.*SV1)";
+
+  # HSTS (Force clients to interact with your website using HTTPS only)
+  # For enhanced security, register your site here: https://hstspreload.org/
+  # WARNING: Don't use this if your site is not fully on HTTPS!
+  # add_header Strict-Transport-Security "max-age=63072000; includeSubDomains" preload; always;
+
+  # Cloudflare / Max CDN
+  location ~* \.(eot|otf|ttf|woff|woff2)$ {
+    add_header Access-Control-Allow-Origin *;
+  }
+
+  # Do not save logs for these
+  location = /favicon.ico {
+    log_not_found off;
+    access_log off;
+  }
+
+  location = /robots.txt {
+    auth_basic off;
+    allow all;
+    log_not_found off;
+    access_log off;
+  }
+
+  # File security
+  # Block access to .htaccess .DS_Store .htpasswd etc
+  location ~ /\. {
+    access_log $ACCESS_SECURITY_LOG;
+    log_not_found on;
+    deny all;
+  }
+
+  # Prevent injection of php files, block any request attempting to execute a PHP file as
+  location /$$UPLOADS_URL_PATH {
+    location ~ \.php$ {
+      access_log $ACCESS_SECURITY_LOG;
+      log_not_found on;
+      deny all;
+    }
+  }
+
+  location ~ \.($STATIC_FILE_EXTENSIONS)$ {
+    access_log $STATIC_FILE_ACCESS_LOG;
+    expires 365d;
+  }
+
+  location / {
+    try_files $uri $uri/ /index.php$is_args$args;
+  }
+
+  location ~ \.php {
+    try_files     $uri =404;
+    fastcgi_pass $PHP_FPM_HOST:$PHP_FPM_PORT;
+    include fastcgi_params;
+    fastcgi_split_path_info ^(.+\.php)(/.*)$;
+    include	conf.d/include.fastcgi_common;
+    #include conf.d/include.fastcgi_app_variables;
+
+    fastcgi_index index.php;
+    # Performance enhancement, keep socket between nginx and php-fpm open after the request has been processed
+    fastcgi_keep_conn on;
+    fastcgi_read_timeout 30s;
+    fastcgi_send_timeout 30s;
+
+    # In case of long loading or 502 / 504 errors
+    # fastcgi_buffer_size 256k;
+    # fastcgi_buffers 256 16k;
+    # fastcgi_busy_buffers_size 256k;
+    client_max_body_size 10M;
+  }
+
+  # return 404 for all other php files not matching the front controller
+  # this prevents access to other php files you don't want to be accessible.
+  location ~ \.php$ {
+    return 404;
+  }
+
+  location ~ /\.ht {
+    access_log $ACCESS_SECURITY_LOG;
+    log_not_found on;
+    deny all;
+  }
+
+  error_log $ERROR_LOG;
+  access_log $ACCESS_LOG;
+}
+

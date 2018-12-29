@@ -1,0 +1,114 @@
+version: '3.4'
+services:
+
+  ########################################################
+  # NGINX                                                #
+  ########################################################
+
+  nginx_iceapp:
+    build:
+      context: .
+      target: WEBSERVER
+    ports:
+      - "17002:80"
+      - "443"
+    volumes:
+      - ".:/var/www/httpdocs"
+      - "/var/www/httpdocs/.git" # always exclude from volume
+    depends_on:
+      - php_iceapp
+    networks:
+      - app-tier
+      - web
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:80"]
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+      #start_period: 40s
+    environment:
+       WWW_UID: 1000
+       WWW_GUI: 1000
+       WWW_USER: nginx
+       WWW_GROUP: nginx
+       PHP_FPM_HOST: php_iceapp
+
+
+  ########################################################
+  # PHP / PHP-FPM                                        #
+  ########################################################
+
+  php_iceapp:
+    build:
+      context: .
+      target: PHP-FPM
+      args:
+          MYSQL_EXT: 0,
+          TIDEWAYS_XHPPROF_EXT: 0,
+          TIDEWAYS_EXT: 0,
+          RECODE_EXT: 0
+    ports:
+      - "9000"
+    volumes:
+      - ".:/var/www/httpdocs"
+      #- "../../ext:/ext"
+      - "/var/www/httpdocs/.git" # always exclude from volume
+    networks:
+      - app-tier
+      - web
+    depends_on:
+      - mongo_db
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://nginx_iceapp:80"]
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+      #start_period: 40s
+    environment:
+      WWW_UID: 1000
+      WWW_GUI: 1000
+      WWW_USER: "nginx"
+      WWW_GROUP: "www-data"
+      MONGODB_HOST: "mongo_db"
+      MONGODB_PORT: "27017"
+      MONGODB_USERNAME: "iceapp"
+      MONGODB_PASSWORD: "y0urPassw0rd"
+      MONGODB_DATABASE: "iceapp_db"
+    #secrets:
+    #  - "reviewsite_conf_dev"
+
+  ########################################################
+  # MONGODB                                              #
+  ########################################################
+
+  mongo_db:
+    build:
+      context: .
+      target: MONGODB
+    ports:
+      - "27044:27017"
+    hostname: mongo_db
+    domainname: mongo_db.local
+    networks:
+      - app-tier
+    environment:
+      ALLOW_EMPTY_PASSWORD: 'yes'
+      MONGODB_EXTRA_FLAGS: --wiredTigerCacheSizeGB=2
+      MONGODB_ROOT_PASSWORD: "y0urPassw0rd"
+      MONGODB_USERNAME: "iceapp"
+      MONGODB_PASSWORD: "y0urPassw0rd"
+      MONGODB_DATABASE: "iceapp_db"
+
+volumes:
+  iceapp_cache:
+    driver: "local"
+  iceapp_logs:
+    driver: "local"
+
+networks:
+  app-tier:
+  web:
+
+#secrets:
+#  secrets_conf:
+#    file: ./deployments/jobsites/iqhire/iqhire.env
