@@ -105,7 +105,7 @@ class Base extends App
                 $this->di->config->database->name,
                 $this->di->config->database->user,
                 $this->di->config->database->password,
-                $this->di->config->database->options->toArray()
+                (array) $this->di->config->database->options
             );
 
             if ($this->di->config->app->env == "development" && $this->di->config->database->type != "mongodb") {

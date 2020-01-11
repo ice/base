@@ -2,11 +2,19 @@
 
 namespace App\Boot;
 
+use Ice\Auth\Driver\Db as Auth;
 use Ice\Cli\Dispatcher;
 use Ice\Cli\Router;
+use Ice\Config\Env;
 use Ice\Config\Ini;
 use Ice\Dump;
+use Ice\Db;
+use Ice\I18n;
 use Ice\Log\Driver\File as Logger;
+use Ice\Mvc\Url;
+use Ice\Mvc\View;
+use Ice\Mvc\View\Engine\Sleet;
+use Ice\Mvc\View\Engine\Sleet\Compiler;
 use App\Lib\Email;
 
 /**
@@ -32,35 +40,82 @@ class Console extends \Ice\Cli\Console
         $this->di->errors();
 
         // Load the config
-        $config = new Ini(__ROOT__ . '/App/cfg/config.ini');
+        $this->di->config = new Ini(__ROOT__ . '/App/cfg/config.ini');
+        $this->di->config->set('assets', new Ini(__ROOT__ . '/App/cfg/assets.ini'));
 
-        // Set environment settings
-        $config->set('env', (new Ini(__ROOT__ . '/App/cfg/env.ini'))->{$config->app->env});
-        $this->di->config = $config;
+        // Set the environment
+        $this->di->env = new Env(__ROOT__ . '/App/.env');
+        $this->di->env = new Env(__ROOT__ . '/App/.env.' . $this->di->env->environment);
 
         // Register modules
-        $console = $config->modules->console;
-        $this->setModules($config->{$console->modules}->toArray());
+        $this->setModules($this->di->config->{$this->di->config->modules->console->modules}->toArray());
 
         // Set dump
-        $this->di->dump->setPlain(true);
-
         if ($this->di->env->environment == "development") {
             $this->dump->setDetailed(true);
         }
 
-        // Register hooks
-        $this->registerHooks();
+        $this->di->i18n = new I18n($this->di->config->i18n->toArray());
+        $this->di->auth = new Auth($this->di->config->auth->toArray());
+
+        // Set the url service
+        $this->di->set('url', function () {
+            $url = new Url();
+            $url->setBaseUri($this->di->config->app->base_uri);
+            $url->setStaticUri($this->di->config->app->static_uri);
+            return $url;
+        });
+
 
         // Set services
         $this->di->dispatcher = new Dispatcher();
 
-        $this->di->set('router', function () use ($config) {
+        $this->di->set('router', function () {
             $router = new Router();
-            $router->setDefaultModule($config->modules->console->default);
+            $router->setDefaultModule($this->di->config->modules->console->default);
 
             return $router;
         });
+
+        // Set the db service
+        $this->di->set('db', function () {
+            $db = new Db(
+                $this->di->config->database->type,
+                $this->di->config->database->host,
+                $this->di->config->database->port,
+                $this->di->config->database->name,
+                $this->di->config->database->user,
+                $this->di->config->database->password,
+                (array) $this->di->config->database->options
+            );
+
+            return $db;
+        });
+
+        // Set the view service
+        $this->di->set('view', function () {
+            $view = new View();
+            $view->setViewsDir(__ROOT__ . '/App/views/');
+
+            // Options for Sleet template engine
+            $sleet = new Sleet($view, $this->di);
+            $sleet->setOptions([
+                'compileDir' => __ROOT__ . '/App/tmp/sleet/',
+                'trimPath' => __ROOT__,
+                'compile' => Compiler::IF_CHANGE
+            ]);
+
+            // Set template engines
+            $view->setEngines([
+                '.sleet' => $sleet,
+                '.phtml' => 'Ice\Mvc\View\Engine\Php'
+            ]);
+
+            return $view;
+        });
+
+        // Register hooks
+        $this->registerHooks();
 
         return $this;
     }
