@@ -4,6 +4,7 @@ _*
 !.gitignore
 !.travis.yml
 !.htaccess
+!.env.*
 /vendor/
 /composer.lock
 /App/Modules/Front/Controllers/TestController.php
