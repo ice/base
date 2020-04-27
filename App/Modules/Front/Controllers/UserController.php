@@ -101,7 +101,8 @@ class UserController extends Front
         $port = parse_url($referer, PHP_URL_PORT);
 
         // Check if referer is this host
-        if (strpos($path, $this->config->app->base_uri . 'user/signin') !== 0
+        if (
+            strpos($path, $this->config->app->base_uri . 'user/signin') !== 0
             && $host . ($port ? ':' . $port : '') == $this->request->getServer("HTTP_HOST")
         ) {
             $this->session->set('referer', $referer);

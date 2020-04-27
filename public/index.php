@@ -9,6 +9,7 @@
  * In a production environment, it is safe to ignore notices and strict warnings.
  * Disable them by using: E_ALL ^ E_NOTICE
  */
+
 error_reporting(E_ALL | E_STRICT);
 
 require_once __DIR__ . '/../autoload.php';

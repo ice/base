@@ -70,7 +70,8 @@ class PrepareTask extends MainTask
                     '/public/min/',
                 ];
 
-                if ($this->config->app->env == 'development'
+                if (
+                    $this->config->app->env == 'development'
                     && isset($params["upload"]) && $params["upload"] == 'yes'
                 ) {
                     $dirs[] = '/public/upload/';
@@ -127,10 +128,12 @@ class PrepareTask extends MainTask
             '/views/',
         ];
         foreach ($dirs as $dir) {
-            foreach ($iterator = new \RecursiveIteratorIterator(
-                new \RecursiveDirectoryIterator(__ROOT__ . $dir, \RecursiveDirectoryIterator::SKIP_DOTS),
-                \RecursiveIteratorIterator::SELF_FIRST
-            ) as $item) {
+            foreach (
+                $iterator = new \RecursiveIteratorIterator(
+                    new \RecursiveDirectoryIterator(__ROOT__ . $dir, \RecursiveDirectoryIterator::SKIP_DOTS),
+                    \RecursiveIteratorIterator::SELF_FIRST
+                ) as $item
+            ) {
                 if (!$item->isDir() && $item->getExtension() == 'sleet') {
                     echo $sleet->compile(__ROOT__ . $dir . $iterator->getSubPathName()) . "\n";
                 }
@@ -156,10 +159,12 @@ class PrepareTask extends MainTask
         foreach (['css', 'js'] as $type) {
             $path = __ROOT__ . '/public/' . $type . '/';
 
-            foreach ($iterator = new \RecursiveIteratorIterator(
-                new \RecursiveDirectoryIterator($path, \RecursiveDirectoryIterator::SKIP_DOTS),
-                \RecursiveIteratorIterator::SELF_FIRST
-            ) as $item) {
+            foreach (
+                $iterator = new \RecursiveIteratorIterator(
+                    new \RecursiveDirectoryIterator($path, \RecursiveDirectoryIterator::SKIP_DOTS),
+                    \RecursiveIteratorIterator::SELF_FIRST
+                ) as $item
+            ) {
                 if (!$item->isDir() && $item->getExtension() == $type) {
                     echo $type . '/' . $iterator->getSubPathName() . "\n";
                     $assets->add($type . '/' . $iterator->getSubPathName());
@@ -206,10 +211,12 @@ class PrepareTask extends MainTask
         $dir = '/App/';
         $scan = [];
 
-        foreach ($iterator = new \RecursiveIteratorIterator(
-            new \RecursiveDirectoryIterator(__ROOT__ . $dir, \RecursiveDirectoryIterator::SKIP_DOTS),
-            \RecursiveIteratorIterator::SELF_FIRST
-        ) as $item) {
+        foreach (
+            $iterator = new \RecursiveIteratorIterator(
+                new \RecursiveDirectoryIterator(__ROOT__ . $dir, \RecursiveDirectoryIterator::SKIP_DOTS),
+                \RecursiveIteratorIterator::SELF_FIRST
+            ) as $item
+        ) {
             if (!$item->isDir() && in_array($item->getExtension(), ['php', 'sleet'])) {
                 $content = file_get_contents(__ROOT__ . $dir . $iterator->getSubPathName());
 
