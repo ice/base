@@ -17,6 +17,6 @@ use App\Boot\Base;
 use Ice\Di;
 
 // Initialize website, handle a MVC request and display the HTTP response body
-echo (new Base(new Di))
+echo (new Base(new Di()))
     ->initialize()
     ->handle();
