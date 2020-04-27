@@ -40,12 +40,12 @@ class Console extends \Ice\Cli\Console
         $this->di->errors();
 
         // Load the config
-        $this->di->config = new Ini(__ROOT__ . '/App/cfg/config.ini');
-        $this->di->config->set('assets', new Ini(__ROOT__ . '/App/cfg/assets.ini'));
+        $this->di->config = new Ini(__ROOT__ . '/cfg/config.ini');
+        $this->di->config->set('assets', new Ini(__ROOT__ . '/cfg/assets.ini'));
 
         // Set the environment
-        $this->di->env = new Env(__ROOT__ . '/App/.env');
-        $this->di->env = new Env(__ROOT__ . '/App/.env.' . $this->di->env->environment);
+        $this->di->env = new Env(__ROOT__ . '/.env');
+        $this->di->env = new Env(__ROOT__ . '/.env.' . $this->di->env->environment);
 
         // Register modules
         $this->setModules($this->di->config->{$this->di->config->modules->console->modules}->toArray());
@@ -95,12 +95,12 @@ class Console extends \Ice\Cli\Console
         // Set the view service
         $this->di->set('view', function () {
             $view = new View();
-            $view->setViewsDir(__ROOT__ . '/App/views/');
+            $view->setViewsDir(__ROOT__ . '/views/');
 
             // Options for Sleet template engine
             $sleet = new Sleet($view, $this->di);
             $sleet->setOptions([
-                'compileDir' => __ROOT__ . '/App/tmp/sleet/',
+                'compileDir' => __ROOT__ . '/tmp/sleet/',
                 'trimPath' => __ROOT__,
                 'compile' => Compiler::IF_CHANGE
             ]);
@@ -136,7 +136,7 @@ class Console extends \Ice\Cli\Console
 
             if ($di->env->error->log) {
                 // Log error into the file
-                $logger = new Logger(__ROOT__ . '/App/log/' . date('Ymd') . '.log');
+                $logger = new Logger(__ROOT__ . '/log/' . date('Ymd') . '.log');
                 $logger->error($error);
                 $logger->info($info);
                 $logger->debug($debug);
@@ -157,7 +157,7 @@ class Console extends \Ice\Cli\Console
                 $email->prepare(_t('somethingIsWrong'), $di->config->app->admin, 'email/error', ['log' => $log]);
 
                 if ($email->Send() !== true) {
-                    $logger = new Logger(__ROOT__ . '/App/log/' . date('Ymd') . '.log');
+                    $logger = new Logger(__ROOT__ . '/log/' . date('Ymd') . '.log');
                     $logger->error($email->ErrorInfo);
                 }
             }

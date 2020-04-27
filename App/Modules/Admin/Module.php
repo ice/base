@@ -43,9 +43,10 @@ class Module implements ModuleInterface
         $di->dispatcher->setDefaultNamespace(__NAMESPACE__ . '\Controllers');
 
         // Overwrite views dirs
-        $di->view->setViewsDir(__DIR__ . '/views/');
-        $di->view->setPartialsDir('../../../views/partials/');
-        $di->view->setLayoutsDir('../../../views/layouts/');
-        $di->view->setLayout('bootstrap');
+        $di->view
+            ->setViewsDir($di->view->getViewsDir() . 'modules/admin/')
+            ->setPartialsDir('../../partials/')
+            ->setLayoutsDir('../../layouts/')
+            ->setLayout('bootstrap');
     }
 }

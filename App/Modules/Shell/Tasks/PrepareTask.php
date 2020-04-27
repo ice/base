@@ -27,8 +27,8 @@ class PrepareTask extends MainTask
     public function chmodAction()
     {
         $dirs = [
-            '/App/tmp',
-            '/App/log',
+            '/tmp',
+            '/log',
             '/public/min',
             '/public/upload',
         ];
@@ -65,8 +65,8 @@ class PrepareTask extends MainTask
                 $dirs = explode('|', $params["dirs"]);
             } else {
                 $dirs = [
-                    '/App/tmp/',
-                    '/App/log/',
+                    '/tmp/',
+                    '/log/',
                     '/public/min/',
                 ];
 
@@ -118,16 +118,13 @@ class PrepareTask extends MainTask
 
         $sleet = new Sleet($this->view, $this->di);
         $sleet->setOptions([
-            'compileDir' => __ROOT__ . '/App/tmp/sleet/',
+            'compileDir' => __ROOT__ . '/tmp/sleet/',
             'trimPath' => __ROOT__,
             'compile' => Compiler::ALWAYS
         ]);
 
         $dirs = [
-            '/App/Modules/Admin/views/',
-            '/App/Modules/Doc/views/',
-            '/App/Modules/Front/views/',
-            '/App/views/',
+            '/views/',
         ];
         foreach ($dirs as $dir) {
             foreach ($iterator = new \RecursiveIteratorIterator(
@@ -206,7 +203,7 @@ class PrepareTask extends MainTask
     {
         $lang = $this->dispatcher->getParam(0, null, 'en', true);
 
-        $dir = '/app/';
+        $dir = '/App/';
         $scan = [];
 
         foreach ($iterator = new \RecursiveIteratorIterator(
