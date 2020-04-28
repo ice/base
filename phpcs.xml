@@ -18,7 +18,6 @@
     </rule>
     <file>.</file>
     <arg name="encoding" value="utf-8" />
-    <arg name="extensions" value="php" />
     <exclude-pattern>framework/*</exclude-pattern>
     <exclude-pattern>i18n/*</exclude-pattern>
     <exclude-pattern>vendor/*</exclude-pattern>
