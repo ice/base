@@ -1,0 +1,61 @@
+<h2>{{ _t('contact') }}</h2><hr />
+{{ form([false]) }}
+    {{ this.flash.getMessages() }}
+    {% set field = 'fullName' %}
+    <div class="form-group row">
+        <label for="{{ field }}" class="col-md-3 col-lg-2 col-form-label text-right">{{ _t(field) }}</label>
+        <div class="col-md-9 col-lg-10 input-group">
+            <div class="input-group-prepend">
+                <div class="input-group-text"><i class="icon-user"></i></div>
+            </div>
+            {{ text_field([ field, 'class': 'form-control' ~ (errors|isset and errors.has(field) ? ' is-invalid' : (this.request.hasPost(field) ? ' is-valid' : '')), 'placeholder': _t(field) ]) }}
+            {% if errors|isset and errors.has(field) %}
+                <div class="{{ errors|isset and errors.has(field) ? 'invalid-feedback' : (this.request.hasPost(field) ? 'valid-feedback' : '') }}">{{ current(errors.get(field)) }}</div>
+            {% endif %}
+        </div>
+    </div>
+    {% set field = 'email' %}
+    <div class="form-group row">
+        <label for="{{ field }}" class="col-md-3 col-lg-2 col-form-label text-right">{{ _t(field) }}</label>
+        <div class="col-md-9 col-lg-10 input-group">
+            <div class="input-group-prepend">
+                <div class="input-group-text"><i class="icon-envelope"></i></div>
+            </div>
+            {{ text_field([ field, 'class': 'form-control' ~ (errors|isset and errors.has(field) ? ' is-invalid' : (this.request.hasPost(field) ? ' is-valid' : '')), 'placeholder': _t(field) ]) }}
+            {% if errors|isset and errors.has(field) %}
+                <div class="{{ errors|isset and errors.has(field) ? 'invalid-feedback' : (this.request.hasPost(field) ? 'valid-feedback' : '') }}">{{ current(errors.get(field)) }}</div>
+            {% endif %}
+        </div>
+    </div>
+    {% set field = 'repeatEmail' %}
+    <div class="form-group row">
+        <label for="{{ field }}" class="col-md-3 col-lg-2 col-form-label text-right">{{ _t(field) }}</label>
+        <div class="col-md-9 col-lg-10 input-group">
+            <div class="input-group-prepend">
+                <div class="input-group-text"><i class="icon-envelope"></i></div>
+            </div>
+            {{ text_field([ field, 'class': 'form-control' ~ (errors|isset and errors.has(field) ? ' is-invalid' : (this.request.hasPost(field) ? ' is-valid' : '')), 'placeholder': _t(field) ]) }}
+            {% if errors|isset and errors.has(field) %}
+                <div class="{{ errors|isset and errors.has(field) ? 'invalid-feedback' : (this.request.hasPost(field) ? 'valid-feedback' : '') }}">{{ current(errors.get(field)) }}</div>
+            {% endif %}
+        </div>
+    </div>
+    {% set field = 'content' %}
+    <div class="form-group row">
+        <label for="{{ field }}" class="col-md-3 col-lg-2 col-form-label text-right">{{ _t(field) }}</label>
+        <div class="col-md-9 col-lg-10 input-group">
+            <div class="input-group-prepend">
+                <div class="input-group-text"><i class="icon-speech"></i></div>
+            </div>
+            {{ text_area([field, 'class': 'form-control' ~ (errors|isset and errors.has(field) ? ' is-invalid' : (this.request.hasPost(field) ? ' is-valid' : '')), 'rows': '2', 'onclick': "this.rows='10'", 'placeholder': _t(field)]) }}
+            {% if errors|isset and errors.has(field) %}
+                <div class="{{ errors|isset and errors.has(field) ? 'invalid-feedback' : (this.request.hasPost(field) ? 'valid-feedback' : '') }}">{{ current(errors.get(field)) }}</div>
+            {% endif %}
+        </div>
+    </div>
+    <fieldset class="form-group row">
+        <div class="col-md-9 offset-md-3 col-lg-10 offset-lg-2 input-group">
+            {{ button(['submit', '<span class="icon-paper-plane"></span> ' ~ _t('send'), 'class': "btn btn-secondary"]) }}
+        </div>
+    </fieldset>
+{{ end_tag('form') }}
